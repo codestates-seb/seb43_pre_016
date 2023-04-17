@@ -1,6 +1,7 @@
 package com.codestates.preproject.answer.controller;
 
 import com.codestates.preproject.answer.dto.AnswerDto;
+import com.codestates.preproject.answer.dto.MultiResponseDto;
 import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.answer.mapper.AnswerMapper;
 import com.codestates.preproject.answer.service.AnswerService;
@@ -10,8 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,16 +29,20 @@ public class AnswerController {
 
     @PostMapping
     public ResponseEntity postAnswer(@Valid @RequestBody AnswerDto.Post requestBody) {
-        Answer answer= mapper.answerPostDtoToAnswer(requestBody);
-        Answer createdAnswer=answerService.createAnswer(answer);
+        Answer answer = mapper.answerPostDtoToAnswer(requestBody);
+        Answer createdAnswer = answerService.createAnswer(answer);
 
-        return  new ResponseEntity<>(mapper.answerToAnswerResponseDto(createdAnswer), HttpStatus.CREATED);
+        return new ResponseEntity<>(mapper.answerToAnswerResponseDto(createdAnswer), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{answer-id}")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive Long answerId,
                                       @Valid @RequestBody AnswerDto.Patch requestBody) {
-        return null;
+        requestBody.setAnswerId(answerId);
+        Answer updatedAnswer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(requestBody));
+
+
+        return new ResponseEntity<>(mapper.answerToAnswerResponseDto(updatedAnswer), HttpStatus.OK);
     }
 
     @GetMapping("/{answer-id}")
@@ -49,7 +57,9 @@ public class AnswerController {
 
     @DeleteMapping("/{answer-id}")
     public ResponseEntity deleteAnswer(@PathVariable("answer-id") @Positive Long answerId) {
-        return null;
+        answerService.deleteAnswer(answerId);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping
