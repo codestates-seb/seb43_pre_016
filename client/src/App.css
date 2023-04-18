@@ -1,46 +1,45 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    text-decoration: none;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
 }
 
 body {
-    width: 100vw;
-    height: 100vh;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-kerning: auto;
-    font-size: 13px;
-    font-stretch: normal;
-    font-style: normal;
-    font-variant: normal;
-    font-variant-ligatures: normal;
-    font-weight: normal;
+  width: 100vw;
+  height: 100vh;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-kerning: auto;
+  font-size: 13px;
+  font-stretch: normal;
+  font-style: normal;
+  font-variant: normal;
+  font-variant-ligatures: normal;
+  font-weight: normal;
 }
 
-
 a {
-    text-decoration: none;
-    color: rgb(125, 130, 135);
+  text-decoration: none;
+  color: rgb(125, 130, 135);
 }
 
 a:visited {
-    text-decoration: none;
-    color: rgb(125, 130, 135);
+  text-decoration: none;
+  color: rgb(125, 130, 135);
 }
 
 a:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a:focus {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a:hover,
 a:active {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .container {
