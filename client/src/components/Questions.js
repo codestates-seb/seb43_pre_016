@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import Pagination from "./Pagination";
 
 const Container = styled.div`
   display: flex;
-  width: 100%;
+  max-width: 1100px;
+  width: calc(100% - 164px);
   border: 1px solid hsl(210, 8%, 85%);
   border-top-width: 0;
   border-bottom-width: 0;
@@ -12,8 +14,7 @@ const Container = styled.div`
   margin-left: 254px;
 
   .mainbar {
-    max-width: 1100px;
-    width: calc(100% - 164px);
+    width: 100%;
   }
 
   .mainbar__header {
@@ -105,7 +106,6 @@ const Container = styled.div`
 
   .mainber__lists {
     display: inline-block;
-    width: 850px;
   }
 
   .mainbar__list {
@@ -130,6 +130,7 @@ const Container = styled.div`
   }
 
   .mainbar__list__right {
+    width: 100%;
     display: flex;
     flex-direction: column;
 
