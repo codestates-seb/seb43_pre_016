@@ -6,6 +6,7 @@ import Signup from "./components/Signup";
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Login from "./components/Login";
 
 function App() {
   //우선 Api를 이용하여 데이터를 받아왔지만 추후에 데이터가 만들어지면 아래 코드를 변경할 예정
@@ -41,6 +42,7 @@ function App() {
               </>
             }
           />
+          <Route path="/users/login" element={<Login />}></Route>
           <Route path="/users/signup" element={<Signup />}></Route>
         </Routes>
       </div>

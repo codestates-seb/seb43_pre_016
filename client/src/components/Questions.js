@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import Pagination from "./Pagination";
 
 const Container = styled.div`
   display: flex;
