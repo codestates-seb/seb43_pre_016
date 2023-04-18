@@ -193,14 +193,14 @@ const Signup = () => {
 
   const notify = () => {
     if (!validationCheckName(displayName)) {
-      toast("이름을 입력하세요!");
+      toast.warning("이름을 입력하세요!");
     }
     if (!validationCheckEmail(email)) {
-      toast("이메일을 양식에 맞게 입력하세요!");
+      toast.warning("이메일을 양식에 맞게 입력하세요!");
     }
 
     if (!validationCheckPassword(password)) {
-      toast("비밀번호를 양식에 맞게 입력하세요!");
+      toast.warning("비밀번호를 양식에 맞게 입력하세요!");
     }
   };
 
@@ -212,9 +212,12 @@ const Signup = () => {
           email,
           password,
         })
+        .then(() => {
+          toast.success("회원가입에 성공하였습니다.");
+        })
         .then(() => navigate("/login")); //회원가입이 완료되면 로그인 창으로 이동한다
     } catch (err) {
-      toast("회원가입에 실패하였습니다. http요청을 확인해주세요.");
+      toast.error(`${err}`);
     }
   };
 
@@ -402,7 +405,7 @@ const Signup = () => {
         pauseOnFocusLoss // 화면을 벗어나면 알람 정지
         draggable // 드래그 가능
         pauseOnHover // 마우스를 올리면 알람 정지
-        theme="light"
+        theme="colored"
         // limit={1} // 알람 개수 제한
       />
     </SignupWrapper>
