@@ -215,7 +215,7 @@ const Signup = () => {
         .then(() => {
           toast.success("회원가입에 성공하였습니다.");
         })
-        .then(() => navigate("/login")); //회원가입이 완료되면 로그인 창으로 이동한다
+        .then(() => navigate("/user/login")); //회원가입이 완료되면 로그인 창으로 이동한다
     } catch (err) {
       toast.error(`${err}`);
     }

@@ -10,7 +10,7 @@ const LeftSidebarWrap = styled.nav`
   color: gray;
   font-size: 13px;
   line-height: 17px;
-  padding-left: 100px;
+  /* padding-left: 100px; */
   font-weight: 400;
   text-align: left;
   position: fixed;

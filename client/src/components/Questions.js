@@ -11,7 +11,7 @@ const Container = styled.div`
   border-bottom-width: 0;
   border-left-width: 1px;
   border-right-width: 0;
-  margin-left: 254px;
+  margin-left: 126px;
 
   .mainbar {
     width: 100%;
@@ -130,7 +130,7 @@ const Container = styled.div`
   }
 
   .mainbar__list__right {
-    width: 100%;
+    width: 90%;
     display: flex;
     flex-direction: column;
 
