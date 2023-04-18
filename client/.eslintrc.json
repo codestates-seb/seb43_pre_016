@@ -3,8 +3,7 @@
         "browser": true
     },
 
-    "extends" : [
-        "eslint:recommended",
+    "extends" : [        
         "plugin:react/recommended",
         "plugin:import/recommended",
         "plugin:prettier/recommended",
@@ -20,6 +19,9 @@
      "plugins": [
         "react",
         "prettier"
-    ]
+    ],
+    "rules": {
+  "react/prop-types": "off"
+    }
     
 }
