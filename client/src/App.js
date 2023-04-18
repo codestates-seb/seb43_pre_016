@@ -14,7 +14,7 @@ function App() {
   const data = () => {
     axios
       .get(
-        "https://api.stackexchange.com/2.3/questions?pagesize=15&order=desc&sort=creation&site=stackoverflow&filter=!T3zRPxfHcI6S3(Y6fa"
+        "https://api.stackexchange.com/2.3/questions?pagesize=50&order=desc&sort=creation&site=stackoverflow&filter=!T3zRPxfHcI6S3(Y6fa"
       )
       .then((res) => {
         return setListData([...res.data.items]);
@@ -29,23 +29,22 @@ function App() {
   }, []);
 
   return (
+    //container가 필요한 곳은 메인 페이지(질문 리스트 페이지), 질문 상세 페이지, tags 페이지, user 페이지, myPage 페이지 이다.
     <div className="App">
       <Header />
-      <div className="container">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Sidebar />
-                <Questions listData={listData} />
-              </>
-            }
-          />
-          <Route path="/users/login" element={<Login />}></Route>
-          <Route path="/users/signup" element={<Signup />}></Route>
-        </Routes>
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className="container">
+              <Sidebar />
+              <Questions listData={listData} />
+            </div>
+          }
+        />
+        <Route path="/users/login" element={<Login />}></Route>
+        <Route path="/users/signup" element={<Signup />}></Route>
+      </Routes>
     </div>
   );
 }
