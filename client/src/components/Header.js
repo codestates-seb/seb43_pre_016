@@ -162,7 +162,10 @@ const Header = () => {
           ></input>
         </form>
         <div className="header__btns">
-          <button className="header__btn powder-700">Log in</button>
+          <Link to="/users/login">
+            <button className="header__btn powder-700">Log in</button>
+          </Link>
+
           <Link to="/users/signup">
             <button className="header__btn blue-500">Sign up</button>
           </Link>
