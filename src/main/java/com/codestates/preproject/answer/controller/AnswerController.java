@@ -6,10 +6,12 @@ import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.answer.mapper.AnswerMapper;
 import com.codestates.preproject.answer.service.AnswerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 
 import javax.swing.text.html.Option;
 import javax.validation.Valid;
@@ -17,6 +19,7 @@ import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/answers")
@@ -47,12 +50,20 @@ public class AnswerController {
 
     @GetMapping("/{answer-id}")
     public ResponseEntity getAnswer(@PathVariable("answer-id") @Positive Long answerId) {
-        return null;
+        Answer answer = answerService.findAnswer(answerId);
+
+        return new ResponseEntity<>(mapper.answerToAnswerResponseDto(answer), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity getAll() {
-        return null;
+    public ResponseEntity getAnswers(@Positive @RequestParam int page,
+                                     @Positive @RequestParam int size) {
+        Page<Answer> pageAnswers = answerService.findAnswers(page - 1, size);
+        List<Answer> answers = pageAnswers.getContent();
+
+        return  new ResponseEntity<>(
+               new MultiResponseDto<>(mapper.answersToResponseDtos(answers),pageAnswers),HttpStatus.OK);
+
     }
 
     @DeleteMapping("/{answer-id}")
@@ -64,7 +75,8 @@ public class AnswerController {
 
     @DeleteMapping
     public ResponseEntity deleteAll() {
-        return null;
+        answerService.deleteAll();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
