@@ -19,7 +19,7 @@ import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin
+@CrossOrigin // (origins= "")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/answers")

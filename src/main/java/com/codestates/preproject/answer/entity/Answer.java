@@ -21,4 +21,8 @@ public class Answer extends Auditable {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String body;
 
+    private int likeCount;
+
+//    private long answerLikeId;
+
 }
