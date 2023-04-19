@@ -4,13 +4,12 @@ import PublicIcon from "@mui/icons-material/Public";
 const LeftSidebarWrap = styled.nav`
   width: 164px;
   max-height: 100vh;
-  /* border-right: 1px solid gray; */
+  border-right: 1px solid gray;
   padding: 24px 0px 0px;
   margin: 0px 0px 8px;
   color: gray;
   font-size: 13px;
   line-height: 17px;
-  /* padding-left: 100px; */
   font-weight: 400;
   text-align: left;
   position: fixed;

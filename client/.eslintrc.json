@@ -1,8 +1,7 @@
 {
-    "env":{
-        "browser": true
-    },
-
+  "env": {
+    "browser": true
+  },
     "extends" : [        
         "plugin:react/recommended",
         "plugin:import/recommended",
@@ -25,3 +24,4 @@
     }
     
 }
+
