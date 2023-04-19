@@ -1,3 +1,6 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const DetailWrapper = styled.div`
@@ -58,29 +61,48 @@ const DetailWrapper = styled.div`
 `;
 
 const QuestionDetail = () => {
+  const [questionData, setQuestionData] = useState([]);
+  const { id } = useParams();
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://api.stackexchange.com/2.3/questions/${id}?pagesize=50&order=desc&sort=creation&site=stackoverflow&filter=!T3zRPxfHcI6S3(Y6fa`
+      )
+      .then((res) => {
+        const data = res.data.items;
+        return setQuestionData([...data]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   return (
     <DetailWrapper>
-      <header className="mainbar__header">
-        <h3>
-          Contains a reference to the file &quot;jquery&quot;. This file can not
-          be found, please check it for typos or update it if the file got moved
-        </h3>
-        <button>Ask Question</button>
-      </header>
-      <div className="question__info">
-        <div className="info">
-          <span>Asked</span>
-          <span>today</span>
-        </div>
-        <div className="info">
-          <span>Modified</span>
-          <span>today</span>
-        </div>
-        <div className="info">
-          <span>Viewed</span>
-          <span>9 times</span>
+      <div className="detail__question1">
+        <header className="mainbar__header">
+          <h3>Hello!</h3>
+          <Link to="/questions/ask">
+            <button>Ask Question</button>
+          </Link>
+        </header>
+        <div className="question__info">
+          <div className="info">
+            <span>Asked</span>
+            <span>today</span>
+          </div>
+          <div className="info">
+            <span>Modified</span>
+            <span>today</span>
+          </div>
+          <div className="info">
+            <span>Viewed</span>
+            <span>9 times</span>
+          </div>
         </div>
       </div>
+      {/* 작업 공간 구별 */}
+      <div className="detail__question2"></div>
     </DetailWrapper>
   );
 };
