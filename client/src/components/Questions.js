@@ -35,6 +35,7 @@ const Container = styled.div`
       padding: 11px 12px;
       text-align: center;
       font-size: 13px;
+      cursor: pointer;
     }
   }
 
@@ -213,7 +214,9 @@ const Questions = ({ listData }) => {
       <div className="mainbar">
         <header className="mainbar__header">
           <h3>All Questions</h3>
-          <button>Ask Question</button>
+          <Link to="/questions/ask">
+            <button>Ask Question</button>
+          </Link>
         </header>
         <div className="mainbar__filter">
           <p>23,640,155 questions</p>
