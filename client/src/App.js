@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Questions from "./components/Questions";
 import Sidebar from "./components/Sidebar";
 import Signup from "./components/Signup";
+import QuestionDetail from "./components/QuestionDetail";
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -42,6 +43,15 @@ function App() {
             </div>
           }
         />
+        <Route
+          path="/questions/:id"
+          element={
+            <div className="container">
+              <Sidebar />
+              <QuestionDetail />
+            </div>
+          }
+        ></Route>
         <Route path="/users/login" element={<Login />}></Route>
         <Route path="/users/signup" element={<Signup />}></Route>
       </Routes>

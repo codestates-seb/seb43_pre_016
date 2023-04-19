@@ -1,16 +1,12 @@
 import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
   max-width: 1100px;
   width: calc(100% - 164px);
-  border: 1px solid hsl(210, 8%, 85%);
-  border-top-width: 0;
-  border-bottom-width: 0;
-  border-left-width: 1px;
-  border-right-width: 0;
-  margin-left: 126px;
+  margin-left: 164px;
 
   .mainbar {
     width: 100%;
@@ -53,11 +49,6 @@ const Container = styled.div`
       margin: 5px 12px 0px 0px;
       /* line-height:22.2308px; */
     }
-  }
-
-  .sidebar {
-    padding-left: 32px;
-    flex: 3;
   }
 
   .mainbar__filter__btn {
@@ -246,7 +237,9 @@ const Questions = ({ listData }) => {
                   <p>{`${list.view_count} views`}</p>
                 </div>
                 <div className="mainbar__list__right">
-                  <h3>{list.title}</h3>
+                  <Link to={`/questions/${list.question_id}`}>
+                    <h3>{list.title}</h3>
+                  </Link>
                   <p>{list.body_markdown}</p>
                   <div className="mainbar__list__bottom">
                     <div className="mainbar__list__tag">
