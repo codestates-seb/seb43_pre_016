@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const DetailWrapper = styled.div`
@@ -82,7 +82,9 @@ const QuestionDetail = () => {
       <div className="detail__question1">
         <header className="mainbar__header">
           <h3>Hello!</h3>
-          <button>Ask Question</button>
+          <Link to="/questions/ask">
+            <button>Ask Question</button>
+          </Link>
         </header>
         <div className="question__info">
           <div className="info">
