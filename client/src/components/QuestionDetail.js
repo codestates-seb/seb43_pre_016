@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
+import Loading from "./Loading";
 
 const DetailWrapper = styled.div`
   display: flex;
@@ -60,49 +61,64 @@ const DetailWrapper = styled.div`
   }
 `;
 
+const QuestionWrapper = styled.section`
+  display: flex;
+  flex-direction: column;
+
+  .detail__header {
+    border-bottom: 1px solid #d6d9dc;
+  }
+`;
+
 const QuestionDetail = () => {
-  const [questionData, setQuestionData] = useState([]);
+  const [questionData, setQuestionData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
 
+  console.log(questionData);
+
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(
         `https://api.stackexchange.com/2.3/questions/${id}?pagesize=50&order=desc&sort=creation&site=stackoverflow&filter=!T3zRPxfHcI6S3(Y6fa`
       )
       .then((res) => {
         const data = res.data.items;
-        return setQuestionData([...data]);
+        setQuestionData({ ...data[0] });
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
   return (
     <DetailWrapper>
-      <div className="detail__question1">
-        <header className="mainbar__header">
-          <h3>Hello!</h3>
-          <Link to="/questions/ask">
-            <button>Ask Question</button>
-          </Link>
-        </header>
-        <div className="question__info">
-          <div className="info">
-            <span>Asked</span>
-            <span>today</span>
-          </div>
-          <div className="info">
-            <span>Modified</span>
-            <span>today</span>
-          </div>
-          <div className="info">
-            <span>Viewed</span>
-            <span>9 times</span>
+      <QuestionWrapper>
+        <div className="detail__header">
+          <header className="mainbar__header">
+            <h3>{questionData.title}</h3>
+            <Link to="/questions/ask">
+              <button>Ask Question</button>
+            </Link>
+          </header>
+          <div className="question__info">
+            <div className="info">
+              <span>Asked</span>
+              <span>1 days ago</span>
+            </div>
+            <div className="info">
+              <span>Modified</span>
+              <span>today</span>
+            </div>
+            <div className="info">
+              <span>Viewed</span>
+              <span>9 times</span>
+            </div>
           </div>
         </div>
-      </div>
-      {/* 작업 공간 구별 */}
-      <div className="detail__question2"></div>
+      </QuestionWrapper>
     </DetailWrapper>
   );
 };
