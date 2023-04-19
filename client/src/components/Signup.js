@@ -392,7 +392,7 @@ const Signup = () => {
             </div>
           </div>
           <p className="bottom-router">
-            Already have an account? <a href="/">Log in</a>
+            Already have an account? <a href="/users/login">Log in</a>
           </p>
         </div>
       </div>
