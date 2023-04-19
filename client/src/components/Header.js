@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
+import { Link } from "react-router-dom";
 
 const HeaderWrapper = styled.header`
   width: 100%;
@@ -161,8 +162,13 @@ const Header = () => {
           ></input>
         </form>
         <div className="header__btns">
-          <button className="header__btn powder-700">Log in</button>
-          <button className="header__btn blue-500">Sign up</button>
+          <Link to="/users/login">
+            <button className="header__btn powder-700">Log in</button>
+          </Link>
+
+          <Link to="/users/signup">
+            <button className="header__btn blue-500">Sign up</button>
+          </Link>
         </div>
       </div>
     </HeaderWrapper>
