@@ -1,11 +1,12 @@
 import "./App.css";
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
+import Askquestions from "./components/Askquestions";
 import Questions from "./components/Questions";
 import Sidebar from "./components/Sidebar";
 import Signup from "./components/Signup";
 import QuestionDetail from "./components/QuestionDetail";
-import { Routes, Route } from "react-router-dom";
-import { useState, useEffect } from "react";
 import axios from "axios";
 import Login from "./components/Login";
 
@@ -52,6 +53,7 @@ function App() {
             </div>
           }
         ></Route>
+        <Route path="/questions/ask" element={<Askquestions />}></Route>
         <Route path="/users/login" element={<Login />}></Route>
         <Route path="/users/signup" element={<Signup />}></Route>
       </Routes>
