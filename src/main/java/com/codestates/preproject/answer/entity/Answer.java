@@ -15,13 +15,14 @@ public class Answer extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long answerId;
 
-    @Column(length = 100, nullable = false)
-    private String title;
-
     @Column(columnDefinition = "TEXT", nullable = false)
     private String body;
 
-    private int likeCount;
+    private int likeCount; // 좋아요 수
+
+    private long questionId; //Todo: 매핑 연결하기
+
+
 
 //    private long answerLikeId;
 

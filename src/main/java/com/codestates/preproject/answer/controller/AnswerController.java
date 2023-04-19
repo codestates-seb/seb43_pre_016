@@ -3,6 +3,7 @@ package com.codestates.preproject.answer.controller;
 import com.codestates.preproject.answer.dto.AnswerDto;
 import com.codestates.preproject.answer.dto.MultiResponseDto;
 import com.codestates.preproject.answer.entity.Answer;
+import com.codestates.preproject.answer.like.service.AnswerLikeService;
 import com.codestates.preproject.answer.mapper.AnswerMapper;
 import com.codestates.preproject.answer.service.AnswerService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class AnswerController {
 
     private final AnswerService answerService;
 
+
     private final AnswerMapper mapper;
 
     @PostMapping
@@ -45,12 +47,15 @@ public class AnswerController {
         Answer updatedAnswer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(requestBody));
 
 
+
         return new ResponseEntity<>(mapper.answerToAnswerResponseDto(updatedAnswer), HttpStatus.OK);
     }
 
     @GetMapping("/{answer-id}")
     public ResponseEntity getAnswer(@PathVariable("answer-id") @Positive Long answerId) {
         Answer answer = answerService.findAnswer(answerId);
+
+
 
         return new ResponseEntity<>(mapper.answerToAnswerResponseDto(answer), HttpStatus.OK);
     }

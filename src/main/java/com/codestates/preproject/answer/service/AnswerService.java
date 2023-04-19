@@ -1,6 +1,7 @@
 package com.codestates.preproject.answer.service;
 
 import com.codestates.preproject.answer.entity.Answer;
+import com.codestates.preproject.answer.like.service.AnswerLikeService;
 import com.codestates.preproject.answer.repository.AnswerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,8 @@ import java.util.Optional;
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
+
+
     public Answer createAnswer(Answer answer) {
         Answer savedAnswer = answerRepository.save(answer);
         return savedAnswer;
@@ -23,10 +26,11 @@ public class AnswerService {
     public Answer updateAnswer(Answer answer) {
         Answer findAnswer = findVerifiedAnswer(answer.getAnswerId());
 
-        Optional.ofNullable(answer.getTitle())
-                .ifPresent(title -> findAnswer.setTitle(title));
+
         Optional.ofNullable(answer.getBody())
                 .ifPresent(body -> findAnswer.setBody(body));
+        Optional.ofNullable(answer.getLikeCount()) //값이 null인지 확인하고
+                .ifPresent(likeCount -> findAnswer.setLikeCount(likeCount)); //null이 아니면 실행
         return answerRepository.save(findAnswer);
     }
 

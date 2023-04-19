@@ -17,9 +17,11 @@ import javax.validation.constraints.Positive;
 @RestController
 @RequestMapping("/answer/like")
 
+
 public class AnswerLikeController {
     private final AnswerLikeMapper mapper;
     private final AnswerLikeService answerLikeService;
+
 
     public AnswerLikeController(AnswerLikeMapper mapper, AnswerLikeService answerLikeService) {
         this.mapper = mapper;
@@ -30,8 +32,8 @@ public class AnswerLikeController {
     public ResponseEntity postLike(@PathVariable("user-id") @Positive long userId,
                                    @RequestBody AnswerLikeDto.Post answerLikeDto) {
         AnswerLike answerLike = mapper.answerLikeDtoToAnswerLike(answerLikeDto);
+        AnswerLike createAnswerLike = answerLikeService.createAnswerLike(userId, answerLike); // 좋아요 등록
 
-        AnswerLike createAnswerLike = answerLikeService.createAnswerLike(userId,answerLike);
 
         return new ResponseEntity<>(mapper.answerLikeToAnswerLikeResponseDto(createAnswerLike), HttpStatus.CREATED);
 

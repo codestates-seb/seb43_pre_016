@@ -7,9 +7,9 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @NoArgsConstructor
-@Setter@Getter
+@Setter @Getter
 @Entity
-public class AnswerLike {
+public class AnswerLike { //답변에 대한 좋아요.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  long answerLikeId;

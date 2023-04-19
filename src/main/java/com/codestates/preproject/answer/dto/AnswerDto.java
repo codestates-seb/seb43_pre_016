@@ -5,13 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class AnswerDto {
     @AllArgsConstructor
     @Getter
     public static class Post {
         @NotBlank
-        private String title;
+        private long questionId;
+
         @NotBlank
         private String body;
 
@@ -21,14 +24,9 @@ public class AnswerDto {
     @Getter
     @Setter
     public static class Patch {
-
         private long answerId;
         @NotBlank
-        private String title;
-        @NotBlank
         private String body;
-
-
     }
 
     @AllArgsConstructor
@@ -36,9 +34,11 @@ public class AnswerDto {
     public static class Response {
 
         private long answerId;
-        private String title;
         private String body;
         //private int like;
+        private long userId;  //질문 작성자
+        private LocalDateTime createAt; // 생성일
+        private LocalDateTime modifiedAt; // 수정일
 
     }
 
