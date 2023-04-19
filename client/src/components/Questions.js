@@ -2,6 +2,42 @@ import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { Link } from "react-router-dom";
 
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, false] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" },
+    ],
+    ["link", "image"],
+    ["clean"],
+  ],
+  clipboard: {
+    matchVisual: false,
+  },
+};
+
+const readOnlyModules = {
+  toolbar: false, // 툴바를 비활성화합니다.
+};
+
+const formats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "indent",
+  "link",
+  "image",
+];
+
 const Container = styled.div`
   display: flex;
   max-width: 1100px;
