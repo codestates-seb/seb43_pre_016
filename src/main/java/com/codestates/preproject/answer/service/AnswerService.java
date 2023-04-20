@@ -26,7 +26,6 @@ public class AnswerService {
     public Answer updateAnswer(Answer answer) {
         Answer findAnswer = findVerifiedAnswer(answer.getAnswerId());
 
-
         Optional.ofNullable(answer.getBody())
                 .ifPresent(body -> findAnswer.setBody(body));
         Optional.ofNullable(answer.getLikeCount()) //값이 null인지 확인하고

@@ -2,10 +2,15 @@ package com.codestates.preproject.User.entity;
 
 
 import com.codestates.preproject.answer.audit.Auditable;
+import com.codestates.preproject.answer.entity.Answer;
+import com.codestates.preproject.question.entity.QuestionEntity;
 import lombok.*;
 
 
 import javax.persistence.*;
+import java.lang.reflect.Member;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -28,6 +33,12 @@ public class User extends Auditable {
     @Column(length = 100, nullable = false)
     private String password;
 
+
+    @OneToMany(mappedBy = "user")
+    private List<Answer> answers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<QuestionEntity> questionEntities = new ArrayList<>();
 
     public User( String user_name, String email, String password) {
 

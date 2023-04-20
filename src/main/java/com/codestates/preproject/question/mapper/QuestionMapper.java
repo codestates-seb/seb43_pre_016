@@ -37,18 +37,18 @@ public class QuestionMapper {
     public QuestionResponseDto questionToQuestionResponseDto(QuestionEntity question) {
         return new QuestionResponseDto(
                 question.getQuestionId(),
-                question.getTitle(),
-                question.getBody(),
+               question.getTitle(),
+               question.getBody(),
                 question.getCreatedAt(),
-                question.getUpdatedAt()
+               question.getUpdatedAt()
         );
-    }
+  }
 
     public List<QuestionResponseDto> questionsToQuestionResponseDtos(List<QuestionEntity> questions) {
-        List<QuestionResponseDto> questionResponseDtos = new ArrayList<>();
-        for (QuestionEntity question : questions) {
-            questionResponseDtos.add(questionToQuestionResponseDto(question));
-        }
-        return questionResponseDtos;
-    }
+       List<QuestionResponseDto> questionResponseDtos = new ArrayList<>();
+       for (QuestionEntity question : questions) {
+           questionResponseDtos.add(questionToQuestionResponseDto(question));
+       }
+       return questionResponseDtos;
+   }
 }

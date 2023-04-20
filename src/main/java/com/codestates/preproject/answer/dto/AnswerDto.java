@@ -18,6 +18,9 @@ public class AnswerDto {
         @NotBlank
         private String body;
 
+        @NotBlank
+        private long userId;
+
     }
 
     @AllArgsConstructor
@@ -35,7 +38,7 @@ public class AnswerDto {
 
         private long answerId;
         private String body;
-        //private int like;
+        private int Answerlike; //좋아요 수
         private long userId;  //질문 작성자
         private LocalDateTime createAt; // 생성일
         private LocalDateTime modifiedAt; // 수정일

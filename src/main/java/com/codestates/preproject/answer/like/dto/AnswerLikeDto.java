@@ -8,21 +8,24 @@ import lombok.Setter;
 public class AnswerLikeDto {
 
 
-    @Getter @Setter
-    public static class Post{
-        private boolean answerLike; //좋아요의 여부
+    @Getter
+    @Setter
+    public static class Post {
         private int answerId; //답변 ID
+        private boolean answerLike; //좋아요의 여부
+
     }
+
     @AllArgsConstructor
-    @Getter @Setter
-    public static  class Response {
+    @Getter
+    @Setter
+    public static class Response {
         private long answerId;
         private long userId;
         private boolean answerLike; //좋아요의 여부
 //        private long userLikeId; //user가 누른 좋아요수
 
     }
-
 
 
 }
