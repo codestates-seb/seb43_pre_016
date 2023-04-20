@@ -2,6 +2,7 @@ import { FadeLoader } from "react-spinners";
 
 const Loading = () => {
   const override = {
+    height: "100vh",
     display: "flex",
     margin: "0 auto",
     textAlign: "center",
