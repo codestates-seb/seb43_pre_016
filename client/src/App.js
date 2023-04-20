@@ -7,6 +7,7 @@ import Questions from "./components/Questions";
 import Sidebar from "./components/Sidebar";
 import Signup from "./components/Signup";
 import QuestionDetail from "./components/QuestionDetail";
+import ScrollToTop from "./components/ScrollTop";
 import axios from "axios";
 import Login from "./components/Login";
 
@@ -33,6 +34,7 @@ function App() {
   return (
     //container가 필요한 곳은 메인 페이지(질문 리스트 페이지), 질문 상세 페이지, tags 페이지, user 페이지, myPage 페이지 이다.
     <div className="App">
+      <ScrollToTop />
       <Header />
       <Routes>
         <Route
