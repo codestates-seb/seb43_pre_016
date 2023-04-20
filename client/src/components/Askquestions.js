@@ -23,6 +23,18 @@ const TitleWrapper = styled.section`
     font-size: 27px;
     font-weight: 600;
   }
+  /* 나중에 반응형 추가예정 */
+  .background {
+    position: relative;
+    left: 13rem;
+    top: 1.2rem;
+    width: 60%;
+    height: 100%;
+    background-image: url("img/background.svg");
+    background-size: 500px 300px;
+    background-position: right;
+    background-repeat: no-repeat;
+  }
 `;
 const NoticeWrapper = styled.section`
   display: flex;
@@ -170,6 +182,7 @@ const Askquestions = () => {
         <section className="title">
           <span>Ask a public question</span>
         </section>
+        <div className="background">{""}</div>
       </TitleWrapper>
       <NoticeWrapper>
         <section className="notice">

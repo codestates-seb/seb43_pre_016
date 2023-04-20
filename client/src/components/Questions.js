@@ -2,42 +2,6 @@ import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { Link } from "react-router-dom";
 
-const modules = {
-  toolbar: [
-    [{ header: [1, 2, false] }],
-    ["bold", "italic", "underline", "strike", "blockquote"],
-    [
-      { list: "ordered" },
-      { list: "bullet" },
-      { indent: "-1" },
-      { indent: "+1" },
-    ],
-    ["link", "image"],
-    ["clean"],
-  ],
-  clipboard: {
-    matchVisual: false,
-  },
-};
-
-const readOnlyModules = {
-  toolbar: false, // 툴바를 비활성화합니다.
-};
-
-const formats = [
-  "header",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "blockquote",
-  "list",
-  "bullet",
-  "indent",
-  "link",
-  "image",
-];
-
 const Container = styled.div`
   display: flex;
   max-width: 1100px;
@@ -267,7 +231,7 @@ const Questions = ({ listData }) => {
           </div>
         </div>
         <ul className="mainbar__lists">
-          {listData.map((list) => {
+          {/* {listData.map((list) => {
             return (
               <li className="mainbar__list" key={list.question_id}>
                 <div className="mainbar__list__left">
@@ -307,7 +271,43 @@ const Questions = ({ listData }) => {
                 </div>
               </li>
             );
-          })}
+          })} */}
+          <li className="mainbar__list">
+            <div className="mainbar__list__left">
+              <p>{`3 votes`}</p>
+              <p>{`0 answers`}</p>
+              <p>{`100 views`}</p>
+            </div>
+            <div className="mainbar__list__right">
+              <Link to={`/questions/76050650`}>
+                <h3>Undefined response when using JEST to do API testing</h3>
+              </Link>
+              <p>
+                I wanna ask what u do when wanna create more than just name
+                passwod and password_confirm Like from
+                django.contrib.auth.models import Abstractuser class name
+                modeldifference
+              </p>
+              <div className="mainbar__list__bottom">
+                <div className="mainbar__list__tag">
+                  <a href="/">javascript</a>
+                  <a href="/">java</a>
+                </div>
+                <div className="mainbar__list__profile">
+                  <img
+                    referrerPolicy="no-referrer"
+                    src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
+                    width="16px"
+                    alt="profile"
+                  />
+                  <a href="/">Json</a>
+                  <span>
+                    <span className="bold">5</span> asked 2 mins ago
+                  </span>
+                </div>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
     </Container>
