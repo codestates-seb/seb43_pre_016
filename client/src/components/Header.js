@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 
@@ -83,13 +84,24 @@ const HeaderWrapper = styled.header`
     background: #e4e5e7;
   }
 
-  .header__form {
+  .header__search {
+    display: flex;
+    background-color: white;
     position: relative;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #babfc4;
+    border-radius: 4px;
     flex-grow: 1;
-    padding: 0px 8px;
+    padding: 3px 3px;
+    label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
-  .header__form > svg {
+  .header__search > svg {
     position: absolute;
     left: 0.8rem;
     top: 50%;
@@ -97,14 +109,28 @@ const HeaderWrapper = styled.header`
     color: hsl(210, 8%, 55%);
   }
 
-  .header__form__input {
+  .header__search__textarea {
     width: 100%;
-    border: 1px solid hsl(210, 8%, 75%);
-    border-radius: 3px;
+    scrollbar-width: thin;
+    white-space: nowrap;
+    overflow-x: auto;
+    resize: none;
+    height: 20px;
+    line-height: 10px;
+    border: none;
     font-size: 13px;
+    font-family: -apple-system;
     color: #3b4045;
     background-color: #ffffff;
-    padding: 7.8px 9.1px 7.8px 32px;
+    padding: 4px;
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background-color: #f2f2f2;
+      border-radius: 4px;
+    }
   }
 
   .header__btns {
@@ -137,6 +163,43 @@ const HeaderWrapper = styled.header`
 `;
 
 const Header = () => {
+  const [searchtext, setSearchtext] = useState("");
+  const [searchlist, setSearchlist] = useState({
+    tag: [],
+    user: [],
+    answer: "",
+    score: "",
+  });
+  const handlesearch = (key) => {
+    if (key === "Enter" || key === "isSearch") {
+      console.log("검색합니다!");
+      console.log(searchtext);
+      const tagRegex = /\[(.*?)\]/g;
+      const tagMatches = [...searchtext.matchAll(tagRegex)];
+      const userRegex = /(?<=user:)\w+/g;
+      const userMatches = [...searchtext.matchAll(userRegex)];
+      const answerRegex = /(?<=answer:)\d+/g;
+      const answerMatch = [...searchtext.matchAll(answerRegex)];
+      const scoreRegex = /(?<=score:)\d+/g;
+      const scoreMatch = [...searchtext.matchAll(scoreRegex)];
+      const replica = { ...searchlist };
+      replica.user = userMatches.map((x) => x[0]);
+      tagMatches.length !== 0
+        ? (replica.tag = tagMatches.map((x) => x[1]))
+        : null;
+      userMatches.length !== 0
+        ? (replica.user = userMatches.map((x) => x[0]))
+        : null;
+      answerMatch.length !== 0
+        ? (replica.answer = answerMatch.map((x) => x[0])[0])
+        : null;
+      scoreMatch.length !== 0
+        ? (replica.score = scoreMatch.map((x) => x[0])[0])
+        : null;
+      console.log(replica);
+      setSearchlist({ ...searchlist, ...replica });
+    }
+  };
   return (
     <HeaderWrapper>
       <div className="header__container">
@@ -154,13 +217,20 @@ const Header = () => {
             <a href="/">For Teams</a>
           </li>
         </ul>
-        <form className="header__form">
-          <SearchIcon />
-          <input
+        <div className="header__search">
+          <label onClick={() => handlesearch("isSearch")}>
+            <SearchIcon />
+          </label>
+          <textarea
+            onChange={(e) => setSearchtext(e.target.value)}
+            onKeyUp={(e) => {
+              handlesearch(e.key);
+            }}
+            value={searchtext}
             placeholder="Search..."
-            className="header__form__input"
-          ></input>
-        </form>
+            className="header__search__textarea"
+          ></textarea>
+        </div>
         <div className="header__btns">
           <Link to="/users/login">
             <button className="header__btn powder-700">Log in</button>
