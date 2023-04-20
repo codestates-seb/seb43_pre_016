@@ -1,8 +1,10 @@
 package com.codestates.preproject.question.service;
 
 import com.codestates.preproject.question.entity.QuestionEntity;
+import com.codestates.preproject.question.mapper.QuestionMapper;
 import com.codestates.preproject.question.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -12,9 +14,14 @@ import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class QuestionService {
     private final QuestionRepository questionRepository;
+    private final QuestionMapper questionMapper;
+
+    public QuestionService(QuestionRepository questionRepository, QuestionMapper questionMapper) {
+        this.questionRepository = questionRepository;
+        this.questionMapper = questionMapper;
+    }
 
     //질문생성
     public QuestionEntity createQuestion(QuestionEntity question){
