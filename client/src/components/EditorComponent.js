@@ -20,6 +20,7 @@ const EditorComponent = (props) => {
         { indent: "+1" },
       ],
       ["link", "image"],
+      ["code-block"],
       ["clean"],
     ],
     clipboard: {
@@ -63,6 +64,7 @@ const EditorComponent = (props) => {
     "indent",
     "link",
     "image",
+    "code-block",
   ];
   return (
     <>
