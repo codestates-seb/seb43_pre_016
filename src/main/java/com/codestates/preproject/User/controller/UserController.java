@@ -44,19 +44,19 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{userid}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
         UserResponseDto user = userService.findUserById(id);
         return ResponseEntity.ok(user);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{userid}")
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id, @RequestBody @Valid UserPatchDto userPatchDto) {
         UserResponseDto updatedUser = userService.updateUser(id, userPatchDto);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{userid}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();

@@ -26,4 +26,6 @@ public class UserPostDto {
 
     @NotBlank(message = "Password name should not be blank.")
     private String password;
+
+    //지워도 되는 것
 }
