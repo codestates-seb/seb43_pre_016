@@ -1,6 +1,7 @@
 package com.codestates.preproject.User.entity;
 
 
+import com.codestates.preproject.answer.audit.Auditable;
 import lombok.*;
 
 
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-public class User {
+public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
