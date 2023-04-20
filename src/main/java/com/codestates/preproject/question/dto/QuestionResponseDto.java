@@ -17,4 +17,12 @@ public class QuestionResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    public QuestionResponseDto(Long questionId, String title, String body, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.questionId = questionId;
+        this.title = title;
+        this.body = body;
+        this.userId = userId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 }
