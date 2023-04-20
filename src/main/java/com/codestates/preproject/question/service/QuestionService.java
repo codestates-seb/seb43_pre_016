@@ -3,8 +3,6 @@ package com.codestates.preproject.question.service;
 import com.codestates.preproject.question.entity.QuestionEntity;
 import com.codestates.preproject.question.mapper.QuestionMapper;
 import com.codestates.preproject.question.repository.QuestionRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;

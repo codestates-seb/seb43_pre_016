@@ -4,7 +4,6 @@ import com.codestates.preproject.answer.dto.AnswerDto;
 import com.codestates.preproject.answer.entity.Answer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.springframework.jmx.export.annotation.ManagedOperationParameter;
 
 import java.util.List;
 

@@ -21,7 +21,7 @@ public class QuestionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "QUESTION_ID")
     private Long questionId;
-    // user id 다대일: private Member ~~
+
     @Column(length = 100,nullable = false)
     private String title;
     @Column(columnDefinition = "TEXT",nullable = false)

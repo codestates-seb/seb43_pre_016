@@ -43,23 +43,14 @@ public class AnswerDto {
 
         private long answerId;
         private String body;
-        private int likecount;
+        private int likeCount;
         private long userId;
         private long questionId;
         private LocalDateTime modifiedAt;
         private LocalDateTime createdAt;
         private String createdBy;
 
-        public Response(long answerId, String body, int likecount, long userId, long questionId, LocalDateTime modifiedAt, LocalDateTime createdAt, String createdBy) {
-            this.answerId = answerId;
-            this.body = body;
-            this.likecount = likecount;
-            this.userId = userId;
-            this.questionId = questionId;
-            this.modifiedAt = modifiedAt;
-            this.createdAt = createdAt;
-            this.createdBy = createdBy;
-        }
+
     }
 
 }

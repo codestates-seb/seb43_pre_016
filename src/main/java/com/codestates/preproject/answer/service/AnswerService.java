@@ -1,22 +1,20 @@
 package com.codestates.preproject.answer.service;
 
-import com.codestates.preproject.answer.entity.Answer;
-import com.codestates.preproject.answer.like.service.AnswerLikeService;
 import com.codestates.preproject.answer.repository.AnswerRepository;
-import lombok.RequiredArgsConstructor;
+import com.codestates.preproject.answer.entity.Answer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
-
+    public AnswerService(AnswerRepository answerRepository) {
+        this.answerRepository = answerRepository;
+    }
 
     public Answer createAnswer(Answer answer) {
         Answer savedAnswer = answerRepository.save(answer);
@@ -56,8 +54,8 @@ public class AnswerService {
 
     private Answer findVerifiedAnswer(long answerId) {
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
-        Answer answer = optionalAnswer.orElseThrow(() -> new RuntimeException());
-        return answer;
+        Answer findanswer = optionalAnswer.orElseThrow(() -> new RuntimeException());//예외처리하기
+        return findanswer;
     }
 
 }

@@ -1,28 +1,32 @@
 package com.codestates.preproject.answer.like.dto;
 
-import lombok.AllArgsConstructor;
+import com.codestates.preproject.answer.like.entity.AnswerLike.LikeStatus;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
+
 public class AnswerLikeDto {
 
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class Post {
 
-    @Getter @Setter
-    public static class Post{
-        private boolean answerLike; //좋아요의 여부
-        private int answerId; //답변 ID
+        private long userId;
+        private boolean answerLike;
+        private int answerId;
     }
-    @AllArgsConstructor
-    @Getter @Setter
-    public static  class Response {
+
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class Response {
         private long answerId;
         private long userId;
-        private boolean answerLike; //좋아요의 여부
-//        private long userLikeId; //user가 누른 좋아요수
+        private LikeStatus likeStatus;
 
     }
 
-
-
 }
+

@@ -3,7 +3,6 @@ package com.codestates.preproject.answer.controller;
 import com.codestates.preproject.answer.dto.AnswerDto;
 import com.codestates.preproject.answer.dto.MultiResponseDto;
 import com.codestates.preproject.answer.entity.Answer;
-import com.codestates.preproject.answer.like.service.AnswerLikeService;
 import com.codestates.preproject.answer.mapper.AnswerMapper;
 import com.codestates.preproject.answer.service.AnswerService;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +13,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin // (origins= "")
 @RestController
@@ -28,7 +25,6 @@ import java.util.Optional;
 public class AnswerController {
 
     private final AnswerService answerService;
-
     private final AnswerMapper mapper;
 
     @PostMapping

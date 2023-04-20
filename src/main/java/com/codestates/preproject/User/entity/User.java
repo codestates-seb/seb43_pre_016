@@ -5,7 +5,6 @@ import com.codestates.preproject.answer.audit.Auditable;
 import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.question.entity.QuestionEntity;
 import lombok.*;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
 
 
 import javax.persistence.*;

@@ -1,11 +1,10 @@
 package com.codestates.preproject.question.mapper;
 
 import com.codestates.preproject.question.dto.QuestionPatchDto;
-import com.codestates.preproject.question.dto.QuestionPostDto;
 import com.codestates.preproject.question.dto.QuestionResponseDto;
 import com.codestates.preproject.question.entity.QuestionEntity;
+import com.codestates.preproject.question.dto.QuestionPostDto;
 import lombok.RequiredArgsConstructor;
-import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
