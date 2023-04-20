@@ -25,6 +25,7 @@ const modules = {
       { indent: "+1" },
     ],
     ["link", "image"],
+    ["code-block"],
     ["clean"],
   ],
   clipboard: {
@@ -48,6 +49,7 @@ const formats = [
   "indent",
   "link",
   "image",
+  "code-block",
 ];
 
 const DetailWrapper = styled.div`
