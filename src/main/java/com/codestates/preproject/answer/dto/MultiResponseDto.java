@@ -1,11 +1,15 @@
 package com.codestates.preproject.answer.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class MultiResponseDto<T> {
     private List<T> data;
     private PageInfo pageInfo;

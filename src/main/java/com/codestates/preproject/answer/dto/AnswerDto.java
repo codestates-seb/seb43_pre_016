@@ -2,44 +2,64 @@ package com.codestates.preproject.answer.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class AnswerDto {
-    @AllArgsConstructor
+    @Setter
     @Getter
+    @NoArgsConstructor
     public static class Post {
-        @NotBlank
+        @NotNull
         private long questionId;
 
         @NotBlank
         private String body;
 
+        @NotNull
+        private long userId;
     }
 
-    @AllArgsConstructor
     @Getter
     @Setter
+    @NoArgsConstructor
     public static class Patch {
+
         private long answerId;
         @NotBlank
         private String body;
     }
 
-    @AllArgsConstructor
+
     @Getter
+    @Setter
+    @NoArgsConstructor
     public static class Response {
 
         private long answerId;
         private String body;
-        //private int like;
-        private long userId;  //질문 작성자
-        private LocalDateTime createAt; // 생성일
-        private LocalDateTime modifiedAt; // 수정일
+        private int likecount;
+        private long userId;
+        private long questionId;
+        private LocalDateTime modifiedAt;
+        private LocalDateTime createdAt;
+        private String createdBy;
 
+        public Response(long answerId, String body, int likecount, long userId, long questionId, LocalDateTime modifiedAt, LocalDateTime createdAt, String createdBy) {
+            this.answerId = answerId;
+            this.body = body;
+            this.likecount = likecount;
+            this.userId = userId;
+            this.questionId = questionId;
+            this.modifiedAt = modifiedAt;
+            this.createdAt = createdAt;
+            this.createdBy = createdBy;
+        }
     }
 
 }

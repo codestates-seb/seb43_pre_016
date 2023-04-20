@@ -8,6 +8,13 @@ group = 'com.codestates'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+//그냥추가
+javadoc.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -29,7 +36,7 @@ dependencies {
 	implementation 'com.google.code.gson:gson'
 	implementation 'org.mapstruct:mapstruct:1.5.1.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
-//	implementation 'com.h2database:h2:1.4.200'
+
 }
 
 tasks.named('test') {

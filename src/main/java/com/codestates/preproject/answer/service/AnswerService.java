@@ -29,8 +29,8 @@ public class AnswerService {
 
         Optional.ofNullable(answer.getBody())
                 .ifPresent(body -> findAnswer.setBody(body));
-        Optional.ofNullable(answer.getLikeCount()) //값이 null인지 확인하고
-                .ifPresent(likeCount -> findAnswer.setLikeCount(likeCount)); //null이 아니면 실행
+//        Optional.ofNullable(answer.getLikeCount()) //값이 null인지 확인하고
+//                .ifPresent(likeCount -> findAnswer.setLikeCount(likeCount)); //null이 아니면 실행
         return answerRepository.save(findAnswer);
     }
 

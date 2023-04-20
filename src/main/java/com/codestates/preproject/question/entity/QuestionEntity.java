@@ -1,4 +1,6 @@
 package com.codestates.preproject.question.entity;
+import com.codestates.preproject.User.entity.User;
+import com.codestates.preproject.answer.entity.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -6,6 +8,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,7 +19,7 @@ import java.time.LocalDateTime;
 public class QuestionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "question_id")
+    @Column(name = "QUESTION_ID")
     private Long questionId;
     // user id 다대일: private Member ~~
     @Column(length = 100,nullable = false)
@@ -23,6 +27,15 @@ public class QuestionEntity {
     @Column(columnDefinition = "TEXT",nullable = false)
     private String body;
     private  Integer view;
+
+    @ManyToOne
+    @JoinColumn(name ="USER_ID")
+    private User user;
+
+    @OneToMany(mappedBy ="questionEntity")
+    private List<Answer>answers=new ArrayList<>();
+
+
     //answers:리스트
     //like
     //tag: 추가삭제
