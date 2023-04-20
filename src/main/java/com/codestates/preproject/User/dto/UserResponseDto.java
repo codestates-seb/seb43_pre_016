@@ -3,6 +3,8 @@ package com.codestates.preproject.User.dto;
 import com.codestates.preproject.User.entity.User;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
@@ -16,12 +18,10 @@ public class UserResponseDto {
     private String user_name;
     private String email;
 
-    public static UserResponseDto of(User user){
-        return UserResponseDto.builder()
-                .id(user.getId())
-                .userId(user.getUserId())
-                .user_name(user.getUser_name())
-                .email(user.getEmail())
-                .build();
-    }
+    private LocalDateTime modifiedAt;
+
+    private LocalDateTime createdAt;
+
+    private String createdBy;
+
 }
