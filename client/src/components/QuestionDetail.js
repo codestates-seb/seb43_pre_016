@@ -6,13 +6,35 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Loading from "./Loading";
-
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 
-const content =
-  "<strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>uis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q</strong> strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q labore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuslabore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuslabore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuslabore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, q</strong>strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eius</strong>";
+const content = `<p>I am making a navigation bar and I cannot get to the position where the user clicked the toggle icon, the scroll position starts from the top and not from the asked place.</p><p><br></p><p>The following is my JS code. And the problem occurs in the else condition.</p><p><br></p><p>I can't even find whether the problem is of JavaScript or CSS.</p><p><br></p><p><strong>Code is:</strong></p><pre class="ql-syntax" spellcheck="false">// The following are the element selectors.
+const toggleButton = document.querySelector(".toggle.button");
+const toggleIcon = document.querySelector(".toggle.button &gt; .toggle__icon");
+const menuContainer = document.querySelector('.header &gt; .header__container .header__menu-container');
+
+// Make variable in Global Scope to save scroll position of user.
+let scrollPosition = 0;
+
+// Start of the Event Listener.
+toggleButton.addEventListener('click', () =&gt; {
+
+    // Check if the navigation bar is expanded.
+    if (!menuContainer.classList.contains("header__menu-container--open")) {
+
+        // Toggle the following classes when the toggle icon is clicked.
+        menuContainer.classList.add("header__menu-container--open");
+        toggleIcon.classList.add("toggle__icon--clicked");
+
+
+        // Record the scrolled position of the user.
+        scrollPosition = window.pageYOffset;
+
+        // Add the fixed position and adjust the top offset to make up for the body margin.
+        document.body.style.position = 'fixed';
+        
+    } 
+</pre><p><br></p><p>If there are any other ways to make this work, let me know. Thank you for staying to the end. Thank you!</p>`;
 
 const modules = {
   toolbar: [
@@ -166,6 +188,17 @@ const QuestionEditor = styled.section`
     display: flex;
     flex-direction: column;
 
+    .ql-container {
+      border: none;
+      font-size: 15px;
+    }
+
+    .ql-snow .ql-editor pre.ql-syntax {
+      background-color: #f6f6f6;
+      color: #2f3337;
+      font-family: ui-monospace;
+    }
+
     .list__tags {
       display: flex;
       flex-wrap: wrap;
@@ -180,10 +213,6 @@ const QuestionEditor = styled.section`
         padding: 4.8px 6.5px;
         color: #39739d;
       }
-    }
-
-    .ql-container {
-      border: none;
     }
 
     .right_bottom {
@@ -239,9 +268,9 @@ const Answerwrapper = styled.section`
   padding: 10px;
 
   .answer_count {
-    border-bottom: 2px solid #f6f6f6;
-    font-size: 25px;
-    padding: 5px;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 24.7px;
     margin-bottom: 15px;
   }
   .main {
@@ -249,85 +278,159 @@ const Answerwrapper = styled.section`
     flex-direction: row;
     padding-bottom: 30px;
     border-bottom: 2px solid #f6f6f6;
-    .count {
+
+    .votes {
       display: flex;
       flex-direction: column;
-      margin-right: 10px;
-      color: #babfc4;
-      h1 {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 30px;
-      }
-      span svg {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 50px;
-      }
-      label {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 30px;
+      align-items: center;
+      padding: 0px 16px 0px 0px;
+    }
+
+    button {
+      border: none;
+      background: none;
+      margin: 2px;
+      text-align: center;
+      align-items: flex-start;
+
+      svg {
+        path {
+          fill: #babfc4;
+          color: #babfc4;
+        }
       }
     }
-    .right {
-      display: flex;
-      flex-direction: column;
-      padding-right: 70px;
 
-      .right_bottom {
+    label {
+      svg {
+        color: #babfc4;
+      }
+    }
+
+    .vote {
+      display: flex;
+      justify-content: center;
+      font-size: 21px;
+      color: #6a737c;
+      line-height: 27.4615px;
+      margin: 2px;
+    }
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+    padding-right: 70px;
+
+    .ql-container {
+      border: none;
+      font-size: 15px;
+    }
+
+    .ql-snow .ql-editor pre.ql-syntax {
+      background-color: #f6f6f6;
+      color: #2f3337;
+      font-family: ui-monospace;
+    }
+
+    .right_bottom {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      .buttons {
         display: flex;
-        justify-content: space-between;
-        .buttons {
+        flex: 1;
+      }
+      .edit {
+        margin: 12px 0px 12px 12px;
+        color: #838c95;
+        font-size: 13px;
+        font-weight: 400;
+      }
+      .answer_profile {
+        width: 200px;
+        max-width: 204px;
+        /* background-color: #d9e9f7; */
+        display: flex;
+        flex-direction: column;
+        padding: 5px 6px 7px 7px;
+        border-radius: 3px;
+
+        .user-profile {
           display: flex;
-          flex: 1;
-        }
-        .edit {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          margin-right: 10px;
-          border: 1px solid black;
-          border-radius: 3px;
-          padding: 10px 20px;
-          width: 100px;
-          font-size: 20px;
-          font-weight: 500;
-        }
-        .answer_profile {
-          display: flex;
-          flex-wrap: wrap;
-          margin-bottom: 5px;
-          width: 15vw;
-          padding: 5px;
-          border: 1px solid black;
-          border-radius: 3px;
-          flex-direction: column;
-          .photo_zone {
-            display: flex;
+
+          .user-details {
+            margin: 0px 0px 0px 8px;
             a {
-              margin-left: 5px;
+              color: #0a95ff;
             }
           }
+        }
+
+        .user-action-time {
+          color: #6a737c;
+          font-size: 12px;
+          line-height: 15.6923px;
+          margin: 1px 0px 4px;
         }
       }
     }
   }
 `;
 const Answereditor = styled.section`
-  display: flex;
-  flex-direction: column;
-  padding-right: 70px;
+  padding: 10px 50px 10px 10px;
+
+  h2 {
+    font-size: 19px;
+    line-height: 24.7px;
+    margin: 0px 0px 19px;
+    padding: 20px 0px 0px;
+    font-weight: 400;
+  }
+
+  .post-btn {
+    margin-top: 25px;
+    white-space: nowrap;
+    min-width: 129px;
+    min-height: 45px;
+    background-color: #0a95ff;
+    border-radius: 4px;
+    border: 1px solid #0a95ff;
+    box-shadow: inset rgb(255, 255, 255) 0px 1px 1px 0px;
+    color: #ffffff;
+    padding: 10.4px;
+    text-align: center;
+    font-size: 13px;
+  }
+
+  .post-bottom {
+    font-size: 17px;
+    line-height: 23.8px;
+    margin-top: 30px;
+    margin-bottom: 10rem;
+
+    a:not(:last-child) {
+      background-color: #d0e3f1;
+      border: 1px solid #ffffff;
+      border-radius: 3px;
+      font-size: 12px;
+      line-height: 12px;
+      margin: 0px 2px 5px 2px;
+      padding: 4.8px 6.5px;
+      color: #39739d;
+    }
+
+    a:last-child {
+      color: #0074cc;
+    }
+  }
 `;
 const customStyle = {
   display: "flex",
   fontFamily: "Arial",
   fontSize: "16px",
   fontWeight: "normal",
-  height: "250px",
+  minHeight: "150px",
   lineHeight: "1.5",
   marginBottom: "15px",
 };
@@ -478,19 +581,35 @@ const QuestionDetail = () => {
             </QuestionEditor>
           </QuestionWrapper>
           <Answerwrapper>
-            <div className="answer_count">1 Answer</div>
+            <h2 className="answer_count">1 Answer</h2>
             <section className="main">
-              <span className="count">
-                <span>
-                  <ArrowDropUpIcon />
-                  <h1>1</h1>
-                  <ArrowDropDownIcon />
-                </span>
+              <div className="votes">
+                <button className="upvote__btn">
+                  <svg
+                    aria-hidden="true"
+                    className="svg-icon iconArrowUpLg"
+                    width="36"
+                    height="36"
+                    viewBox="0 0 36 36"
+                  >
+                    <path d="M2 25h32L18 9 2 25Z"></path>
+                  </svg>
+                </button>
+                <div className="vote">1</div>
+                <button className="downvote__btn">
+                  <svg
+                    aria-hidden="true"
+                    width="36"
+                    height="36"
+                    viewBox="0 0 36 36"
+                  >
+                    <path d="M2 11h32L18 27 2 11Z"></path>
+                  </svg>
+                </button>
                 <label>
                   <BookmarkBorderOutlinedIcon />
                 </label>
-              </span>
-              <span></span>
+              </div>
               <section className="right">
                 <ReactQuill
                   theme="snow"
@@ -501,22 +620,45 @@ const QuestionDetail = () => {
                 />
                 <div className="right_bottom">
                   <div className="buttons">
-                    <span className="edit">Edit</span>
-                    <span className="edit">Follow</span>
+                    <a className="edit" href="/">
+                      Edit
+                    </a>
+                    <a className="edit" href="/">
+                      Follow
+                    </a>
                   </div>
-                  <span className="answer_profile">
-                    <div>asdasdasd</div>
-                    <div className="photo_zone">
-                      asdsd<a>dasdsd</a>
+                  <div className="answer_profile">
+                    <div className="user-action-time">answered 50 mins ago</div>
+                    <div className="user-profile">
+                      {/* <img
+                        src={
+                          questionData.owner &&
+                          `${questionData.owner.profile_image}`
+                        }
+                        width="32px"
+                        height="32px"
+                      /> */}
+                      <img
+                        src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
+                        width="32px"
+                        height="32px"
+                      />
+                      <div className="user-details">
+                        {/* <a href="/">
+                          {questionData.owner &&
+                            questionData.owner.display_name}
+                        </a> */}
+                        <a href="/">JSON</a>
+                      </div>
                     </div>
-                  </span>
+                  </div>
                 </div>
               </section>
             </section>
           </Answerwrapper>
           <Answereditor>
-            <span>Your Answer</span>
-            <div style={{ height: "235px" }}>
+            <h2>Your Answer</h2>
+            <div style={{ height: "235px", maxWidth: "850px" }}>
               <ReactQuill
                 theme="snow"
                 style={{ height: "200px" }}
@@ -526,6 +668,15 @@ const QuestionDetail = () => {
                 onChange={setAnswer}
               />
             </div>
+            <button className="post-btn">Post Your Answer</button>
+            {/* 나중에 답변이 달리면 태그를 분기해줘야함. */}
+            <p className="post-bottom">
+              Not the answer you are looking for? Browse other questions tagged
+              <a>javascript</a>
+              <a>css</a>
+              <a>html</a> or&nbsp;
+              <Link to="/questions/ask">ask your own question.</Link>
+            </p>
           </Answereditor>
         </>
       )}
