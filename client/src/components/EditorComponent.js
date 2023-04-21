@@ -6,9 +6,9 @@ import "quill/dist/quill.snow.css";
 import { height } from "@mui/system";
 
 const EditorComponent = (props) => {
-  const { article, setArticle } = props;
+  const { detail, setDetail } = props;
   const [content, setContent] = useState("");
-  useEffect(() => setArticle({ ...article, detail: content }), [content]);
+  useEffect(() => setDetail(content), [content]);
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],

@@ -1,0 +1,63 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "tags": [
+        "javascript",
+        "react",
+        "css"
+      ],
+      "title": "json-server",
+      "body_detail": "Hello!",
+      "body_try": "i'll try it",
+      "owner": {
+        "user_id": 1,
+        "profile_image": "https://www.gravatar.com/avatar/3ce25b028e11ef58e77d601e1cd73710?s=48&d=identicon&r=PG&f=y&so-version=2",
+        "display_name": "John"
+      },
+      "view": 0,
+      "vote_count": 0,
+      "created_at": "Fri Apr 21 2023 02:16:20 GMT+0900",
+      "updated_at": "Fri Apr 21 2023 02:16:20 GMT+0900"
+    },
+    {
+      "tags": [
+        "js",
+        "json",
+        "good"
+      ],
+      "title": "첫 포스트 입니다!",
+      "body_detail": "<p>디테일 작성</p>",
+      "body_try": "<p>트라이 작성</p>",
+      "owner": {
+        "user_id": 1,
+        "display_name": "Juni",
+        "profile_image": "https://www.gravatar.com/avatar/3ce25b028e11ef58e77d601e1cd73710?s=48&d=identicon&r=PG&f=y&so-version=2"
+      },
+      "view": 0,
+      "vote_count": 0,
+      "created_at": "2023-04-21T05:03:36.825Z",
+      "updated_at": "2023-04-21T05:03:36.825Z",
+      "id": 2
+    },
+    {
+      "tags": [
+        "good",
+        "nice"
+      ],
+      "title": "두번 째 포스트",
+      "body_detail": "<p>내용을~</p>",
+      "body_try": "<p>합쳐~</p>",
+      "owner": {
+        "user_id": 1,
+        "display_name": "Juni",
+        "profile_image": "https://www.gravatar.com/avatar/3ce25b028e11ef58e77d601e1cd73710?s=48&d=identicon&r=PG&f=y&so-version=2"
+      },
+      "view": 0,
+      "vote_count": 0,
+      "created_at": "2023-04-21T05:18:32.351Z",
+      "updated_at": "2023-04-21T05:18:32.351Z",
+      "id": 3
+    }
+  ]
+}
