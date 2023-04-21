@@ -231,19 +231,20 @@ const Questions = ({ listData }) => {
           </div>
         </div>
         <ul className="mainbar__lists">
-          {/* {listData.map((list) => {
+          {listData.map((list) => {
             return (
-              <li className="mainbar__list" key={list.question_id}>
+              <li className="mainbar__list" key={list.id}>
                 <div className="mainbar__list__left">
-                  <p>{`${list.up_vote_count} votes`}</p>
-                  <p>{`${list.answer_count} answers`}</p>
-                  <p>{`${list.view_count} views`}</p>
+                  <p>{`${list.vote_count} votes`}</p>
+                  {/* <p>{`${list.answers.answer_count} answers`}</p> */}
+                  <p>0 answers</p>
+                  <p>{`${list.view} views`}</p>
                 </div>
                 <div className="mainbar__list__right">
-                  <Link to={`/questions/${list.question_id}`}>
+                  <Link to={`/questions/${list.id}`}>
                     <h3>{list.title}</h3>
                   </Link>
-                  <p>{list.body_markdown}</p>
+                  <p>{`${list.body_detail} ${list.body_try}`}</p>
                   <div className="mainbar__list__bottom">
                     <div className="mainbar__list__tag">
                       {list.tags.map((el, idx) => {
@@ -257,57 +258,21 @@ const Questions = ({ listData }) => {
                     <div className="mainbar__list__profile">
                       <img
                         referrerPolicy="no-referrer"
-                        src={list.owner.profile_image}
+                        // src={list.owner.profile_image}
+                        src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
                         width="16px"
                         alt="profile"
                       />
-                      <a href={list.owner.link}>{list.owner.display_name}</a>
+                      <a href="/">{list.owner.display_name}</a>
                       <span>
-                        <span className="bold">{list.owner.reputation}</span>{" "}
-                        asked 2 mins ago
+                        <span className="bold">0</span> asked 2 mins ago
                       </span>
                     </div>
                   </div>
                 </div>
               </li>
             );
-          })} */}
-          <li className="mainbar__list">
-            <div className="mainbar__list__left">
-              <p>{`3 votes`}</p>
-              <p>{`0 answers`}</p>
-              <p>{`100 views`}</p>
-            </div>
-            <div className="mainbar__list__right">
-              <Link to={`/questions/76050650`}>
-                <h3>Undefined response when using JEST to do API testing</h3>
-              </Link>
-              <p>
-                I wanna ask what u do when wanna create more than just name
-                passwod and password_confirm Like from
-                django.contrib.auth.models import Abstractuser class name
-                modeldifference
-              </p>
-              <div className="mainbar__list__bottom">
-                <div className="mainbar__list__tag">
-                  <a href="/">javascript</a>
-                  <a href="/">java</a>
-                </div>
-                <div className="mainbar__list__profile">
-                  <img
-                    referrerPolicy="no-referrer"
-                    src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
-                    width="16px"
-                    alt="profile"
-                  />
-                  <a href="/">Json</a>
-                  <span>
-                    <span className="bold">5</span> asked 2 mins ago
-                  </span>
-                </div>
-              </div>
-            </div>
-          </li>
+          })}
         </ul>
       </div>
     </Container>

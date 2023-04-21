@@ -2,10 +2,10 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
-import Askquestions from "./components/Askquestions";
 import Questions from "./components/Questions";
 import Sidebar from "./components/Sidebar";
 import Signup from "./components/Signup";
+import Askquestions from "./components/Askquestions";
 import QuestionDetail from "./components/QuestionDetail";
 import ScrollToTop from "./components/ScrollTop";
 import axios from "axios";
@@ -17,11 +17,9 @@ function App() {
   const [listData, setListData] = useState([]);
   const data = () => {
     axios
-      .get(
-        "https://api.stackexchange.com/2.3/questions?pagesize=50&order=desc&sort=creation&site=stackoverflow&filter=!T3zRPxfHcI6S3(Y6fa"
-      )
+      .get("http://localhost:8080/questions")
       .then((res) => {
-        return setListData([...res.data.items]);
+        setListData([...res.data]);
       })
       .catch((err) => {
         console.log(err);
