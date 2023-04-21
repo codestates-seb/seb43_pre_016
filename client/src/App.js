@@ -10,6 +10,7 @@ import QuestionDetail from "./components/QuestionDetail";
 import ScrollToTop from "./components/ScrollTop";
 import axios from "axios";
 import Login from "./components/Login";
+import Mypage from "./components/Mypage";
 
 function App() {
   //우선 Api를 이용하여 데이터를 받아왔지만 추후에 데이터가 만들어지면 아래 코드를 변경할 예정
@@ -50,6 +51,15 @@ function App() {
             <div className="container">
               <Sidebar />
               <QuestionDetail />
+            </div>
+          }
+        ></Route>
+        <Route
+          path="/users/id/userName"
+          element={
+            <div className="container">
+              <Sidebar />
+              <Mypage />
             </div>
           }
         ></Route>
