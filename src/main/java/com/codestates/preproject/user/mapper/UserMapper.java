@@ -1,8 +1,8 @@
-package com.codestates.preproject.User.mapper;
+package com.codestates.preproject.user.mapper;
 
 
-import com.codestates.preproject.User.dto.UserDto;
-import com.codestates.preproject.User.entity.User;
+import com.codestates.preproject.user.dto.UserDto;
+import com.codestates.preproject.user.entity.User;
 import org.mapstruct.Mapper;
 
 import java.util.List;

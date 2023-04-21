@@ -1,6 +1,6 @@
 package com.codestates.preproject.question.mapper;
 
-import com.codestates.preproject.User.entity.User;
+import com.codestates.preproject.user.entity.User;
 import com.codestates.preproject.question.dto.QuestionPatchDto;
 import com.codestates.preproject.question.dto.QuestionPostDto;
 import com.codestates.preproject.question.dto.QuestionResponseDto;

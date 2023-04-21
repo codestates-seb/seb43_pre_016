@@ -1,6 +1,6 @@
-package com.codestates.preproject.User.repository;
+package com.codestates.preproject.user.repository;
 
-import com.codestates.preproject.User.entity.User;
+import com.codestates.preproject.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

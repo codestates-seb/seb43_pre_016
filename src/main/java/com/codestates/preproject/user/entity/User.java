@@ -1,4 +1,4 @@
-package com.codestates.preproject.User.entity;
+package com.codestates.preproject.user.entity;
 
 
 import com.codestates.preproject.answer.audit.Auditable;

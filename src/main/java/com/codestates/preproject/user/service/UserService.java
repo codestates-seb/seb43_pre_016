@@ -1,7 +1,7 @@
-package com.codestates.preproject.User.service;
+package com.codestates.preproject.user.service;
 
-import com.codestates.preproject.User.entity.User;
-import com.codestates.preproject.User.repository.UserRepository;
+import com.codestates.preproject.user.entity.User;
+import com.codestates.preproject.user.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

@@ -1,9 +1,9 @@
-package com.codestates.preproject.User.controller;
+package com.codestates.preproject.user.controller;
 
-import com.codestates.preproject.User.dto.UserDto;
-import com.codestates.preproject.User.entity.User;
-import com.codestates.preproject.User.mapper.UserMapper;
-import com.codestates.preproject.User.service.UserService;
+import com.codestates.preproject.user.dto.UserDto;
+import com.codestates.preproject.user.entity.User;
+import com.codestates.preproject.user.mapper.UserMapper;
+import com.codestates.preproject.user.service.UserService;
 
 import com.codestates.preproject.response.MultiResponseDto;
 import lombok.extern.slf4j.Slf4j;

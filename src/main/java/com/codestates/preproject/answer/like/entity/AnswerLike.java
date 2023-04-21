@@ -1,6 +1,6 @@
 package com.codestates.preproject.answer.like.entity;
 
-import com.codestates.preproject.User.entity.User;
+import com.codestates.preproject.user.entity.User;
 import com.codestates.preproject.answer.entity.Answer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,7 @@
 package com.codestates.preproject.answer.like.service;
 
 import com.codestates.preproject.answer.like.repository.AnswerLikeRepository;
-import com.codestates.preproject.User.service.UserService;
+import com.codestates.preproject.user.service.UserService;
 import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.answer.like.entity.AnswerLike;
 import com.codestates.preproject.answer.service.AnswerService;
