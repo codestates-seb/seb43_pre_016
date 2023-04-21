@@ -1,5 +1,6 @@
 package com.codestates.preproject.question.mapper;
 
+import com.codestates.preproject.User.entity.User;
 import com.codestates.preproject.question.dto.QuestionResponseDto;
 import com.codestates.preproject.question.entity.QuestionEntity;
 import com.codestates.preproject.question.dto.QuestionPatchDto;
@@ -18,6 +19,10 @@ public class QuestionMapper {
         QuestionEntity question = new QuestionEntity();
         question.setTitle(questionPostDto.getTitle());
         question.setBody(questionPostDto.getBody());
+
+        User user = new User();
+        user.setUserId(questionPostDto.getUserId());
+        question.setUser(user);
 
         return question;
     }
@@ -39,7 +44,7 @@ public class QuestionMapper {
                question.getTitle(),
                question.getBody(),
                 question.getCreatedAt(),
-               question.getUpdatedAt()
+               question.getModifiedAt()
         );
   }
 
