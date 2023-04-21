@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const HeaderWrapper = styled.header`
   width: 100%;
@@ -89,6 +89,7 @@ const HeaderWrapper = styled.header`
     background-color: white;
     position: relative;
     justify-content: center;
+    margin-right: 10px;
     align-items: center;
     border: 1px solid #babfc4;
     border-radius: 4px;
@@ -161,87 +162,220 @@ const HeaderWrapper = styled.header`
     color: #ffffff;
   }
 `;
+const Modalwindow = styled.div`
+  display: flex;
+  position: fixed;
+  width: 100%;
+  justify-content: center;
+  margin-top: 55px;
+  z-index: 999;
+  .modal {
+    margin-left: 164px;
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    padding: 5px;
+    box-shadow: #d6d9dc 1px 3px 3px 1px;
+    width: 600px;
+    height: 150px;
+    border: 1px solid #d6d9dc;
+    border-radius: 5px;
+    article {
+      display: flex;
+      flex-wrap: wrap;
+      width: 50%;
+      padding: 5px;
+      flex: 1;
+      flex-direction: column;
+
+      span {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 5px;
+        label {
+          display: flex;
+          min-width: 100px;
+          font-size: 20px;
+          font-family: -apple-system;
+          font-weight: 500;
+          padding: 3px;
+        }
+        p {
+          color: #525960;
+        }
+      }
+    }
+  }
+`;
 
 const Header = () => {
+  const navigate = useNavigate();
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchtext, setSearchtext] = useState("");
   const [searchlist, setSearchlist] = useState({
     tag: [],
     user: [],
     answer: "",
     score: "",
+    title: "",
   });
-  const handlesearch = (key) => {
-    if (key === "Enter" || key === "isSearch") {
-      console.log("검색합니다!");
-      console.log(searchtext);
-      const tagRegex = /\[(.*?)\]/g;
-      const tagMatches = [...searchtext.matchAll(tagRegex)];
-      const userRegex = /(?<=user:)\w+/g;
-      const userMatches = [...searchtext.matchAll(userRegex)];
-      const answerRegex = /(?<=answer:)\d+/g;
-      const answerMatch = [...searchtext.matchAll(answerRegex)];
-      const scoreRegex = /(?<=score:)\d+/g;
-      const scoreMatch = [...searchtext.matchAll(scoreRegex)];
-      const replica = { ...searchlist };
-      replica.user = userMatches.map((x) => x[0]);
-      tagMatches.length !== 0
-        ? (replica.tag = tagMatches.map((x) => x[1]))
-        : null;
-      userMatches.length !== 0
-        ? (replica.user = userMatches.map((x) => x[0]))
-        : null;
-      answerMatch.length !== 0
-        ? (replica.answer = answerMatch.map((x) => x[0])[0])
-        : null;
-      scoreMatch.length !== 0
-        ? (replica.score = scoreMatch.map((x) => x[0])[0])
-        : null;
-      console.log(replica);
-      setSearchlist({ ...searchlist, ...replica });
+  useEffect(() => {
+    console.log(searchtext);
+    const tagRegex = /\[(.*?)\]/g;
+    const tagMatches = [...searchtext.matchAll(tagRegex)];
+    const userRegex = /(?<=user:)\w+/g;
+    const userMatches = [...searchtext.matchAll(userRegex)];
+    const answerRegex = /(?<=answer:)\d+/g;
+    const answerMatch = [...searchtext.matchAll(answerRegex)];
+    const scoreRegex = /(?<=score:)\d+/g;
+    const scoreMatch = [...searchtext.matchAll(scoreRegex)];
+    const titleRegex = /(?<=title:)\w+/g;
+    const titleMatch = [...searchtext.matchAll(titleRegex)];
+    const replica = { ...searchlist };
+    replica.user = userMatches.map((x) => x[0]);
+    tagMatches.length !== 0
+      ? (replica.tag = tagMatches.map((x) => x[1]))
+      : (replica.tag = []);
+    userMatches.length !== 0
+      ? (replica.user = userMatches.map((x) => x[0]))
+      : (replica.user = []);
+    answerMatch.length !== 0
+      ? (replica.answer = answerMatch.map((x) => x[0])[0])
+      : (replica.answer = "");
+    scoreMatch.length !== 0
+      ? (replica.score = scoreMatch.map((x) => x[0])[0])
+      : (replica.score = "");
+    titleMatch.length !== 0
+      ? (replica.title = titleMatch.map((x) => x[0])[0])
+      : (replica.title = "");
+    console.log(replica);
+    setSearchlist({ ...searchlist, ...replica });
+  }, [searchtext]);
+  const handleSearch = (e) => {
+    if (e.key === "Enter") {
+      navigate(
+        `/search?q=${
+          searchlist.title !== "" ? "%1T" + searchlist.title + "%1T" : ""
+        }${
+          searchlist.tag.length !== 0
+            ? "%2T" + searchlist.tag.join("+") + "%2T"
+            : ""
+        }${
+          searchlist.user.length !== 0
+            ? "%1U" + searchlist.user.join("+") + "%1U"
+            : ""
+        }${
+          searchlist.answer !== "" ? "%answer:" + searchlist.answer + "%" : ""
+        }${searchlist.score !== "" ? "%score:" + searchlist.score + "%" : ""}`
+      );
     }
   };
-  return (
-    <HeaderWrapper>
-      <div className="header__container">
-        <a href="/" className="header__logo__a">
-          <span className="header__logo__span hide">Stack Overflow</span>
-        </a>
-        <ul className="header__nav">
-          <li className="header__nav__li">
-            <a href="/">About</a>
-          </li>
-          <li className="header__nav__li">
-            <a href="/">Products</a>
-          </li>
-          <li className="header__nav__li">
-            <a href="/">For Teams</a>
-          </li>
-        </ul>
-        <div className="header__search">
-          <label onClick={() => handlesearch("isSearch")}>
-            <SearchIcon />
-          </label>
-          <textarea
-            onChange={(e) => setSearchtext(e.target.value)}
-            onKeyUp={(e) => {
-              handlesearch(e.key);
-            }}
-            value={searchtext}
-            placeholder="Search..."
-            className="header__search__textarea"
-          ></textarea>
-        </div>
-        <div className="header__btns">
-          <Link to="/users/login">
-            <button className="header__btn powder-700">Log in</button>
-          </Link>
+  function handleTextareaFocus() {
+    setIsModalVisible(true);
+  }
 
-          <Link to="/users/signup">
-            <button className="header__btn blue-500">Sign up</button>
-          </Link>
+  function handleTextareaBlur() {
+    setIsModalVisible(false);
+  }
+
+  return (
+    <>
+      <HeaderWrapper>
+        <div className="header__container">
+          <a href="/" className="header__logo__a">
+            <span className="header__logo__span hide">Stack Overflow</span>
+          </a>
+          <ul className="header__nav">
+            <li className="header__nav__li">
+              <a href="/">About</a>
+            </li>
+            <li className="header__nav__li">
+              <a href="/">Products</a>
+            </li>
+            <li className="header__nav__li">
+              <a href="/">For Teams</a>
+            </li>
+          </ul>
+          <div className="header__search">
+            <Link
+              to={`/search?q=${
+                searchlist.title !== "" ? "%1T" + searchlist.title + "%1T" : ""
+              }${
+                searchlist.tag.length !== 0
+                  ? "%2T" + searchlist.tag.join("+") + "%2T"
+                  : ""
+              }${
+                searchlist.user.length !== 0
+                  ? "%1U" + searchlist.user.join("+") + "%1U"
+                  : ""
+              }${
+                searchlist.answer !== ""
+                  ? "%answer:" + searchlist.answer + "%"
+                  : ""
+              }${
+                searchlist.score !== ""
+                  ? "%score:" + searchlist.score + "%"
+                  : ""
+              }`}
+            >
+              <label>
+                <SearchIcon />
+              </label>
+            </Link>
+            <textarea
+              onChange={(e) => setSearchtext(e.target.value)}
+              onKeyUp={handleSearch}
+              value={searchtext}
+              placeholder="Search..."
+              className="header__search__textarea"
+              onFocus={handleTextareaFocus}
+              onBlur={handleTextareaBlur}
+              maxLength="100"
+            ></textarea>
+          </div>
+          <div className="header__btns">
+            <Link to="/users/login">
+              <button className="header__btn powder-700">Log in</button>
+            </Link>
+
+            <Link to="/users/signup">
+              <button className="header__btn blue-500">Sign up</button>
+            </Link>
+          </div>
         </div>
-      </div>
-    </HeaderWrapper>
+      </HeaderWrapper>
+      {isModalVisible && (
+        <Modalwindow>
+          <section className="modal">
+            <article className="left">
+              <span>
+                <label>[tag]</label>
+                <p>search within a tag</p>
+              </span>
+              <span>
+                <label>answer:2</label>
+                <p>post with a 2+ answer</p>
+              </span>
+              <span>
+                <label>user:userId</label>
+                <p>search a question within userId</p>
+              </span>
+            </article>
+            <article className="right">
+              <span>
+                <label>title:string</label>
+                <p>search a question within title</p>
+              </span>
+              <span>
+                <label>score:4</label>
+                <p>post with a 3+ score</p>
+              </span>
+            </article>
+          </section>
+        </Modalwindow>
+      )}
+    </>
   );
 };
 
