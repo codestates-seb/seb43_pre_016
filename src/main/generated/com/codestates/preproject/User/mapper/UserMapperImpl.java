@@ -1,9 +1,7 @@
 package com.codestates.preproject.User.mapper;
 
 import com.codestates.preproject.User.dto.UserDto;
-import com.codestates.preproject.User.dto.UserResponseDto;
 import com.codestates.preproject.User.entity.User;
-import com.codestates.preproject.answer.entity.Answer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -11,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-04-22T00:48:29+0900",
+    date = "2023-04-22T01:17:12+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 11.0.16.1 (Oracle Corporation)"
 )
 @Component
@@ -25,7 +23,7 @@ public class UserMapperImpl implements UserMapper {
 
         User user = new User();
 
-        user.setUser_name( requestBody.getUser_name() );
+        user.setUserName( requestBody.getUserName() );
         user.setEmail( requestBody.getEmail() );
         user.setPassword( requestBody.getPassword() );
 
@@ -41,7 +39,7 @@ public class UserMapperImpl implements UserMapper {
         User user = new User();
 
         user.setUserId( requestBody.getUserId() );
-        user.setUser_name( requestBody.getUser_name() );
+        user.setUserName( requestBody.getUserName() );
         user.setEmail( requestBody.getEmail() );
         user.setPassword( requestBody.getPassword() );
 
@@ -49,25 +47,21 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
-    public UserResponseDto userToUserResponseDto(User user) {
+    public UserDto.Response userToUserResponseDto(User user) {
         if ( user == null ) {
             return null;
         }
 
-        UserResponseDto.UserResponseDtoBuilder userResponseDto = UserResponseDto.builder();
+        UserDto.Response response = new UserDto.Response();
 
-        userResponseDto.userId( user.getUserId() );
-        userResponseDto.user_name( user.getUser_name() );
-        userResponseDto.email( user.getEmail() );
-        userResponseDto.modifiedAt( user.getModifiedAt() );
-        userResponseDto.createdAt( user.getCreatedAt() );
-        userResponseDto.createdBy( user.getCreatedBy() );
-        List<Answer> list = user.getAnswers();
-        if ( list != null ) {
-            userResponseDto.answers( new ArrayList<Answer>( list ) );
-        }
+        response.setUserId( user.getUserId() );
+        response.setUserName( user.getUserName() );
+        response.setEmail( user.getEmail() );
+        response.setModifiedAt( user.getModifiedAt() );
+        response.setCreatedAt( user.getCreatedAt() );
+        response.setCreatedBy( user.getCreatedBy() );
 
-        return userResponseDto.build();
+        return response;
     }
 
     @Override
@@ -78,26 +72,9 @@ public class UserMapperImpl implements UserMapper {
 
         List<UserDto.Response> list = new ArrayList<UserDto.Response>( users.size() );
         for ( User user : users ) {
-            list.add( userToResponse( user ) );
+            list.add( userToUserResponseDto( user ) );
         }
 
         return list;
-    }
-
-    protected UserDto.Response userToResponse(User user) {
-        if ( user == null ) {
-            return null;
-        }
-
-        UserDto.Response response = new UserDto.Response();
-
-        response.setUserId( user.getUserId() );
-        response.setUser_name( user.getUser_name() );
-        response.setEmail( user.getEmail() );
-        response.setModifiedAt( user.getModifiedAt() );
-        response.setCreatedAt( user.getCreatedAt() );
-        response.setCreatedBy( user.getCreatedBy() );
-
-        return response;
     }
 }

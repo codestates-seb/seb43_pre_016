@@ -1,6 +1,5 @@
 package com.codestates.preproject.answer.like.service;
 
-import com.codestates.preproject.User.dto.UserResponseDto;
 import com.codestates.preproject.answer.like.repository.AnswerLikeRepository;
 import com.codestates.preproject.User.service.UserService;
 import com.codestates.preproject.answer.entity.Answer;

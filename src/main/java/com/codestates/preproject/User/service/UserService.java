@@ -1,27 +1,15 @@
 package com.codestates.preproject.User.service;
 
-import com.codestates.preproject.User.dto.UserPatchDto;
-import com.codestates.preproject.User.dto.UserPostDto;
-import com.codestates.preproject.User.dto.UserResponseDto;
 import com.codestates.preproject.User.entity.User;
-import com.codestates.preproject.User.mapper.UserMapper;
 import com.codestates.preproject.User.repository.UserRepository;
-import com.codestates.preproject.answer.entity.Answer;
 
-import com.codestates.preproject.question.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Service

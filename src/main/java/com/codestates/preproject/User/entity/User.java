@@ -23,7 +23,7 @@ public class User extends Auditable {
     private Long userId;
 
     @Column(length = 100, nullable = false)
-    private String user_name;
+    private String userName;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -38,9 +38,9 @@ public class User extends Auditable {
     @OneToMany(mappedBy = "user")
     private List<Question> questions= new ArrayList<>();
 
-    public User( String user_name, String email, String password) {
+    public User( String userName, String email, String password) {
 
-        this.user_name = user_name;
+        this.userName = userName;
         this.email = email;
         this.password = password;
     }
@@ -49,7 +49,7 @@ public class User extends Auditable {
         return answers;
     }
 
-//    public List<Question> getQuestions(){
-//        return questionEntities;
-//    }
+    public List<Question> getQuestions(){
+        return questions;
+    }
 }

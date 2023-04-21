@@ -1,18 +1,12 @@
 package com.codestates.preproject.User.controller;
 
 import com.codestates.preproject.User.dto.UserDto;
-import com.codestates.preproject.User.dto.UserPatchDto;
-import com.codestates.preproject.User.dto.UserPostDto;
-import com.codestates.preproject.User.dto.UserResponseDto;
 import com.codestates.preproject.User.entity.User;
 import com.codestates.preproject.User.mapper.UserMapper;
 import com.codestates.preproject.User.service.UserService;
-import com.codestates.preproject.answer.entity.Answer;
 
 import com.codestates.preproject.response.MultiResponseDto;
-import com.fasterxml.jackson.databind.ser.impl.UnknownSerializer;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
