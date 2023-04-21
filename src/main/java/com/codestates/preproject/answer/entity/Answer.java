@@ -30,11 +30,11 @@ public class Answer extends Auditable {
 
     @Setter
     @ManyToOne
-    @JoinColumn(name="USER_ID")
+    @JoinColumn(name="user_id")
     private User user;
     @Setter
     @ManyToOne
-    @JoinColumn(name="QUESTION_ID")
+    @JoinColumn(name="question_id")
     private QuestionEntity questionEntity;
 
     @OneToMany(mappedBy = "answer")

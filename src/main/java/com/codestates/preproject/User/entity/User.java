@@ -34,7 +34,7 @@ public class User extends Auditable {
     private String password;
 
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
@@ -47,6 +47,11 @@ public class User extends Auditable {
         this.password = password;
     }
 
+    public List<Answer> getAnswers(){
+        return answers;
+    }
 
-
+    public List<QuestionEntity> getQuestions(){
+        return questionEntities;
+    }
 }

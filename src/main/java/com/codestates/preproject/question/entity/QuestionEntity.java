@@ -19,7 +19,7 @@ import java.util.List;
 public class QuestionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "QUESTION_ID")
+    @Column(name = "question_id")
     private Long questionId;
 
     @Column(length = 100,nullable = false)
@@ -29,7 +29,7 @@ public class QuestionEntity {
     private  Integer view;
 
     @ManyToOne
-    @JoinColumn(name ="USER_ID")
+    @JoinColumn(name ="user_id")
     private User user;
 
     @OneToMany(mappedBy ="questionEntity")
@@ -46,12 +46,6 @@ public class QuestionEntity {
     //basetime 클래스 상속받으면 시간날쩌코드중복 줄일수있다고함
     //업데이트 후 다른 클래스에서 가져와야할것과 연관관계 매핑 할것
 
-    @OneToMany(mappedBy = "questionEntity")
-    private List<Answer> answers = new ArrayList<>();
-
-    @ManyToOne
-    @JoinColumn(name = "USER_ID")
-    private  User user;
 
 
 }

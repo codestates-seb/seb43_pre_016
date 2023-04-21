@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class AnswerDto {
@@ -14,6 +16,7 @@ public class AnswerDto {
     @Getter
     @NoArgsConstructor
     public static class Post {
+        @NotNull
 
         @NotNull
         private long questionId;
