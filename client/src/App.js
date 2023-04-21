@@ -55,6 +55,14 @@ function App() {
             </div>
           }
         ></Route>
+        <Route
+          path="/search"
+          element={
+            <div className="container">
+              <Sidebar />
+            </div>
+          }
+        ></Route>
         <Route path="/questions/ask" element={<Askquestions />}></Route>
         <Route path="/users/login" element={<Login />}></Route>
         <Route path="/users/signup" element={<Signup />}></Route>
