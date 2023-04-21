@@ -236,8 +236,10 @@ const Questions = ({ listData }) => {
               <li className="mainbar__list" key={list.id}>
                 <div className="mainbar__list__left">
                   <p>{`${list.vote_count} votes`}</p>
-                  {/* <p>{`${list.answers.answer_count} answers`}</p> */}
-                  <p>0 answers</p>
+                  <p>
+                    {list.answers !== undefined &&
+                      `${list.answers.length} answers`}
+                  </p>
                   <p>{`${list.view} views`}</p>
                 </div>
                 <div className="mainbar__list__right">

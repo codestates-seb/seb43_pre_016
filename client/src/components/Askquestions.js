@@ -196,6 +196,7 @@ const Askquestions = () => {
       vote_count: 0,
       created_at: new Date(),
       updated_at: new Date(),
+      answers: [],
     };
 
     const header = {
