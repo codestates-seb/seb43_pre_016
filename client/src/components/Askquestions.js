@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import EditorComponent from "./EditorComponent";
 import EditorComponent2 from "./EditorComponent2";
-
 import ClearIcon from "@mui/icons-material/Clear";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.main`
   height: 300vh;
@@ -80,6 +81,7 @@ const TitleWriter = styled.section`
     padding: 2px;
     height: 30px;
     resize: none;
+    outline: none;
   }
 `;
 const DetailWriter = styled.section`
@@ -127,12 +129,23 @@ const Taglist = styled.div`
   span {
     display: flex;
     align-items: center;
-    font-size: 20px;
-    font-weight: 400;
-    margin: 2px;
-    padding: 2px;
+    background-color: #d0e3f1;
+    border: 1px solid #ffffff;
     border-radius: 3px;
-    border: 1px solid black;
+    font-size: 12px;
+    line-height: 12px;
+    margin: 0px 4px 2px 0px;
+    padding: 0px 5px;
+    color: #39739d;
+
+    button {
+      border: none;
+      background: none !important;
+      cursor: pointer;
+      svg {
+        width: 15px;
+      }
+    }
   }
   span button {
     margin-left: 1px;
@@ -151,29 +164,68 @@ const Taglist = styled.div`
 `;
 const Postbutton = styled.button`
   border-radius: 3px;
-  border: 1px solid white;
+  border: 1px solid rgb(10, 149, 255);
   color: white;
   background-color: #0a95ff;
-  padding: 5px;
+  padding: 13px;
+  box-shadow: inset rgb(255, 255, 255) 0px 1px 1px 0px;
+  cursor: pointer;
 `;
 const Askquestions = () => {
   const [title, setTitle] = useState(""); // 제목
-  const [article, setArticle] = useState({ detail: "", try: "" }); // 내용
+  const [body_detail, setDetail] = useState("");
+  const [body_try, setTry] = useState("");
   const [tags, setTags] = useState([]); //태그
   const [taginput, setTaginput] = useState("");
+
+  const navigate = useNavigate();
+
+  const onClickSubmit = async () => {
+    let data = {
+      tags: tags,
+      title: title,
+      body_detail: body_detail,
+      body_try: body_try,
+      owner: {
+        user_id: 1,
+        display_name: "Juni",
+        profile_image:
+          "https://www.gravatar.com/avatar/3ce25b028e11ef58e77d601e1cd73710?s=48&d=identicon&r=PG&f=y&so-version=2",
+      },
+      view: 0,
+      vote_count: 0,
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
+
+    const header = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    await axios
+      .post("http://localhost:8080/questions", data, header)
+      .then(() => {
+        navigate("/");
+        window.location.reload();
+      });
+  };
+
   const onChange = (e) => {
     setTitle(e.target.value);
   };
+
   const handleaddtag = (e) => {
     if (e.key === "," && tags.length < 5) {
       const tag = e.target.value.slice(0, e.target.value.length - 1);
-      setTags([...tags, { key: Date.now(), tag: tag }]);
+      setTags([...tags, tag]);
       setTaginput("");
     }
   };
-  const tagDelete = (key) => {
-    const deleted = tags.filter((x) => x.key !== key);
-    setTags([...deleted]);
+  const tagDelete = (x) => {
+    const idx = tags.indexOf(x);
+    setTags([...tags.slice(0, idx), ...tags.slice(idx + 1)]);
   };
 
   return (
@@ -212,7 +264,7 @@ const Askquestions = () => {
           Introduce the problem and expand on what you put in the title. Minimum
           20 characters.
         </label>
-        <EditorComponent article={article} setArticle={setArticle} />
+        <EditorComponent body_detail={body_detail} setDetail={setDetail} />
       </DetailWriter>
       <DetailWriter>
         <span className="try">
@@ -222,7 +274,7 @@ const Askquestions = () => {
           Describe what you tried, what you expected to happen, and what
           actually resulted. Minimum 20 characters.
         </label>
-        <EditorComponent2 article={article} setArticle={setArticle} />
+        <EditorComponent2 body_try={body_try} setTry={setTry} />
       </DetailWriter>
       <TitleWriter>
         <div>Tag</div>
@@ -231,11 +283,11 @@ const Askquestions = () => {
           to see suggestions.
         </label>
         <Taglist>
-          {tags.map((x) => {
+          {tags.map((x, idx) => {
             return (
-              <span key={x.key}>
-                {x.tag}
-                <button onClick={() => tagDelete(x.key)}>
+              <span key={idx}>
+                <p>{x}</p>
+                <button onClick={() => tagDelete(x)}>
                   <ClearIcon />
                 </button>
               </span>
@@ -250,9 +302,7 @@ const Askquestions = () => {
           ></textarea>
         </Taglist>
       </TitleWriter>
-      <Postbutton onClick={() => console.log(article)}>
-        Post your question
-      </Postbutton>
+      <Postbutton onClick={onClickSubmit}>Post your question</Postbutton>
     </Wrapper>
   );
 };
