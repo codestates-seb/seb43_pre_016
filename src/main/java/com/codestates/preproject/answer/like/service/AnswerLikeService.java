@@ -32,7 +32,7 @@ public class AnswerLikeService {
 
        }
        else{
-       UserResponseDto likeuse= userService.findUserById(answerLike.getUser().getUserId());
+//       UserResponseDto likeuse= userService.findUser(answerLike.getUser().getUserId());
 //      User엔티티를쓰고싶다.... answerLike.setUser()
        answerLike.setLikeStatus(AnswerLike.LikeStatus.NONE);
        int currentLikeCount =findAnswer.getLikeCount();

@@ -2,7 +2,7 @@ package com.codestates.preproject.User.dto;
 
 import com.codestates.preproject.User.entity.User;
 import com.codestates.preproject.answer.entity.Answer;
-import com.codestates.preproject.question.entity.QuestionEntity;
+
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -30,6 +30,6 @@ public class UserResponseDto {
 
     private List<Answer> answers;
 
-    private List<QuestionEntity> questions;
+//    private List<QuestionEntity> questions;
 
 }

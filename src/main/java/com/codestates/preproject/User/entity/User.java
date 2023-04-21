@@ -16,7 +16,6 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "users")
 public class User extends Auditable {
     @Id
@@ -50,7 +49,7 @@ public class User extends Auditable {
         return answers;
     }
 
-    public List<QuestionEntity> getQuestions(){
-        return questionEntities;
-    }
+//    public List<Question> getQuestions(){
+//        return questionEntities;
+//    }
 }

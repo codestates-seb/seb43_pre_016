@@ -7,7 +7,7 @@ import com.codestates.preproject.User.entity.User;
 import com.codestates.preproject.User.mapper.UserMapper;
 import com.codestates.preproject.User.repository.UserRepository;
 import com.codestates.preproject.answer.entity.Answer;
-import com.codestates.preproject.question.entity.QuestionEntity;
+
 import com.codestates.preproject.question.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

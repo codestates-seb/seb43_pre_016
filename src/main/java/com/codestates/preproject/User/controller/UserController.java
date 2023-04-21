@@ -8,8 +8,8 @@ import com.codestates.preproject.User.entity.User;
 import com.codestates.preproject.User.mapper.UserMapper;
 import com.codestates.preproject.User.service.UserService;
 import com.codestates.preproject.answer.entity.Answer;
-import com.codestates.preproject.answer.response.MultiResponseDto;
-import com.codestates.preproject.question.entity.QuestionEntity;
+
+import com.codestates.preproject.response.MultiResponseDto;
 import com.fasterxml.jackson.databind.ser.impl.UnknownSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,19 +51,20 @@ public class UserController {
     @PatchMapping("/{user-id}")
     public ResponseEntity patchUser(@PathVariable("user-id") @Positive Long userId,
                                     @Valid @RequestBody UserDto.Patch requestBody){
-        User user = userService.updateUser(mapper.userPatchDtoToUser(requestBody.addUserId(userId)));
+        requestBody.setUserId(userId);
+        User user = userService.updateUser(mapper.userPatchDtoToUser(requestBody));
 
         return new ResponseEntity<>(mapper.userToUserResponseDto(user),HttpStatus.OK);
     }
 
     //회원검색
-    @GetMapping("{user-id}")
+    @GetMapping("/{user-id}")
     public ResponseEntity getUser(@PathVariable("user-id") @Positive Long userId){
         User user = userService.findUser(userId);
         return new ResponseEntity<>(mapper.userToUserResponseDto(user),HttpStatus.OK);
     }
 
-    @GetMapping("{user-id}")
+    @GetMapping
     public ResponseEntity getUsers(@Positive @RequestParam int page,
                                    @Positive @RequestParam int size){
         Page<User> pageUsers = userService.findUsers(page -1,size);

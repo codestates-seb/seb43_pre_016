@@ -21,7 +21,7 @@ public class UserDto {
         private String email;
 
         @NotBlank
-        private String user_name;
+        private String userName;
 
         @NotBlank
         private String password;
@@ -33,19 +33,13 @@ public class UserDto {
     public static class Patch {
         private long userId;
 
-        private String user_name;
+        private String userName;
 
         @Email
         private String email;
 
         private String password;
 
-        public Patch addUserId(Long userId){
-            Assert.notNull(userId, "user id must not be null.");
-            this.userId = userId;
-
-            return this;
-        }
     }
 
     @Getter
@@ -53,7 +47,7 @@ public class UserDto {
     @NoArgsConstructor
     public static class Response {
         private Long userId;
-        private String user_name;
+        private String userName;
         private String email;
         private LocalDateTime modifiedAt;
         private LocalDateTime createdAt;
