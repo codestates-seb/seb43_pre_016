@@ -8,6 +8,7 @@ import lombok.*;
 
 
 import javax.persistence.*;
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "USERS")
+@Table(name = "users")
 public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,12 +33,12 @@ public class User extends Auditable {
     @Column(length = 100, nullable = false)
     private String password;
 
-    @OneToMany(mappedBy ="user")
-    private List<Answer>answers= new ArrayList<>();
 
-    @OneToMany(mappedBy ="user")
-    private List<QuestionEntity> questionEntities= new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Answer> answers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<QuestionEntity> questionEntities = new ArrayList<>();
 
     public User( String user_name, String email, String password) {
 
@@ -45,5 +46,7 @@ public class User extends Auditable {
         this.email = email;
         this.password = password;
     }
+
+
 
 }

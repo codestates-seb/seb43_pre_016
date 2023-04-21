@@ -13,7 +13,9 @@ import java.time.LocalDateTime;
 public class UserResponseDto {
 
     private Long userId;
+
     private String user_name;
+
     private String email;
 
     private LocalDateTime modifiedAt;
