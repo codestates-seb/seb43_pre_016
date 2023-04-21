@@ -12,7 +12,7 @@ public class QuestionTag {
     private long questionTagId;
     @ManyToOne
     @JoinColumn(name = "question_id")
-    private QuestionEntity question;
+    private Question question;
 
     //tag_id
 }

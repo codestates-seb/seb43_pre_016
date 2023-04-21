@@ -3,7 +3,7 @@ package com.codestates.preproject.answer.entity;
 import com.codestates.preproject.User.entity.User;
 import com.codestates.preproject.answer.like.entity.AnswerLike;
 import com.codestates.preproject.answer.audit.Auditable;
-import com.codestates.preproject.question.entity.QuestionEntity;
+import com.codestates.preproject.question.entity.Question;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,7 +35,7 @@ public class Answer extends Auditable {
     @Setter
     @ManyToOne
     @JoinColumn(name="QUESTION_ID")
-    private QuestionEntity questionEntity;
+    private Question question;
 
     @OneToMany(mappedBy = "answer")
     private List<AnswerLike> likes = new ArrayList<>();

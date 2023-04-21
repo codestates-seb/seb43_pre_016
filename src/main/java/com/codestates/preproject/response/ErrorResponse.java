@@ -1,4 +1,4 @@
-package com.codestates.preproject.answer.response;
+package com.codestates.preproject.response;
 
 import lombok.Getter;
 import org.springframework.validation.BindingResult;

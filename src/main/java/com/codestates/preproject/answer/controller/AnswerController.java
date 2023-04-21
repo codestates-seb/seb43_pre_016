@@ -1,7 +1,7 @@
 package com.codestates.preproject.answer.controller;
 
 import com.codestates.preproject.answer.dto.AnswerDto;
-import com.codestates.preproject.answer.response.MultiResponseDto;
+import com.codestates.preproject.response.MultiResponseDto;
 import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.answer.mapper.AnswerMapper;
 import com.codestates.preproject.answer.service.AnswerService;
