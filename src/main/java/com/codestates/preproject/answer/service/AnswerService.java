@@ -33,6 +33,7 @@ public class AnswerService {
     }
 
     public Answer findAnswer(long answerId) {
+
         return findVerifiedAnswer(answerId);
     }
 

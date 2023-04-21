@@ -1,6 +1,5 @@
 package com.codestates.preproject.User.dto;
 
-import com.codestates.preproject.User.entity.User;
 import lombok.*;
 
 import java.time.LocalDateTime;

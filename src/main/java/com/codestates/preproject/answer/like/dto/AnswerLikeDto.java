@@ -1,6 +1,6 @@
 package com.codestates.preproject.answer.like.dto;
 
-import com.codestates.preproject.answer.like.entity.AnswerLike.LikeStatus;
+import com.codestates.preproject.answer.like.entity.AnswerLike;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,7 +24,7 @@ public class AnswerLikeDto {
     public static class Response {
         private long answerId;
         private long userId;
-        private LikeStatus likeStatus;
+        private AnswerLike.LikeStatus likeStatus;
 
     }
 

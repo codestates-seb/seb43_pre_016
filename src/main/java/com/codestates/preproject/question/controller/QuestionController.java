@@ -1,10 +1,10 @@
 package com.codestates.preproject.question.controller;
 
-import com.codestates.preproject.question.dto.QuestionPatchDto;
-import com.codestates.preproject.question.dto.QuestionPostDto;
 import com.codestates.preproject.question.dto.QuestionResponseDto;
 import com.codestates.preproject.question.entity.QuestionEntity;
 import com.codestates.preproject.question.mapper.QuestionMapper;
+import com.codestates.preproject.question.dto.QuestionPatchDto;
+import com.codestates.preproject.question.dto.QuestionPostDto;
 import com.codestates.preproject.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
