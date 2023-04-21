@@ -1,6 +1,6 @@
 <div align="center">
 
-![header](https://capsule-render.vercel.app/api?type=soft&text=Stack&nbsp;Overflow&customColorList=idx2&animation=fadeIn)  
+![header](https://capsule-render.vercel.app/api?type=waving&height=200&text=Stack&nbsp;Overflow&customColorList=idx2&animation=fadeIn)  
 
 
 ## 🗒 커밋 규칙
