@@ -1,4 +1,4 @@
-package com.codestates.preproject.answer.advice;
+package com.codestates.preproject.advice;
 
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

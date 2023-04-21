@@ -1,5 +1,7 @@
 package com.codestates.preproject.answer.dto;
 
+import com.codestates.preproject.User.entity.User;
+import com.codestates.preproject.answer.entity.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,12 +51,23 @@ public class AnswerDto {
         private String body;
         private int likeCount;
         private long userId;
+//      private AnswerDto.UserDto User;
         private long questionId;
         private LocalDateTime modifiedAt;
         private LocalDateTime createdAt;
         private String createdBy;
 
 
+        }
+//        @Setter
+//        @NoArgsConstructor
+//        public static class UserDto {
+//            private String email;
+//
+//            private String user_name;
+//
+//            private String password;
+//        }
+
     }
 
-}
