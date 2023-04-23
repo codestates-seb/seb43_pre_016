@@ -50,6 +50,7 @@ public class AnswerDto {
         private LocalDateTime modifiedAt;
         private LocalDateTime createdAt;
         private String createdBy;
+        private String userName;
 
 
         //인수님 이거예용

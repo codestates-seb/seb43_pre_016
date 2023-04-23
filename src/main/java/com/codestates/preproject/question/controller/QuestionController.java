@@ -45,8 +45,7 @@ public class QuestionController {
 
     @GetMapping("/{questionId}")
     public ResponseEntity<QuestionResponseDto> getQuestion(@PathVariable Long questionId){
-        Question question = questionService.findQuestion(questionId);
-        QuestionResponseDto responseDto = mapper.questionToQuestionResponseDto(question);
+        QuestionResponseDto responseDto = questionService.findQuestion(questionId);
         return ResponseEntity.ok(responseDto);
     }
 
