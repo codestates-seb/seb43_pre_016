@@ -16,7 +16,7 @@ public interface AnswerMapper {
     @Mapping(source="user.userId",target="userId")
     @Mapping(source ="question.questionId",target ="questionId")
     AnswerDto.Response answerToAnswerResponseDto(Answer answer);
-    AnswerDto.AnswerUserDto answerUser= new AnswerDto.AnswerUserDto();
+//    AnswerDto.AnswerUserDto answerUser= new AnswerDto.AnswerUserDto();
 
     List<AnswerDto.Response> answersToResponseDtos(List<Answer> answers);
 

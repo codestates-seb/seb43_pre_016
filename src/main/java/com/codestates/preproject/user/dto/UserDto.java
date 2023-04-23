@@ -1,5 +1,7 @@
 package com.codestates.preproject.user.dto;
 
+import com.codestates.preproject.answer.dto.AnswerDto;
+import com.codestates.preproject.question.dto.QuestionMyPageDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,6 +9,7 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class UserDto {
     @Setter
@@ -50,6 +53,17 @@ public class UserDto {
         private LocalDateTime modifiedAt;
         private LocalDateTime createdAt;
         private String createdBy;
+    }
+
+    //22일 수정
+    @Getter
+    @Setter
+    public static class MyPage{
+        private long userId;
+        private String email;
+        private String userName;
+        private List<QuestionMyPageDto> questions;
+        private List<AnswerDto.MyPageDto> answers;
     }
 
 }

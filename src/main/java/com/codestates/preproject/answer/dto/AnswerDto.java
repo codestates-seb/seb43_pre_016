@@ -55,5 +55,15 @@ public class AnswerDto {
         //인수님 이거예용
 
     }
+
+    //22일 수정
+    @Getter
+    @Setter
+    public static class MyPageDto {
+        private long answerId;
+        private String body;
+        private LocalDateTime crestedAt;
+//        private long answerCount;
+    }
 }
 

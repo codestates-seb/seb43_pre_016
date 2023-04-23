@@ -4,7 +4,6 @@ import com.codestates.preproject.user.dto.UserDto;
 import com.codestates.preproject.user.entity.User;
 import com.codestates.preproject.user.mapper.UserMapper;
 import com.codestates.preproject.user.service.UserService;
-
 import com.codestates.preproject.response.MultiResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -12,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -52,11 +50,11 @@ public class UserController {
     }
 
     //회원검색
-    @GetMapping("/{user-id}")
-    public ResponseEntity getUser(@PathVariable("user-id") @Positive Long userId){
-        User user = userService.findUser(userId);
-        return new ResponseEntity<>(mapper.userToUserResponseDto(user),HttpStatus.OK);
-    }
+//    @GetMapping("/{user-id}")
+//    public ResponseEntity getUser(@PathVariable("user-id") @Positive Long userId){
+//        User user = userService.findUser(userId);
+//        return new ResponseEntity<>(mapper.userToUserResponseDto(user),HttpStatus.OK);
+//    }
 
     @GetMapping
     public ResponseEntity getUsers(@Positive @RequestParam int page,
@@ -81,10 +79,10 @@ public class UserController {
     }
 
 
-//    @GetMapping("/{userId}/answers")
-//    public List<Answer> getUserAnswers(@PathVariable Long userId){
-//        return userService.getUserAnswers(userId);
-//    }
+    //    @GetMapping("/{userId}/answers")
+    //    public List<Answer> getUserAnswers(@PathVariable Long userId){
+    //        return userService.getUserAnswers(userId);
+    //    }
 //
 //    @GetMapping("/{userId}/questions")
 //    public List<QuestionEntity> getUserQuestions(@PathVariable Long userId){
@@ -95,5 +93,12 @@ public class UserController {
 //        System.out.println("컨트롤러의 겟유저엔써!!!!!!");
 //        return userService.getUserAnswers(userId);
 //    }
+
+    @GetMapping("/{user-id}")
+    public ResponseEntity getUser(@PathVariable("user-id") long userId){
+        User dbUser = userService.findUser(userId);
+
+        return new ResponseEntity(mapper.userToUserMyPageDto(dbUser),HttpStatus.OK);
+    }
 
 }
