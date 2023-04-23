@@ -1,5 +1,7 @@
+import { useState } from "react";
 import styled from "styled-components";
-import MainContent from "./MyPgContent";
+import Profile from "./MyPgProfile";
+import Saves from "./MyPgSave";
 import UserBox from "./MyPgUserBox";
 
 /* sidebar Line */
@@ -15,29 +17,44 @@ const MypageLayout = styled.div`
 const Nav = styled.div`
   display: flex;
   margin: 8px;
-  .Profile {
+  margin-bottom: 16px;
+  .ProfileBtn {
     align-items: center;
-    background-color: #f48225;
     border-radius: 1000px;
     padding: 6px 12px;
-    color: #ffffff;
-    font-size: 13px;
+    color: black;
+    font-size: 12px;
     margin-left: 4px;
-    &:hover {
-      cursor: pointer;
-      background-color: rgba(82, 89, 96, 0.4);
+    &#active {
+      background-color: #f48225;
+      color: #ffff;
     }
   }
 `;
 
 const Mypage = () => {
+  const [active1, setActive1] = useState(1);
+
   return (
     <MypageLayout>
       <UserBox />
       <Nav>
-        <text className="Profile">Profile</text>
+        <div
+          className="ProfileBtn"
+          onClick={() => setActive1(1)}
+          id={active1 === 1 ? "active" : ""}
+        >
+          Profile
+        </div>
+        <div
+          className="ProfileBtn"
+          onClick={() => setActive1(2)}
+          id={active1 === 2 ? "active" : ""}
+        >
+          Saves
+        </div>
       </Nav>
-      <MainContent />
+      {active1 === 1 ? <Profile /> : <Saves />}
     </MypageLayout>
   );
 };
