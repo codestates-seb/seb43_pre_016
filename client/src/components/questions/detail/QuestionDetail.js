@@ -5,8 +5,8 @@ import { height } from "@mui/system";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
-import Loading from "./Loading";
-import onSaveTime from "../features/onSaveTime";
+import Loading from "../../../features/Loading";
+import onSaveTime from "../../../features/onSaveTime";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 
 const modules = {

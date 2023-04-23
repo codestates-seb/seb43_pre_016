@@ -3,16 +3,16 @@ import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import LogoutHeader from "./components/header/LogoutHeader";
 import LoginHeader from "./components/header/LoginHeader";
-import Questions from "./components/Questions";
-import Sidebar from "./components/Sidebar";
-import Signup from "./components/Signup";
-import Askquestions from "./components/Askquestions";
-import QuestionDetail from "./components/QuestionDetail";
-import ScrollToTop from "./components/ScrollTop";
+import Questions from "./components/questions/Questions";
+import Sidebar from "./components/sidebar/Sidebar";
+import Signup from "./components/mypage/Signup";
+import Askquestions from "./components/questions/create/Askquestions";
+import QuestionDetail from "./components/questions/detail/QuestionDetail";
+import ScrollToTop from "./features/ScrollTop";
 import axios from "axios";
-import Login from "./components/Login";
-import Mypage from "./components/Mypage";
-import QuestionEdit from "./components/QuestionEdit";
+import Login from "./components/mypage/Login";
+import Mypage from "./components/mypage/Mypage";
+import QuestionEdit from "./components/questions/edit/QuestionEdit";
 import { useCookies } from "react-cookie";
 
 function App() {
