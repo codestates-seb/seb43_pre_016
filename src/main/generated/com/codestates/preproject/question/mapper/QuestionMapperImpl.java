@@ -1,5 +1,7 @@
 package com.codestates.preproject.question.mapper;
 
+import com.codestates.preproject.answer.dto.AnswerDto;
+import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.question.dto.QuestionPatchDto;
 import com.codestates.preproject.question.dto.QuestionPostDto;
 import com.codestates.preproject.question.dto.QuestionResponseDto;
@@ -12,8 +14,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-04-22T02:31:11+0900",
-    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 11.0.16.1 (Oracle Corporation)"
+    date = "2023-04-24T00:41:02+0900",
+    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 11.0.17 (Azul Systems, Inc.)"
 )
 @Component
 public class QuestionMapperImpl implements QuestionMapper {
@@ -66,6 +68,7 @@ public class QuestionMapperImpl implements QuestionMapper {
         questionResponseDto.setCreatedAt( question.getCreatedAt() );
         questionResponseDto.setModifiedAt( question.getModifiedAt() );
         questionResponseDto.setCreatedBy( question.getCreatedBy() );
+        questionResponseDto.setAnswers( answerListToResponseList( question.getAnswers() ) );
 
         return questionResponseDto;
     }
@@ -109,5 +112,35 @@ public class QuestionMapperImpl implements QuestionMapper {
             return null;
         }
         return userId;
+    }
+
+    protected AnswerDto.Response answerToResponse(Answer answer) {
+        if ( answer == null ) {
+            return null;
+        }
+
+        AnswerDto.Response response = new AnswerDto.Response();
+
+        response.setAnswerId( answer.getAnswerId() );
+        response.setBody( answer.getBody() );
+        response.setLikeCount( answer.getLikeCount() );
+        response.setModifiedAt( answer.getModifiedAt() );
+        response.setCreatedAt( answer.getCreatedAt() );
+        response.setCreatedBy( answer.getCreatedBy() );
+
+        return response;
+    }
+
+    protected List<AnswerDto.Response> answerListToResponseList(List<Answer> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        List<AnswerDto.Response> list1 = new ArrayList<AnswerDto.Response>( list.size() );
+        for ( Answer answer : list ) {
+            list1.add( answerToResponse( answer ) );
+        }
+
+        return list1;
     }
 }

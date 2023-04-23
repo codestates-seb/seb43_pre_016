@@ -60,7 +60,7 @@ public class QuestionService {
         questionResponseDto.setCreatedBy(question.getCreatedBy());
         questionResponseDto.setUserEmail(question.getUser().getEmail());
 
-        List<AnswerDto.Response> answerResponseList = answerRepository.findById(questionId).stream()
+        List<AnswerDto.Response> answerResponseList = answerRepository.findByQuestionQuestionId(questionId).stream()
                 .map(answer -> {
                     AnswerDto.Response answerResponseDto = new AnswerDto.Response();
                     answerResponseDto.setAnswerId(answer.getAnswerId());
