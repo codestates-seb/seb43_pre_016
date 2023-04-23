@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 const BackgroundLogin = styled.div`
   height: 100vh;
@@ -98,6 +99,7 @@ const Login = () => {
 
   //로그인 성공 후 토큰 저장
   const [token, setToken] = useState("");
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   //유효성검사 준비
   const regExp =
@@ -119,14 +121,14 @@ const Login = () => {
       return;
     }
     try {
-      const response = await axios.post("Server", {
+      const response = await axios.post("http://localhost:8080/login", {
         // 데이터에 따라 수정해야 될 부분
-        username: username,
+        email: username,
         password: password,
       });
-      console.log(response);
+      setCookie("accessToken", response.data["accessToken"], { path: "/" });
       //로그인 성공 시
-      setToken(response.data.token); //서버에서 받은 토큰 저장
+      // setToken(response.data.token); //서버에서 받은 토큰 저장
       navigate("/"); //홈페이지로 이동
       //로그인 실패 시
     } catch (error) {
@@ -138,12 +140,13 @@ const Login = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("Server", {
+        const response = await axios.get("http://localhost:8080/login", {
           headers: {
-            Authorization: `Bearer ${token}`, //저장된 토큰을 이용해 헤더에 인증 정보를 담아 요청을 보냄
+            Authorization: `Bearer ${cookies.accessToken}`, //저장된 토큰을 이용해 헤더에 인증 정보를 담아 요청을 보냄
           },
         });
         console.log(response);
+        navigate("/");
       } catch (error) {
         console.error(error);
       }
