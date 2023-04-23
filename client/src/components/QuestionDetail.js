@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Loading from "./Loading";
+import onSaveTime from "../features/onSaveTime";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
 
 const modules = {
@@ -429,18 +430,16 @@ const QuestionDetail = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    axios
+      .get(`http://localhost:8080/answers/${id}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
-
-  // 질문이 몇 일전에 작성되었는지 일 단위로 표시하기 위한 변수
-  const currentDate = new Date();
-
-  const createdTime = new Date(questionData.created_at).getTime(); // 생성 시간
-  const timeDiff = currentDate.getTime() - createdTime;
-  const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-
-  const correctionTime = new Date(questionData.updated_at).getTime(); // 마지막 수정 시간
-  const timeDiffs = currentDate.getTime() - correctionTime;
-  const dayDiff = Math.floor(timeDiffs / (1000 * 60 * 60 * 24));
 
   return (
     <DetailWrapper>
@@ -459,16 +458,11 @@ const QuestionDetail = () => {
               <div className="question__info">
                 <div className="info">
                   <span>Asked</span>
-                  <span>
-                    {daysDiff !== 0 ? `${daysDiff} days ago` : `today`}
-                  </span>
+                  <span>{`${onSaveTime(questionData.created_at)}`}</span>
                 </div>
                 <div className="info">
                   <span>Modified</span>
-                  <span>
-                    {" "}
-                    {dayDiff !== 0 ? `${dayDiff} days ago` : `today`}
-                  </span>
+                  <span> {`${onSaveTime(questionData.updated_at)}`}</span>
                 </div>
                 <div className="info">
                   <span>Viewed</span>
@@ -524,9 +518,12 @@ const QuestionDetail = () => {
                 </ul>
                 <div className="right_bottom">
                   <div className="buttons">
-                    <a className="edit" href="/">
+                    <Link
+                      className="edit"
+                      to={`/questions/${questionData.id}/edit`}
+                    >
                       Edit
-                    </a>
+                    </Link>
                     <a className="edit" href="/">
                       Follow
                     </a>
@@ -535,18 +532,12 @@ const QuestionDetail = () => {
                     <div className="user-action-time">asked 50 mins ago</div>
                     <div className="user-profile">
                       <img
-                        src={
-                          questionData.owner &&
-                          `${questionData.owner.profile_image}`
-                        }
+                        src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
                         width="32px"
                         height="32px"
                       />
                       <div className="user-details">
-                        <a href="/">
-                          {questionData.owner &&
-                            questionData.owner.display_name}
-                        </a>
+                        <a href="/">{questionData.display_name}</a>
                       </div>
                     </div>
                   </div>
@@ -563,9 +554,9 @@ const QuestionDetail = () => {
             )}
           <ul>
             {questionData.answers !== undefined &&
-              questionData.answers.map((answer, idx) => {
+              questionData.answers.map((answer) => {
                 return (
-                  <li key={idx}>
+                  <li key={answer.answer_id}>
                     <Answerwrapper>
                       <section className="main">
                         <div className="votes">
@@ -618,18 +609,12 @@ const QuestionDetail = () => {
                               </div>
                               <div className="user-profile">
                                 <img
-                                  src={
-                                    questionData.owner &&
-                                    `${questionData.owner.profile_image}`
-                                  }
+                                  src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
                                   width="32px"
                                   height="32px"
                                 />
                                 <div className="user-details">
-                                  <a href="/">
-                                    {questionData.owner &&
-                                      questionData.owner.display_name}
-                                  </a>
+                                  <a href="/">{answer.display_name}</a>
                                 </div>
                               </div>
                             </div>

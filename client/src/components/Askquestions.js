@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.main`
   height: 300vh;
-  width: 200vw;
+  width: 100vw;
   padding-left: 10vw;
   background-color: #f1f2f3;
 `;
@@ -31,7 +31,7 @@ const TitleWrapper = styled.section`
     top: 1.2rem;
     width: 60%;
     height: 100%;
-    background-image: url("img/background.svg");
+    background-image: url("/img/background.svg");
     background-size: 500px 300px;
     background-position: right;
     background-repeat: no-repeat;
@@ -186,17 +186,12 @@ const Askquestions = () => {
       title: title,
       body_detail: body_detail,
       body_try: body_try,
-      owner: {
-        user_id: 1,
-        display_name: "Juni",
-        profile_image:
-          "https://www.gravatar.com/avatar/3ce25b028e11ef58e77d601e1cd73710?s=48&d=identicon&r=PG&f=y&so-version=2",
-      },
+      user_id: 1,
+      display_name: "Juni",
       view: 0,
       vote_count: 0,
       created_at: new Date(),
       updated_at: new Date(),
-      answers: [],
     };
 
     const header = {
@@ -278,7 +273,7 @@ const Askquestions = () => {
         <EditorComponent2 body_try={body_try} setTry={setTry} />
       </DetailWriter>
       <TitleWriter>
-        <div>Tag</div>
+        <div>Tags</div>
         <label>
           Add up to 5 tags to describe what your question is about. Start typing
           to see suggestions.
@@ -303,7 +298,9 @@ const Askquestions = () => {
           ></textarea>
         </Taglist>
       </TitleWriter>
-      <Postbutton onClick={onClickSubmit}>Post your question</Postbutton>
+      <Postbutton onClick={() => onClickSubmit()}>
+        Post your question
+      </Postbutton>
     </Wrapper>
   );
 };
