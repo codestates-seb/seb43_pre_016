@@ -4,7 +4,7 @@ const MainContentForm = styled.div`
   display: flex;
   width: 100%;
   height: 100vh;
-  text {
+  .titlestick {
     font-size: 21px;
   }
   .stats-container {
@@ -162,7 +162,7 @@ const MainContentForm = styled.div`
     }
   }
 `;
-const MainContent = () => {
+const Profile = () => {
   // Answer Question
   let AnswerForm = (
     <div className="AnswerForm">
@@ -180,7 +180,7 @@ const MainContent = () => {
     <MainContentForm>
       <div className="stats-container">
         {/* Stats */}
-        <text>Stats</text>
+        <div className="titlestick">Stats</div>
         <div className="stats-box">
           <div className="inner-box">
             <div className="content-box">
@@ -205,19 +205,19 @@ const MainContent = () => {
       <div className="AQnAContainer">
         <div className="AboutContainer">
           {/* About */}
-          <text>About</text>
+          <div className="titlestick">About</div>
           <div className="AboutBox"></div>
         </div>
 
         <div className="QnAContainer">
           <div className="AtextBox">
             {/* Answers */}
-            <text>Answers</text>
+            <div className="titlestick">Answers</div>
             <div className="ABox">{AnswerForm}</div>
           </div>
           <div className="QtextBox">
             {/* Questions */}
-            <text>Questions</text>
+            <div className="titlestick">Questions</div>
             <div className="QBox">{AnswerForm}</div>
           </div>
         </div>
@@ -226,4 +226,4 @@ const MainContent = () => {
   );
 };
 
-export default MainContent;
+export default Profile;
