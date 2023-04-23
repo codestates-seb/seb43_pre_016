@@ -61,25 +61,5 @@ public class UserService {
         return finduser;
     }
 
-//
-//    public List<Answer> getUserAnswers(Long userId) {
-//        User user = userRepository.findById(userId).orElse(null);
-//        System.out.println("서비스단의 겟유저엔써!!!!!!");
-//        System.out.println(user);
-//        return user.getAnswers();
-//    }
-//
-//    public List<QuestionEntity> getUserQuestions(Long userId) {
-//        User user = userRepository.findById(userId).orElse(null);
-//        return user.getQuestions();
-//    }
-//    public List<Answer> getUserAnswers(Long userId) {
-//        Optional<User> optionalUser = userRepository.findById(userId);
-//        if (optionalUser.isPresent()) {
-//            User user = optionalUser.get();
-//            return user.getAnswers();
-//        }
-//        return Collections.emptyList();
-//}
 
 }
