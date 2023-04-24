@@ -242,7 +242,6 @@ const LoginHeader = ({ removeCookie, setSearch }) => {
     title: "",
   });
   useEffect(() => {
-    console.log(searchtext);
     const tagRegex = /\[(.*?)\]/g;
     const tagMatches = [...searchtext.matchAll(tagRegex)];
     const userRegex = /(?<=user:)\w+/g;
@@ -270,12 +269,12 @@ const LoginHeader = ({ removeCookie, setSearch }) => {
     titleMatch.length !== 0
       ? (replica.title = titleMatch.map((x) => x[0])[0])
       : (replica.title = "");
-    console.log(replica);
+    // console.log(replica);
     setSearchlist({ ...searchlist, ...replica });
   }, [searchtext]);
   const handleSearch = (e) => {
     if (e.key === "Enter") {
-      setSearch(searchlist);
+      setSearch({ searchtext, searchlist }); //SearchPage 컴포넌트에 전달 될 데이터
       navigate(
         `/search?q=${
           searchlist.title !== "" ? "%1T" + searchlist.title + "%1T" : ""

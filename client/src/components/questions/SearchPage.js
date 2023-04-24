@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import onSaveTime from "../../features/onSaveTime";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import "./Paging.css";
+import Pagination from "react-js-pagination";
 
 const Container = styled.div`
   display: flex;
@@ -22,11 +24,31 @@ const Container = styled.div`
     align-items: center;
     margin: 0px 0px 15px;
 
-    h3 {
-      font-weight: 400;
-      /* line-height:35.1px */
-      font-size: 26px;
-      margin: 0px 12px 12px 0px;
+    .search__log {
+      h3 {
+        font-weight: 400;
+        /* line-height:35.1px */
+        font-size: 26px;
+        margin: 0px 12px 12px 0px;
+      }
+      p {
+        color: #6a737c;
+        font-size: 12px;
+        line-height: 12px;
+        margin: 35px 0px 8px;
+        letter-spacing: 0.3px;
+      }
+      p:last-child {
+        color: #6a737c;
+        font-size: 12px;
+        line-height: 12px;
+        margin: 1px 0px 8px;
+        letter-spacing: 0.3px;
+      }
+    }
+
+    a {
+      align-self: flex-start;
     }
 
     button {
@@ -210,9 +232,13 @@ const Container = styled.div`
   }
 `;
 
-const SearchPage = ({ cookies }) => {
+const SearchPage = ({ cookies, search }) => {
   const [listData, setListData] = useState([]);
+  const [currentpage, setCurrentpage] = useState(1);
 
+  const navigate = useNavigate();
+
+  console.log(search);
   const data = () => {
     axios
       .get("http://localhost:8080/questions")
@@ -224,15 +250,33 @@ const SearchPage = ({ cookies }) => {
       });
   };
 
-  useEffect(() => {
-    data();
-  }, []);
+  //미완성 (answers만 표시됨)
+  const onChangeName = () => {
+    if (search.searchlist !== undefined && search.searchlist.answer !== "") {
+      return `answers>=${search.searchlist.answer}`;
+    }
+    return "none";
+  };
+
+  const handleonpage = (e) => {
+    setCurrentpage(e);
+  };
 
   return (
     <Container>
       <div className="mainbar">
         <header className="mainbar__header">
-          <h3>Search Results</h3>
+          <div className="search__log">
+            <h3>Search Results</h3>
+            <p>{`Results for ${
+              search.searchtext !== undefined &&
+              search.searchtext.replace(
+                /(?:answer:\d|score:\d|title:\d|user:\d|\[\])+/gi,
+                ""
+              )
+            }`}</p>
+            <p>{`Search options ${onChangeName()}`}</p>
+          </div>
           {cookies.accessToken === undefined ? (
             <Link to="/users/login">
               <button>Ask Question</button>

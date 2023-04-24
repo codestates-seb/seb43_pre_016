@@ -73,7 +73,7 @@ function App() {
           element={
             <div className="container">
               <Sidebar />
-              <SearchPage cookies={cookies} />
+              <SearchPage cookies={cookies} search={search} />
             </div>
           }
         ></Route>
