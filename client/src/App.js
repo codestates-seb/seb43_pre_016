@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Questions from "./components/Questions";
 import Sidebar from "./components/Sidebar";
 import Signup from "./components/Signup";
+import EditAnswer from "./EditAnswer";
 import Askquestions from "./components/Askquestions";
 import QuestionDetail from "./components/QuestionDetail";
 import ScrollToTop from "./components/ScrollTop";
@@ -70,6 +71,15 @@ function App() {
             <div className="container">
               <Sidebar />
               <Mypage />
+            </div>
+          }
+        ></Route>
+        <Route
+          path="posts/:id/editanswer"
+          element={
+            <div className="container">
+              <Sidebar />
+              <EditAnswer />
             </div>
           }
         ></Route>
