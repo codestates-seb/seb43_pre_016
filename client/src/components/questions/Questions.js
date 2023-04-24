@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
 import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { Link, useNavigate } from "react-router-dom";
 import onSaveTime from "../../features/onSaveTime";
-import axios from "axios";
-import "./Paging.css";
+import { useEffect, useMemo, useState } from "react";
 import Pagination from "react-js-pagination";
+import "./Paging.css";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -60,6 +60,9 @@ const Container = styled.div`
   .mainbar__filter__btn {
     display: flex;
     align-items: center;
+    .ActBtn {
+      background-color: #e3e6e8 !important;
+    }
     .nav__btn:not(:last-child) {
       font-size: 12px;
       color: #525960;
@@ -69,6 +72,11 @@ const Container = styled.div`
       border-width: 1px;
       margin: 0px -1px -1px 0px;
       padding: 9.6px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
     }
   }
 
@@ -216,7 +224,7 @@ const Questions = ({ cookies }) => {
   const navigate = useNavigate();
   const [listData, setListData] = useState([]);
   const [currentpage, setCurrentpage] = useState(1);
-
+  const [ActBtn, setActBtn] = useState();
   console.log(listData);
   // const [currentpage, setCurrentpage] = useState("");
   // const [pageinfo, setPageinfo] = useState("");
@@ -248,6 +256,43 @@ const Questions = ({ cookies }) => {
     data();
   }, [currentpage]);
 
+  //사이드바 선택 시 css스타일 적용
+  const className1 = useMemo(() => {
+    return {
+      Newest: ActBtn === 1 ? "ActBtn" : "",
+      Unanswered: ActBtn === 2 ? "ActBtn" : "",
+      Viewed: ActBtn === 3 ? "ActBtn" : "",
+      Voted: ActBtn === 4 ? "ActBtn" : "",
+    };
+  }, [ActBtn]);
+  // test 3
+  // 생성일(created_at) 순서대로
+  const sortByNewest = () => {
+    listData.sort((a, b) => {
+      const dateA = new Date(a.created_at);
+      const dateB = new Date(b.created_at);
+      return dateB - dateA;
+    });
+  };
+
+  // 답변(answer) 없는 순서대로
+  const sortByAnswerCount = () => {
+    listData.sort((a, b) => a.answer_count - b.answer_count);
+  };
+
+  const sortByViewCount = () => {
+    listData.sort((a, b) => b.view - a.view);
+  };
+
+  //추천(vote) 순서 대로
+  const sortByVoteCount = () => {
+    listData.sort((a, b) => b.vote_count - a.vote_count);
+  };
+
+  useEffect(() => {
+    sortByNewest();
+  }, [listData]);
+
   return (
     <Container>
       <div className="mainbar">
@@ -266,9 +311,47 @@ const Questions = ({ cookies }) => {
         <div className="mainbar__filter">
           <p>{`${listData.length} questions`}</p>
           <div className="mainbar__filter__btn">
-            <button className="nav__btn br-l3">Newest</button>
-            <button className="nav__btn">Unanswered</button>
-            <button className="nav__btn br-r3">Bountied</button>
+            <button
+              className={`nav__btn br-l3 ${className1.Newest}`}
+              onClick={(e) => {
+                e.preventDefault();
+                // navigate("/questions?tab=newest");
+                setActBtn(1);
+                sortByNewest();
+              }}
+            >
+              Newest
+            </button>
+            <button
+              className={`nav__btn ${className1.Unanswered}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setActBtn(2);
+                sortByAnswerCount();
+              }}
+            >
+              Unanswered
+            </button>
+            <button
+              className={`nav__btn ${className1.viewed}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setActBtn(2);
+                sortByViewCount();
+              }}
+            >
+              Viewed
+            </button>
+            <button
+              className={`nav__btn br-r3 ${className1.Voted}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setActBtn(3);
+                sortByVoteCount();
+              }}
+            >
+              Voted
+            </button>
             <button className="nav__btn br3">
               <FilterListIcon />
               <span>Filter</span>
