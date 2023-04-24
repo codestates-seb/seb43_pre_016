@@ -3,6 +3,9 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { Link, useNavigate } from "react-router-dom";
 import onSaveTime from "../../features/onSaveTime";
 import { useEffect, useMemo, useState } from "react";
+import Pagination from "react-js-pagination";
+import "./Paging.css";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -217,16 +220,49 @@ const Container = styled.div`
   }
 `;
 
-const Questions = ({ listData, cookies }) => {
-  console.log(listData);
+const Questions = ({ cookies }) => {
+  const navigate = useNavigate();
+  const [listData, setListData] = useState([]);
+  const [currentpage, setCurrentpage] = useState(1);
   const [ActBtn, setActBtn] = useState();
+  console.log(listData);
+  // const [currentpage, setCurrentpage] = useState("");
+  // const [pageinfo, setPageinfo] = useState("");
+
+  const data = async () => {
+    await axios
+      .get(
+        `http://localhost:8080/questions${
+          currentpage === 1 ? "" : "?page=" + currentpage + "&size=15"
+        }`
+      )
+      .then((res) => {
+        setListData([...res.data]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleonpage = (e) => {
+    setCurrentpage(e);
+  };
+
+  useEffect(() => {
+    navigate(
+      `/questions${
+        currentpage === 1 ? "" : "?page=" + currentpage + "&size=15"
+      }`
+    );
+    data();
+  }, [currentpage]);
 
   //사이드바 선택 시 css스타일 적용
   const className1 = useMemo(() => {
     return {
       Newest: ActBtn === 1 ? "ActBtn" : "",
       Unanswered: ActBtn === 2 ? "ActBtn" : "",
-      Bountied: ActBtn === 3 ? "ActBtn" : "",
+      Viewed: ActBtn === 3 ? "ActBtn" : "",
+      Voted: ActBtn === 4 ? "ActBtn" : "",
     };
   }, [ActBtn]);
   // test 3
@@ -242,6 +278,10 @@ const Questions = ({ listData, cookies }) => {
   // 답변(answer) 없는 순서대로
   const sortByAnswerCount = () => {
     listData.sort((a, b) => a.answer_count - b.answer_count);
+  };
+
+  const sortByViewCount = () => {
+    listData.sort((a, b) => b.view - a.view);
   };
 
   //추천(vote) 순서 대로
@@ -269,7 +309,7 @@ const Questions = ({ listData, cookies }) => {
           )}
         </header>
         <div className="mainbar__filter">
-          <p>23,640,155 questions</p>
+          <p>{`${listData.length} questions`}</p>
           <div className="mainbar__filter__btn">
             <button
               className={`nav__btn br-l3 ${className1.Newest}`}
@@ -293,14 +333,24 @@ const Questions = ({ listData, cookies }) => {
               Unanswered
             </button>
             <button
-              className={`nav__btn br-r3 ${className1.Bountied}`}
+              className={`nav__btn ${className1.viewed}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setActBtn(2);
+                sortByViewCount();
+              }}
+            >
+              Viewed
+            </button>
+            <button
+              className={`nav__btn br-r3 ${className1.Voted}`}
               onClick={(e) => {
                 e.preventDefault();
                 setActBtn(3);
                 sortByVoteCount();
               }}
             >
-              Bountied
+              Voted
             </button>
             <button className="nav__btn br3">
               <FilterListIcon />
@@ -321,7 +371,10 @@ const Questions = ({ listData, cookies }) => {
                   <Link to={`/questions/${list.id}`}>
                     <h3>{list.title}</h3>
                   </Link>
-                  <p>{`${list.body_detail} ${list.body_try}`}</p>
+                  <p>{`${list.body_detail.replace(
+                    /(<([^>]+)>)/gi,
+                    ""
+                  )} ${list.body_try.replace(/(<([^>]+)>)/gi, "")}`}</p>
                   <div className="mainbar__list__bottom">
                     <div className="mainbar__list__tag">
                       {list.tags.map((el, idx) => {
@@ -351,6 +404,15 @@ const Questions = ({ listData, cookies }) => {
             );
           })}
         </ul>
+        <Pagination
+          activePage={currentpage} // 현재 페이지
+          itemsCountPerPage={15} // 한 페이지랑 보여줄 아이템 갯수
+          totalItemsCount={450} // 총 아이템 갯수
+          pageRangeDisplayed={5} // paginator의 페이지 범위
+          prevPageText={"‹"} // "이전"을 나타낼 텍스트
+          nextPageText={"›"} // "다음"을 나타낼 텍스트
+          onChange={handleonpage} // 페이지 변경을 핸들링하는 함수
+        />
       </div>
     </Container>
   );
