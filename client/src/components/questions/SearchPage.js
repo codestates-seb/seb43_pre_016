@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
 import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import onSaveTime from "../../features/onSaveTime";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import "./Paging.css";
 import Pagination from "react-js-pagination";
@@ -24,11 +24,31 @@ const Container = styled.div`
     align-items: center;
     margin: 0px 0px 15px;
 
-    h3 {
-      font-weight: 400;
-      /* line-height:35.1px */
-      font-size: 26px;
-      margin: 0px 12px 12px 0px;
+    .search__log {
+      h3 {
+        font-weight: 400;
+        /* line-height:35.1px */
+        font-size: 26px;
+        margin: 0px 12px 12px 0px;
+      }
+      p {
+        color: #6a737c;
+        font-size: 12px;
+        line-height: 12px;
+        margin: 35px 0px 8px;
+        letter-spacing: 0.3px;
+      }
+      p:last-child {
+        color: #6a737c;
+        font-size: 12px;
+        line-height: 12px;
+        margin: 1px 0px 8px;
+        letter-spacing: 0.3px;
+      }
+    }
+
+    a {
+      align-self: flex-start;
     }
 
     button {
@@ -212,22 +232,16 @@ const Container = styled.div`
   }
 `;
 
-const Questions = ({ cookies }) => {
-  const navigate = useNavigate();
+const SearchPage = ({ cookies, search }) => {
   const [listData, setListData] = useState([]);
   const [currentpage, setCurrentpage] = useState(1);
 
-  console.log(listData);
-  // const [currentpage, setCurrentpage] = useState("");
-  // const [pageinfo, setPageinfo] = useState("");
+  const navigate = useNavigate();
 
-  const data = async () => {
-    await axios
-      .get(
-        `http://localhost:8080/questions${
-          currentpage === 1 ? "" : "?page=" + currentpage + "&size=15"
-        }`
-      )
+  console.log(search);
+  const data = () => {
+    axios
+      .get("http://localhost:8080/questions")
       .then((res) => {
         setListData([...res.data]);
       })
@@ -235,24 +249,34 @@ const Questions = ({ cookies }) => {
         console.log(err);
       });
   };
+
+  //미완성 (answers만 표시됨)
+  const onChangeName = () => {
+    if (search.searchlist !== undefined && search.searchlist.answer !== "") {
+      return `answers>=${search.searchlist.answer}`;
+    }
+    return "none";
+  };
+
   const handleonpage = (e) => {
     setCurrentpage(e);
   };
-
-  useEffect(() => {
-    navigate(
-      `/questions${
-        currentpage === 1 ? "" : "?page=" + currentpage + "&size=15"
-      }`
-    );
-    data();
-  }, [currentpage]);
 
   return (
     <Container>
       <div className="mainbar">
         <header className="mainbar__header">
-          <h3>All Questions</h3>
+          <div className="search__log">
+            <h3>Search Results</h3>
+            <p>{`Results for ${
+              search.searchtext !== undefined &&
+              search.searchtext.replace(
+                /(?:answer:\d|score:\d|title:\d|user:\d|\[\])+/gi,
+                ""
+              )
+            }`}</p>
+            <p>{`Search options ${onChangeName()}`}</p>
+          </div>
           {cookies.accessToken === undefined ? (
             <Link to="/users/login">
               <button>Ask Question</button>
@@ -321,18 +345,9 @@ const Questions = ({ cookies }) => {
             );
           })}
         </ul>
-        <Pagination
-          activePage={currentpage} // 현재 페이지
-          itemsCountPerPage={15} // 한 페이지랑 보여줄 아이템 갯수
-          totalItemsCount={450} // 총 아이템 갯수
-          pageRangeDisplayed={5} // paginator의 페이지 범위
-          prevPageText={"‹"} // "이전"을 나타낼 텍스트
-          nextPageText={"›"} // "다음"을 나타낼 텍스트
-          onChange={handleonpage} // 페이지 변경을 핸들링하는 함수
-        />
       </div>
     </Container>
   );
 };
 
-export default Questions;
+export default SearchPage;

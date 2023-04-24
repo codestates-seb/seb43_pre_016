@@ -14,18 +14,20 @@ import axios from "axios";
 import Login from "./components/mypage/Login";
 import Mypage from "./components/mypage/Mypage";
 import QuestionEdit from "./components/questions/edit/QuestionEdit";
+import SearchPage from "./components/questions/SearchPage";
 import { useCookies } from "react-cookie";
 
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies();
   //우선 Api를 이용하여 데이터를 받아왔지만 추후에 데이터가 만들어지면 아래 코드를 변경할 예정
+  const [cookies, setCookie, removeCookie] = useCookies();
+  const [search, setSearch] = useState({});
 
   return (
     //container가 필요한 곳은 메인 페이지(질문 리스트 페이지), 질문 상세 페이지, tags 페이지, user 페이지, myPage 페이지 이다.
     <div className="App">
       <ScrollToTop />
       {cookies.accessToken ? (
-        <LoginHeader removeCookie={removeCookie} />
+        <LoginHeader removeCookie={removeCookie} setSearch={setSearch} />
       ) : (
         <LogoutHeader />
       )}
@@ -71,7 +73,7 @@ function App() {
           element={
             <div className="container">
               <Sidebar />
-              {/* <Searchpage/> */}
+              <SearchPage cookies={cookies} search={search} />
             </div>
           }
         ></Route>
