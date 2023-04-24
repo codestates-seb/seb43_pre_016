@@ -143,6 +143,8 @@ const Taglist = styled.div`
       background: none !important;
       cursor: pointer;
       svg {
+        display: flex;
+        align-items: center;
         width: 15px;
       }
     }
@@ -156,10 +158,10 @@ const Taglist = styled.div`
     border: none;
     background: none;
   }
-  textarea {
+  input {
+    width: 100%;
     margin-top: 4px;
     border: none;
-    flex: 3;
   }
 `;
 const Postbutton = styled.button`
@@ -289,13 +291,13 @@ const Askquestions = () => {
               </span>
             );
           })}
-          <textarea
+          <input
             onChange={(e) => {
               setTaginput(e.target.value);
             }}
             onKeyUp={handleaddtag}
             value={taginput}
-          ></textarea>
+          />
         </Taglist>
       </TitleWriter>
       <Postbutton onClick={() => onClickSubmit()}>
