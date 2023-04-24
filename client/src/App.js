@@ -1,5 +1,6 @@
 import "./App.css";
 import { useState, useEffect } from "react";
+import EditAnswer from "./components/questions/edit/EditAnswer";
 import { Routes, Route } from "react-router-dom";
 import LogoutHeader from "./components/header/LogoutHeader";
 import LoginHeader from "./components/header/LoginHeader";
@@ -87,6 +88,15 @@ function App() {
             <div className="container">
               <Sidebar />
               <Mypage />
+            </div>
+          }
+        ></Route>
+        <Route
+          path="posts/:id/editanswer"
+          element={
+            <div className="container">
+              <Sidebar />
+              <EditAnswer />
             </div>
           }
         ></Route>
