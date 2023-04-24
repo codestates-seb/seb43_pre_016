@@ -95,7 +95,6 @@ const HeaderWrapper = styled.header`
     border-radius: 4px;
     flex-grow: 1;
     padding: 3px 3px;
-
     label {
       display: flex;
       justify-content: center;
@@ -120,7 +119,6 @@ const HeaderWrapper = styled.header`
     height: 20px;
     line-height: 10px;
     border: none;
-    outline: none;
     font-size: 13px;
     font-family: -apple-system;
     color: #3b4045;
@@ -223,7 +221,6 @@ const LogoutHeader = () => {
     title: "",
   });
   useEffect(() => {
-    console.log(searchtext);
     const tagRegex = /\[(.*?)\]/g;
     const tagMatches = [...searchtext.matchAll(tagRegex)];
     const userRegex = /(?<=user:)\w+/g;
@@ -251,13 +248,13 @@ const LogoutHeader = () => {
     titleMatch.length !== 0
       ? (replica.title = titleMatch.map((x) => x[0])[0])
       : (replica.title = "");
-    console.log(replica);
     setSearchlist({ ...searchlist, ...replica });
   }, [searchtext]);
   const handleSearch = (e) => {
     if (e.key === "Enter") {
+      console.log(searchlist);
       navigate(
-        `/search?q=${
+        `/search${searchtext.length !== 0 ? "?q=" : ""}${
           searchlist.title !== "" ? "%1T" + searchlist.title + "%1T" : ""
         }${
           searchlist.tag.length !== 0
@@ -299,9 +296,12 @@ const LogoutHeader = () => {
               <a href="/">For Teams</a>
             </li>
           </ul>
-          <div className="header__search">
+          <div
+            className="header__search"
+            onClick={() => console.log(searchlist)}
+          >
             <Link
-              to={`/search?q=${
+              to={`/search${searchtext.length !== 0 ? "?q=" : ""}${
                 searchlist.title !== "" ? "%1T" + searchlist.title + "%1T" : ""
               }${
                 searchlist.tag.length !== 0
@@ -325,7 +325,8 @@ const LogoutHeader = () => {
                 <SearchIcon />
               </label>
             </Link>
-            <textarea
+            <input
+              type="text"
               onChange={(e) => setSearchtext(e.target.value)}
               onKeyUp={handleSearch}
               value={searchtext}
@@ -334,7 +335,7 @@ const LogoutHeader = () => {
               onFocus={handleTextareaFocus}
               onBlur={handleTextareaBlur}
               maxLength="100"
-            ></textarea>
+            />
           </div>
           <div className="header__btns">
             <Link to="/users/login">
