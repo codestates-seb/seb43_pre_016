@@ -121,6 +121,7 @@ const HeaderWrapper = styled.header`
     height: 20px;
     line-height: 10px;
     border: none;
+    outline: none;
     font-size: 13px;
     font-family: -apple-system;
     color: #3b4045;
@@ -139,6 +140,7 @@ const HeaderWrapper = styled.header`
   .header__btns {
     display: inline-flex;
     margin: 0px 10px;
+    height: 100%;
     a {
       display: flex;
       align-items: center;
@@ -161,6 +163,8 @@ const HeaderWrapper = styled.header`
 
   .header__btn {
     margin-right: 4px;
+    height: 34px;
+    align-self: center;
     padding: 8px;
     border-radius: 3px;
     box-shadow: rgba(255, 255, 255, 0.4) 0px 1px 0px 0px inset;

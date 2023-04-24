@@ -226,7 +226,7 @@ const Questions = ({ listData, cookies }) => {
           )}
         </header>
         <div className="mainbar__filter">
-          <p>23,640,155 questions</p>
+          <p>{`${listData.length} questions`}</p>
           <div className="mainbar__filter__btn">
             <button className="nav__btn br-l3">Newest</button>
             <button className="nav__btn">Unanswered</button>
@@ -250,7 +250,10 @@ const Questions = ({ listData, cookies }) => {
                   <Link to={`/questions/${list.id}`}>
                     <h3>{list.title}</h3>
                   </Link>
-                  <p>{`${list.body_detail} ${list.body_try}`}</p>
+                  <p>{`${list.body_detail.replace(
+                    /(<([^>]+)>)/gi,
+                    ""
+                  )} ${list.body_try.replace(/(<([^>]+)>)/gi, "")}`}</p>
                   <div className="mainbar__list__bottom">
                     <div className="mainbar__list__tag">
                       {list.tags.map((el, idx) => {

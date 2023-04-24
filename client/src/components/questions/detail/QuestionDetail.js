@@ -520,7 +520,7 @@ const QuestionDetail = () => {
                   <div className="buttons">
                     <Link
                       className="edit"
-                      to={`/questions/${questionData.id}/edit`}
+                      to={`/questions/${questionData.id}/editQuestion`}
                     >
                       Edit
                     </Link>

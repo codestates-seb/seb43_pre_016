@@ -95,6 +95,7 @@ const HeaderWrapper = styled.header`
     border-radius: 4px;
     flex-grow: 1;
     padding: 3px 3px;
+
     label {
       display: flex;
       justify-content: center;
@@ -119,6 +120,7 @@ const HeaderWrapper = styled.header`
     height: 20px;
     line-height: 10px;
     border: none;
+    outline: none;
     font-size: 13px;
     font-family: -apple-system;
     color: #3b4045;
