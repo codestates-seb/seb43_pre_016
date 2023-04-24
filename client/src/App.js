@@ -65,7 +65,7 @@ function App() {
           }
         ></Route>
         <Route
-          path="questions/:id/edit"
+          path="questions/:id/editQuestion"
           element={
             <div className="container">
               <Sidebar />

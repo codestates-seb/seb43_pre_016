@@ -5,10 +5,11 @@ import EditTry from "./EditTry";
 import ClearIcon from "@mui/icons-material/Clear";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const Wrapper = styled.main`
   width: 100vw;
-  margin-left: 15vw;
+  margin-left: 188px;
   margin-top: 25px;
   margin-bottom: 50px;
 `;
@@ -166,6 +167,7 @@ const QuestionEdit = () => {
   const [tags, setTags] = useState([]); //태그
   const [taginput, setTaginput] = useState("");
 
+  const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -195,6 +197,7 @@ const QuestionEdit = () => {
     const header = {
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${cookies.accessToken}`,
       },
     };
 
@@ -202,7 +205,7 @@ const QuestionEdit = () => {
       .patch(`http://localhost:8080/questions/${id}`, data, header)
       .then((res) => {
         console.log(res);
-        navigate("/");
+        navigate(`/questions/${id}`);
         window.location.reload();
       });
   };
