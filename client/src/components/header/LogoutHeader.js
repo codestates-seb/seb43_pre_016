@@ -209,7 +209,7 @@ const Modalwindow = styled.div`
   }
 `;
 
-const LogoutHeader = () => {
+const LogoutHeader = ({ setSearch }) => {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchtext, setSearchtext] = useState("");
@@ -252,7 +252,7 @@ const LogoutHeader = () => {
   }, [searchtext]);
   const handleSearch = (e) => {
     if (e.key === "Enter") {
-      console.log(searchlist);
+      setSearch({ searchtext, searchlist });
       navigate(
         `/search${searchtext.length !== 0 ? "?q=" : ""}${
           searchlist.title !== "" ? "%1T" + searchlist.title + "%1T" : ""
@@ -270,6 +270,9 @@ const LogoutHeader = () => {
       );
     }
   };
+  function handleSearchClick() {
+    setSearch({ searchtext, searchlist });
+  }
   function handleTextareaFocus() {
     setIsModalVisible(true);
   }
@@ -296,10 +299,7 @@ const LogoutHeader = () => {
               <a href="/">For Teams</a>
             </li>
           </ul>
-          <div
-            className="header__search"
-            onClick={() => console.log(searchlist)}
-          >
+          <div className="header__search" onClick={() => handleSearchClick()}>
             <Link
               to={`/search${searchtext.length !== 0 ? "?q=" : ""}${
                 searchlist.title !== "" ? "%1T" + searchlist.title + "%1T" : ""
