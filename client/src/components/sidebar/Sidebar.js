@@ -18,6 +18,7 @@ const LeftSidebarWrap = styled.nav`
 
   .left-sidebar__nav {
     margin: 0px 0px 12px;
+
     .home {
       color: #0c0d0e;
       display: flex;

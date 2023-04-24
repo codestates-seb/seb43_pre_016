@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 
 const HeaderWrapper = styled.header`
@@ -40,10 +42,10 @@ const HeaderWrapper = styled.header`
   }
 
   .header__logo__span {
+    background: url("/img/sprites.svg") no-repeat 0px -500px;
     display: block;
     width: 150px;
     height: 30px;
-    background: url("img/sprites.svg") no-repeat 0 -500px;
     color: #0a95ff;
     font-size: 13px;
     line-height: 17px;
@@ -136,11 +138,30 @@ const HeaderWrapper = styled.header`
 
   .header__btns {
     display: inline-flex;
+    margin: 0px 10px;
+    a {
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+      padding: 0px 12px;
+
+      img {
+        width: 24px;
+        margin-right: 5px;
+      }
+      p {
+        color: #232629;
+      }
+    }
+
+    a:hover {
+      background-color: #e3e6e8;
+    }
   }
 
   .header__btn {
     margin-right: 4px;
-    padding: 8px 10px;
+    padding: 8px;
     border-radius: 3px;
     box-shadow: rgba(255, 255, 255, 0.4) 0px 1px 0px 0px inset;
     cursor: pointer;
@@ -209,7 +230,7 @@ const Modalwindow = styled.div`
   }
 `;
 
-const Header = () => {
+const LoginHeader = ({ removeCookie }) => {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchtext, setSearchtext] = useState("");
@@ -279,6 +300,13 @@ const Header = () => {
     setIsModalVisible(false);
   }
 
+  const onChangeLogin = () => {
+    removeCookie("accessToken");
+    toast.success("로그아웃이 성공적으로 완료되었습니다.");
+    navigate("/");
+    window.location.reload();
+  };
+
   return (
     <>
       <HeaderWrapper>
@@ -335,13 +363,21 @@ const Header = () => {
             ></textarea>
           </div>
           <div className="header__btns">
-            <Link to="/users/login">
-              <button className="header__btn powder-700">Log in</button>
+            <Link to="/users/id/userName">
+              <img
+                src="https://www.gravatar.com/avatar/3ce25b028e11ef58e77d601e1cd73710?s=48&d=identicon&r=PG&f=y&so-version=2"
+                alt="profile__logo"
+              />
+              <p>1</p>
             </Link>
-
-            <Link to="/users/signup">
-              <button className="header__btn blue-500">Sign up</button>
-            </Link>
+            <button
+              className="header__btn blue-500"
+              onClick={() => {
+                onChangeLogin();
+              }}
+            >
+              Logout
+            </button>
           </div>
         </div>
       </HeaderWrapper>
@@ -375,8 +411,19 @@ const Header = () => {
           </section>
         </Modalwindow>
       )}
+      <ToastContainer
+        position="top-right" // 알람 위치 지정
+        autoClose={4000} // 자동 off 시간
+        hideProgressBar={false} // 진행시간바 숨김
+        closeOnClick // 클릭으로 알람 닫기
+        rtl={false} // 알림 좌우 반전
+        pauseOnFocusLoss // 화면을 벗어나면 알람 정지
+        draggable // 드래그 가능
+        pauseOnHover // 마우스를 올리면 알람 정지
+        theme="colored"
+      />
     </>
   );
 };
 
-export default Header;
+export default LoginHeader;

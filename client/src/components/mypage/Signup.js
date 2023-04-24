@@ -10,6 +10,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useCookies } from "react-cookie";
 
 const SignupWrapper = styled.div`
   width: 100vw;
@@ -189,6 +190,8 @@ const Signup = () => {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
 
+  const [cookies, setCookie, removeCookie] = useCookies();
+
   const navigate = useNavigate();
 
   const notify = () => {
@@ -206,18 +209,18 @@ const Signup = () => {
 
   const submitData = async () => {
     try {
-      await axios
-        .post("도메인 + 쿼리", {
-          displayName,
-          email,
-          password,
-        })
-        .then(() => {
-          toast.success("회원가입에 성공하였습니다.");
-        })
-        .then(() => navigate("/user/login")); //회원가입이 완료되면 로그인 창으로 이동한다
+      const response = await axios.post("http://localhost:8080/register", {
+        displayName,
+        email,
+        password,
+      });
+      console.log(response.data);
+      setCookie("accessToken", response.data["accessToken"], { path: "/" });
+      toast.success("회원가입에 성공하였습니다.");
+      navigate("/users/login"); //회원가입이 완료되면 로그인 창으로 이동한다
     } catch (err) {
       toast.error(`${err}`);
+      console.log(err);
     }
   };
 
@@ -296,7 +299,6 @@ const Signup = () => {
       validationCheckPassword(password)
     ) {
       submitData();
-      console.log(email, password, displayName);
     }
   };
 

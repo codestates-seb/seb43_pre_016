@@ -5,36 +5,9 @@ import { height } from "@mui/system";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
-import Loading from "./Loading";
+import Loading from "../../../features/Loading";
+import onSaveTime from "../../../features/onSaveTime";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
-
-const content = `<p>I am making a navigation bar and I cannot get to the position where the user clicked the toggle icon, the scroll position starts from the top and not from the asked place.</p><p><br></p><p>The following is my JS code. And the problem occurs in the else condition.</p><p><br></p><p>I can't even find whether the problem is of JavaScript or CSS.</p><p><br></p><p><strong>Code is:</strong></p><pre class="ql-syntax" spellcheck="false">// The following are the element selectors.
-const toggleButton = document.querySelector(".toggle.button");
-const toggleIcon = document.querySelector(".toggle.button &gt; .toggle__icon");
-const menuContainer = document.querySelector('.header &gt; .header__container .header__menu-container');
-
-// Make variable in Global Scope to save scroll position of user.
-let scrollPosition = 0;
-
-// Start of the Event Listener.
-toggleButton.addEventListener('click', () =&gt; {
-
-    // Check if the navigation bar is expanded.
-    if (!menuContainer.classList.contains("header__menu-container--open")) {
-
-        // Toggle the following classes when the toggle icon is clicked.
-        menuContainer.classList.add("header__menu-container--open");
-        toggleIcon.classList.add("toggle__icon--clicked");
-
-
-        // Record the scrolled position of the user.
-        scrollPosition = window.pageYOffset;
-
-        // Add the fixed position and adjust the top offset to make up for the body margin.
-        document.body.style.position = 'fixed';
-        
-    } 
-</pre><p><br></p><p>If there are any other ways to make this work, let me know. Thank you for staying to the end. Thank you!</p>`;
 
 const modules = {
   toolbar: [
@@ -81,6 +54,14 @@ const DetailWrapper = styled.div`
   width: calc(100% - 164px);
   margin-left: 164px;
   padding: 24px 0px 0px 24px;
+
+  h2 {
+    font-size: 19px;
+    line-height: 24.7px;
+    margin: 0px 0px 19px;
+    padding: 20px 0px 0px;
+    font-weight: 400;
+  }
 
   .mainbar__header {
     display: flex;
@@ -231,6 +212,8 @@ const QuestionEditor = styled.section`
         font-weight: 400;
       }
       .answer_profile {
+        position: absolute;
+        right: 22rem;
         width: 200px;
         max-width: 204px;
         background-color: #d9e9f7;
@@ -348,6 +331,8 @@ const Answerwrapper = styled.section`
         font-weight: 400;
       }
       .answer_profile {
+        position: absolute;
+        right: 22rem;
         width: 200px;
         max-width: 204px;
         /* background-color: #d9e9f7; */
@@ -379,14 +364,6 @@ const Answerwrapper = styled.section`
 `;
 const Answereditor = styled.section`
   padding: 10px 50px 10px 10px;
-
-  h2 {
-    font-size: 19px;
-    line-height: 24.7px;
-    margin: 0px 0px 19px;
-    padding: 20px 0px 0px;
-    font-weight: 400;
-  }
 
   .post-btn {
     margin-top: 25px;
@@ -430,7 +407,6 @@ const customStyle = {
   fontFamily: "Arial",
   fontSize: "16px",
   fontWeight: "normal",
-  minHeight: "150px",
   lineHeight: "1.5",
   marginBottom: "15px",
 };
@@ -440,25 +416,30 @@ const QuestionDetail = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const [answer, setAnswer] = useState("");
-
-  console.log(questionData);
   console.log(id);
+  console.log(questionData);
 
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   axios
-  //     .get(
-  //       `https://api.stackexchange.com/2.3/questions/${id}?pagesize=50&order=desc&sort=creation&site=stackoverflow&filter=!T3zRPxfHcI6S3(Y6fa`
-  //     )
-  //     .then((res) => {
-  //       const data = res.data.items;
-  //       setQuestionData({ ...data[0] });
-  //       setIsLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get(`http://localhost:8080/questions/${id}`)
+      .then((res) => {
+        setQuestionData({ ...res.data });
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    axios
+      .get(`http://localhost:8080/answers/${id}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <DetailWrapper>
@@ -469,10 +450,7 @@ const QuestionDetail = () => {
           <QuestionWrapper>
             <div className="detail__header">
               <header className="mainbar__header">
-                {/* <h3>{questionData.title}</h3> */}
-                <h3>
-                  Deploy nodejs+react application to a centos host problem
-                </h3>
+                <h3>{questionData.title}</h3>
                 <Link to="/questions/ask">
                   <button>Ask Question</button>
                 </Link>
@@ -480,15 +458,15 @@ const QuestionDetail = () => {
               <div className="question__info">
                 <div className="info">
                   <span>Asked</span>
-                  <span>1 days ago</span>
+                  <span>{`${onSaveTime(questionData.created_at)}`}</span>
                 </div>
                 <div className="info">
                   <span>Modified</span>
-                  <span>today</span>
+                  <span> {`${onSaveTime(questionData.updated_at)}`}</span>
                 </div>
                 <div className="info">
                   <span>Viewed</span>
-                  <span>9 times</span>
+                  <span>{`${questionData.view} times`}</span>
                 </div>
               </div>
             </div>
@@ -505,7 +483,7 @@ const QuestionDetail = () => {
                     <path d="M2 25h32L18 9 2 25Z"></path>
                   </svg>
                 </button>
-                <div className="vote">1</div>
+                <div className="vote">{questionData.vote_count}</div>
                 <button className="downvote__btn">
                   <svg
                     aria-hidden="true"
@@ -524,29 +502,28 @@ const QuestionDetail = () => {
                 <ReactQuill
                   theme="snow"
                   style={customStyle}
-                  value={content}
+                  value={`${questionData.body_detail} ${questionData.body_try}`}
                   modules={readOnlyModules}
                   readOnly
                 />
                 <ul className="list__tags">
-                  {/* {questionData.tags &&
+                  {questionData.tags &&
                     questionData.tags.map((el, idx) => {
                       return (
                         <li className="list__tag" key={idx}>
                           <a href="/">{el}</a>
                         </li>
                       );
-                    })} */}
-
-                  <li className="list__tag">
-                    <a href="/">javascript</a>
-                  </li>
+                    })}
                 </ul>
                 <div className="right_bottom">
                   <div className="buttons">
-                    <a className="edit" href="/">
+                    <Link
+                      className="edit"
+                      to={`/questions/${questionData.id}/edit`}
+                    >
                       Edit
-                    </a>
+                    </Link>
                     <a className="edit" href="/">
                       Follow
                     </a>
@@ -554,25 +531,13 @@ const QuestionDetail = () => {
                   <div className="answer_profile">
                     <div className="user-action-time">asked 50 mins ago</div>
                     <div className="user-profile">
-                      {/* <img
-                        src={
-                          questionData.owner &&
-                          `${questionData.owner.profile_image}`
-                        }
-                        width="32px"
-                        height="32px"
-                      /> */}
                       <img
                         src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
                         width="32px"
                         height="32px"
                       />
                       <div className="user-details">
-                        {/* <a href="/">
-                          {questionData.owner &&
-                            questionData.owner.display_name}
-                        </a> */}
-                        <a href="/">JSON</a>
+                        <a href="/">{questionData.display_name}</a>
                       </div>
                     </div>
                   </div>
@@ -580,82 +545,87 @@ const QuestionDetail = () => {
               </div>
             </QuestionEditor>
           </QuestionWrapper>
-          <Answerwrapper>
-            <h2 className="answer_count">1 Answer</h2>
-            <section className="main">
-              <div className="votes">
-                <button className="upvote__btn">
-                  <svg
-                    aria-hidden="true"
-                    className="svg-icon iconArrowUpLg"
-                    width="36"
-                    height="36"
-                    viewBox="0 0 36 36"
-                  >
-                    <path d="M2 25h32L18 9 2 25Z"></path>
-                  </svg>
-                </button>
-                <div className="vote">1</div>
-                <button className="downvote__btn">
-                  <svg
-                    aria-hidden="true"
-                    width="36"
-                    height="36"
-                    viewBox="0 0 36 36"
-                  >
-                    <path d="M2 11h32L18 27 2 11Z"></path>
-                  </svg>
-                </button>
-                <label>
-                  <BookmarkBorderOutlinedIcon />
-                </label>
-              </div>
-              <section className="right">
-                <ReactQuill
-                  theme="snow"
-                  style={customStyle}
-                  value={content}
-                  modules={readOnlyModules}
-                  readOnly
-                />
-                <div className="right_bottom">
-                  <div className="buttons">
-                    <a className="edit" href="/">
-                      Edit
-                    </a>
-                    <a className="edit" href="/">
-                      Follow
-                    </a>
-                  </div>
-                  <div className="answer_profile">
-                    <div className="user-action-time">answered 50 mins ago</div>
-                    <div className="user-profile">
-                      {/* <img
-                        src={
-                          questionData.owner &&
-                          `${questionData.owner.profile_image}`
-                        }
-                        width="32px"
-                        height="32px"
-                      /> */}
-                      <img
-                        src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
-                        width="32px"
-                        height="32px"
-                      />
-                      <div className="user-details">
-                        {/* <a href="/">
-                          {questionData.owner &&
-                            questionData.owner.display_name}
-                        </a> */}
-                        <a href="/">JSON</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </section>
-          </Answerwrapper>
+          {questionData.answers !== undefined &&
+            questionData.answers.length !== 0 && (
+              <h2 className="answer_count">
+                {questionData.answers !== undefined &&
+                  `${questionData.answers.length} Answer`}
+              </h2>
+            )}
+          <ul>
+            {questionData.answers !== undefined &&
+              questionData.answers.map((answer) => {
+                return (
+                  <li key={answer.answer_id}>
+                    <Answerwrapper>
+                      <section className="main">
+                        <div className="votes">
+                          <button className="upvote__btn">
+                            <svg
+                              aria-hidden="true"
+                              className="svg-icon iconArrowUpLg"
+                              width="36"
+                              height="36"
+                              viewBox="0 0 36 36"
+                            >
+                              <path d="M2 25h32L18 9 2 25Z"></path>
+                            </svg>
+                          </button>
+                          <div className="vote">{answer.vote_count}</div>
+                          <button className="downvote__btn">
+                            <svg
+                              aria-hidden="true"
+                              width="36"
+                              height="36"
+                              viewBox="0 0 36 36"
+                            >
+                              <path d="M2 11h32L18 27 2 11Z"></path>
+                            </svg>
+                          </button>
+                          <label>
+                            <BookmarkBorderOutlinedIcon />
+                          </label>
+                        </div>
+                        <section className="right">
+                          <ReactQuill
+                            theme="snow"
+                            style={customStyle}
+                            value={answer.detail}
+                            modules={readOnlyModules}
+                            readOnly
+                          />
+                          <div className="right_bottom">
+                            <div className="buttons">
+                              <a className="edit" href="/">
+                                Edit
+                              </a>
+                              <a className="edit" href="/">
+                                Follow
+                              </a>
+                            </div>
+                            <div className="answer_profile">
+                              <div className="user-action-time">
+                                {`answered 50 mins ago`}
+                              </div>
+                              <div className="user-profile">
+                                <img
+                                  src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
+                                  width="32px"
+                                  height="32px"
+                                />
+                                <div className="user-details">
+                                  <a href="/">{answer.display_name}</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+                      </section>
+                    </Answerwrapper>
+                  </li>
+                );
+              })}
+          </ul>
           <Answereditor>
             <h2>Your Answer</h2>
             <div style={{ height: "235px", maxWidth: "850px" }}>

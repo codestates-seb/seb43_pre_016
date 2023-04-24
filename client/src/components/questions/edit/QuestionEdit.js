@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import EditorComponent from "./EditorComponent";
-import EditorComponent2 from "./EditorComponent2";
+import EditDetail from "./EditDetail";
+import EditTry from "./EditTry";
 import ClearIcon from "@mui/icons-material/Clear";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Wrapper = styled.main`
-  height: 300vh;
   width: 100vw;
-  padding-left: 10vw;
-  background-color: #f1f2f3;
+  margin-left: 15vw;
+  margin-top: 25px;
+  margin-bottom: 50px;
 `;
 const TitleWrapper = styled.section`
   display: flex;
@@ -31,7 +31,6 @@ const TitleWrapper = styled.section`
     top: 1.2rem;
     width: 60%;
     height: 100%;
-    background-image: url("img/background.svg");
     background-size: 500px 300px;
     background-position: right;
     background-repeat: no-repeat;
@@ -39,33 +38,25 @@ const TitleWrapper = styled.section`
 `;
 const NoticeWrapper = styled.section`
   display: flex;
-  padding: 30px;
-  background-color: #ebf4fb;
-  border: 1px solid #a6ceed;
+  padding: 30px 20px;
+  background-color: #fdf7e2;
+  border: 1px solid #e6cf79;
   border-radius: 3px;
-  width: 70vw;
+  width: 55vw;
   margin-bottom: 10px;
-  .notice h3 {
-    margin-bottom: 50px;
-  }
-  li {
-    margin-left: 30px;
-    list-style: circle;
-    color: #3b4045;
+  .notice p:first-child {
+    margin-bottom: 15px;
   }
 `;
 const TitleWriter = styled.section`
   display: flex;
   flex-direction: column;
-  padding: 30px;
-  background: #f8f9f9;
-  border: 0.5px solid #babfc4;
   border-radius: 3px;
-  width: 70vw;
+  width: 55vw;
   margin-bottom: 10px;
   div {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 500;
     margin-bottom: 10px;
   }
   label {
@@ -87,20 +78,17 @@ const TitleWriter = styled.section`
 const DetailWriter = styled.section`
   display: flex;
   flex-direction: column;
-  padding: 30px;
-  background: #f8f9f9;
-  border: 0.5px solid #babfc4;
   border-radius: 3px;
-  width: 70vw;
+  width: 55vw;
   margin-bottom: 10px;
   .detail {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 500;
     margin-bottom: 10px;
   }
   .try {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 500;
     margin-bottom: 10px;
   }
   label {
@@ -143,8 +131,6 @@ const Taglist = styled.div`
       background: none !important;
       cursor: pointer;
       svg {
-        display: flex;
-        align-items: center;
         width: 15px;
       }
     }
@@ -158,10 +144,10 @@ const Taglist = styled.div`
     border: none;
     background: none;
   }
-  input {
-    width: 100%;
+  textarea {
     margin-top: 4px;
     border: none;
+    flex: 3;
   }
 `;
 const Postbutton = styled.button`
@@ -173,7 +159,7 @@ const Postbutton = styled.button`
   box-shadow: inset rgb(255, 255, 255) 0px 1px 1px 0px;
   cursor: pointer;
 `;
-const Askquestions = () => {
+const QuestionEdit = () => {
   const [title, setTitle] = useState(""); // 제목
   const [body_detail, setDetail] = useState("");
   const [body_try, setTry] = useState("");
@@ -181,6 +167,21 @@ const Askquestions = () => {
   const [taginput, setTaginput] = useState("");
 
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/questions/${id}`)
+      .then((res) => {
+        setTitle(`${res.data.title}`);
+        setDetail(`${res.data.body_detail}`);
+        setTry(`${res.data.body_try}`);
+        setTags([...res.data.tags]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const onClickSubmit = async () => {
     let data = {
@@ -188,15 +189,6 @@ const Askquestions = () => {
       title: title,
       body_detail: body_detail,
       body_try: body_try,
-      owner: {
-        user_id: 1,
-        display_name: "Juni",
-        profile_image:
-          "https://www.gravatar.com/avatar/3ce25b028e11ef58e77d601e1cd73710?s=48&d=identicon&r=PG&f=y&so-version=2",
-      },
-      view: 0,
-      vote_count: 0,
-      created_at: new Date(),
       updated_at: new Date(),
     };
 
@@ -207,8 +199,9 @@ const Askquestions = () => {
     };
 
     await axios
-      .post("http://localhost:8080/questions", data, header)
-      .then(() => {
+      .patch(`http://localhost:8080/questions/${id}`, data, header)
+      .then((res) => {
+        console.log(res);
         navigate("/");
         window.location.reload();
       });
@@ -232,25 +225,16 @@ const Askquestions = () => {
 
   return (
     <Wrapper>
-      <TitleWrapper>
-        <section className="title">
-          <span>Ask a public question</span>
-        </section>
-        <div className="background">{""}</div>
-      </TitleWrapper>
       <NoticeWrapper>
         <section className="notice">
-          <h3>Writing a good question</h3>
-          <ul>
-            <li>Steps Summarize your problem in a one-line title.</li>
-            <li>Describe your problem in more detail.</li>
-            <li>Describe what you tried and what you expected to happen.</li>
-            <li>
-              Add “tags” which help surface your question to members of the
-              community.
-            </li>
-            <li> Review your question and post it to the site.</li>
-          </ul>
+          <p>Your edit will be placed in a queue until it is peer reviewed.</p>
+          <p>
+            We welcome edits that make the post easier to understand and more
+            valuable for readers. Because community members review edits, please
+            try to make the post substantially better than how you found it, for
+            example, by fixing grammar or adding additional resources and
+            hyperlinks.
+          </p>
         </section>
       </NoticeWrapper>
       <TitleWriter>
@@ -266,7 +250,7 @@ const Askquestions = () => {
           Introduce the problem and expand on what you put in the title. Minimum
           20 characters.
         </label>
-        <EditorComponent body_detail={body_detail} setDetail={setDetail} />
+        <EditDetail body_detail={body_detail} setDetail={setDetail} />
       </DetailWriter>
       <DetailWriter>
         <span className="try">
@@ -276,10 +260,10 @@ const Askquestions = () => {
           Describe what you tried, what you expected to happen, and what
           actually resulted. Minimum 20 characters.
         </label>
-        <EditorComponent2 body_try={body_try} setTry={setTry} />
+        <EditTry body_try={body_try} setTry={setTry} />
       </DetailWriter>
       <TitleWriter>
-        <div>Tag</div>
+        <div>Tags</div>
         <label>
           Add up to 5 tags to describe what your question is about. Start typing
           to see suggestions.
@@ -295,18 +279,20 @@ const Askquestions = () => {
               </span>
             );
           })}
-          <input
+          <textarea
             onChange={(e) => {
               setTaginput(e.target.value);
             }}
             onKeyUp={handleaddtag}
             value={taginput}
-          />
+          ></textarea>
         </Taglist>
       </TitleWriter>
-      <Postbutton onClick={onClickSubmit}>Post your question</Postbutton>
+      <Postbutton onClick={() => onClickSubmit()}>
+        Post your question
+      </Postbutton>
     </Wrapper>
   );
 };
 
-export default Askquestions;
+export default QuestionEdit;

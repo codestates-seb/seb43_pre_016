@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { Link } from "react-router-dom";
+import onSaveTime from "../../features/onSaveTime";
 
 const Container = styled.div`
   display: flex;
@@ -207,16 +208,22 @@ const Container = styled.div`
   }
 `;
 
-const Questions = ({ listData }) => {
+const Questions = ({ listData, cookies }) => {
   console.log(listData);
   return (
     <Container>
       <div className="mainbar">
         <header className="mainbar__header">
           <h3>All Questions</h3>
-          <Link to="/questions/ask">
-            <button>Ask Question</button>
-          </Link>
+          {cookies.accessToken === undefined ? (
+            <Link to="/users/login">
+              <button>Ask Question</button>
+            </Link>
+          ) : (
+            <Link to="/questions/ask">
+              <button>Ask Question</button>
+            </Link>
+          )}
         </header>
         <div className="mainbar__filter">
           <p>23,640,155 questions</p>
@@ -236,8 +243,7 @@ const Questions = ({ listData }) => {
               <li className="mainbar__list" key={list.id}>
                 <div className="mainbar__list__left">
                   <p>{`${list.vote_count} votes`}</p>
-                  {/* <p>{`${list.answers.answer_count} answers`}</p> */}
-                  <p>0 answers</p>
+                  <p>{`${list.answer_count} answers`}</p>
                   <p>{`${list.view} views`}</p>
                 </div>
                 <div className="mainbar__list__right">
@@ -258,14 +264,14 @@ const Questions = ({ listData }) => {
                     <div className="mainbar__list__profile">
                       <img
                         referrerPolicy="no-referrer"
-                        // src={list.owner.profile_image}
                         src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
                         width="16px"
                         alt="profile"
                       />
-                      <a href="/">{list.owner.display_name}</a>
+                      <Link to="/users/id/userName">{list.display_name}</Link>
                       <span>
-                        <span className="bold">0</span> asked 2 mins ago
+                        <span className="bold">0</span>{" "}
+                        {`asked ${onSaveTime(list.created_at)}`}
                       </span>
                     </div>
                   </div>
