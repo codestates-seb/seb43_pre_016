@@ -210,7 +210,7 @@ const Container = styled.div`
   }
 `;
 
-const Questions = ({ cookies }) => {
+const SearchPage = ({ cookies }) => {
   const [listData, setListData] = useState([]);
 
   const data = () => {
@@ -227,12 +227,12 @@ const Questions = ({ cookies }) => {
   useEffect(() => {
     data();
   }, []);
-  console.log(listData);
+
   return (
     <Container>
       <div className="mainbar">
         <header className="mainbar__header">
-          <h3>All Questions</h3>
+          <h3>Search Results</h3>
           {cookies.accessToken === undefined ? (
             <Link to="/users/login">
               <button>Ask Question</button>
@@ -306,4 +306,4 @@ const Questions = ({ cookies }) => {
   );
 };
 
-export default Questions;
+export default SearchPage;

@@ -234,7 +234,7 @@ const Modalwindow = styled.div`
   }
 `;
 
-const LoginHeader = ({ removeCookie }) => {
+const LoginHeader = ({ removeCookie, setSearch }) => {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [searchtext, setSearchtext] = useState("");
