@@ -42,6 +42,15 @@ function App() {
           }
         />
         <Route
+          path="/questions"
+          element={
+            <div className="container">
+              <Sidebar />
+              <Questions cookies={cookies} />
+            </div>
+          }
+        />
+        <Route
           path="/questions/:id"
           element={
             <div className="container">
@@ -51,7 +60,7 @@ function App() {
           }
         ></Route>
         <Route
-          path="questions/:id/editQuestion"
+          path="/questions/:id/editQuestion"
           element={
             <div className="container">
               <Sidebar />

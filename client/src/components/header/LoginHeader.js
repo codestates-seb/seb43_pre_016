@@ -121,7 +121,6 @@ const HeaderWrapper = styled.header`
     height: 20px;
     line-height: 10px;
     border: none;
-    outline: none;
     font-size: 13px;
     font-family: -apple-system;
     color: #3b4045;
@@ -140,7 +139,6 @@ const HeaderWrapper = styled.header`
   .header__btns {
     display: inline-flex;
     margin: 0px 10px;
-    height: 100%;
     a {
       display: flex;
       align-items: center;
@@ -163,8 +161,6 @@ const HeaderWrapper = styled.header`
 
   .header__btn {
     margin-right: 4px;
-    height: 34px;
-    align-self: center;
     padding: 8px;
     border-radius: 3px;
     box-shadow: rgba(255, 255, 255, 0.4) 0px 1px 0px 0px inset;
@@ -279,6 +275,7 @@ const LoginHeader = ({ removeCookie, setSearch }) => {
   }, [searchtext]);
   const handleSearch = (e) => {
     if (e.key === "Enter") {
+      setSearch(searchlist);
       navigate(
         `/search?q=${
           searchlist.title !== "" ? "%1T" + searchlist.title + "%1T" : ""
@@ -355,7 +352,8 @@ const LoginHeader = ({ removeCookie, setSearch }) => {
                 <SearchIcon />
               </label>
             </Link>
-            <textarea
+            <input
+              type="text"
               onChange={(e) => setSearchtext(e.target.value)}
               onKeyUp={handleSearch}
               value={searchtext}
@@ -364,7 +362,7 @@ const LoginHeader = ({ removeCookie, setSearch }) => {
               onFocus={handleTextareaFocus}
               onBlur={handleTextareaBlur}
               maxLength="100"
-            ></textarea>
+            />
           </div>
           <div className="header__btns">
             <Link to="/users/id/userName">
