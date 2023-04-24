@@ -2,6 +2,9 @@ package com.codestates.preproject.answer.service;
 
 import com.codestates.preproject.answer.repository.AnswerRepository;
 import com.codestates.preproject.answer.entity.Answer;
+import com.codestates.preproject.like.AnswerLike;
+import com.codestates.preproject.like.AnswerLikeRepository;
+import com.codestates.preproject.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -12,8 +15,11 @@ import java.util.Optional;
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
-    public AnswerService(AnswerRepository answerRepository) {
+    private final AnswerLikeRepository answerLikeRepository;
+
+    public AnswerService(AnswerRepository answerRepository, AnswerLikeRepository answerLikeRepository) {
         this.answerRepository = answerRepository;
+        this.answerLikeRepository = answerLikeRepository;
     }
 
     public Answer createAnswer(Answer answer) {
@@ -56,6 +62,49 @@ public class AnswerService {
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
         Answer findanswer = optionalAnswer.orElseThrow(() -> new RuntimeException());//예외처리하기
         return findanswer;
+    }
+
+
+    public Answer likeAnswer(long answerId, long userId){
+        User user= new User();
+        user.setUserId(userId);
+
+        Answer answer= answerRepository.findById(answerId)
+                .orElseThrow(()->new RuntimeException());
+
+        AnswerLike findAnswerLike = answerLikeRepository.findByUserAndAnswer(user,answer);
+
+        if(findAnswerLike== null){
+            findAnswerLike = new AnswerLike(user,answer,true);
+        }
+        else{
+            findAnswerLike.setLiked(true);
+        }
+        AnswerLike answerLike= answerLikeRepository.save(findAnswerLike);
+        answer.addAnswerLike(answerLike);
+        //에드 라이크가 추가되고
+        answerRepository.save(answer);
+
+        return answer;
+    }
+
+    public Answer dislikeAnswer(long answerId, long userId) {
+        User user = new User();
+        user.setUserId(userId);
+
+        Answer answer = answerRepository.findById(answerId)
+                .orElseThrow(() ->new RuntimeException());
+
+        AnswerLike answerLike = answerLikeRepository.findByUserAndAnswer(user, answer);
+        if (answerLike == null) {
+            answerLike = new AnswerLike(user, answer, false);
+        } else {
+            answerLike.setLiked(false);
+        }
+        AnswerLike answerLike1= answerLikeRepository.save(answerLike);
+        answer.addAnswerLike(answerLike1);
+        answerRepository.save(answer);
+        return answer;
     }
 
 }

@@ -1,7 +1,7 @@
 package com.codestates.preproject.question.entity;
 
 import com.codestates.preproject.user.entity.User;
-import com.codestates.preproject.answer.audit.Auditable;
+import com.codestates.preproject.audit.Auditable;
 import com.codestates.preproject.answer.entity.Answer;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

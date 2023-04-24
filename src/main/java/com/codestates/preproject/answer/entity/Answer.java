@@ -1,8 +1,8 @@
 package com.codestates.preproject.answer.entity;
 
+import com.codestates.preproject.like.AnswerLike;
 import com.codestates.preproject.user.entity.User;
-import com.codestates.preproject.answer.like.entity.AnswerLike;
-import com.codestates.preproject.answer.audit.Auditable;
+import com.codestates.preproject.audit.Auditable;
 import com.codestates.preproject.question.entity.Question;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,8 +38,16 @@ public class Answer extends Auditable {
     private Question question;
 
     @OneToMany(mappedBy = "answer")
-    private List<AnswerLike> likes = new ArrayList<>();
+    private List<AnswerLike> answerLikes= new ArrayList<>();
 
 
-
+    //좋아요 가 추가되면 likecount 올라가는 메소드
+    public void addAnswerLike(AnswerLike answerLike) {
+        answerLikes.add(answerLike);
+        if (answerLike.isLiked()) {
+            this.likeCount++;
+        } else {
+            this.likeCount--;
+        }
+    }
 }

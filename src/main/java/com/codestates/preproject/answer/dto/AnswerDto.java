@@ -1,8 +1,6 @@
 package com.codestates.preproject.answer.dto;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.codestates.preproject.user.entity.User;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -36,7 +34,7 @@ public class AnswerDto {
         private String body;
     }
 
-
+    
     @Getter
     @Setter
     @NoArgsConstructor
@@ -46,14 +44,12 @@ public class AnswerDto {
         private String body;
         private int likeCount;
         private long userId;
+        private String userName;
         private long questionId;
         private LocalDateTime modifiedAt;
         private LocalDateTime createdAt;
         private String createdBy;
-        private String userName;
 
-
-        //인수님 이거예용
 
     }
 
@@ -64,6 +60,7 @@ public class AnswerDto {
         private long answerId;
         private String body;
         private LocalDateTime crestedAt;
+
 //        private long answerCount;
     }
 }

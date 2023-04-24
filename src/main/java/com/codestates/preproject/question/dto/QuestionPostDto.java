@@ -21,3 +21,5 @@ public class QuestionPostDto {
     private String bodyDetail;
 
 }
+
+//질문

@@ -1,8 +1,9 @@
 package com.codestates.preproject.user.entity;
 
 
-import com.codestates.preproject.answer.audit.Auditable;
+import com.codestates.preproject.audit.Auditable;
 import com.codestates.preproject.answer.entity.Answer;
+import com.codestates.preproject.like.AnswerLike;
 import com.codestates.preproject.question.entity.Question;
 import lombok.*;
 
@@ -31,17 +32,21 @@ public class User extends Auditable {
     @Column(length = 100, nullable = false)
     private String password;
 
-    public User( String userName, String email, String password) {
 
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-    }
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Question> questions= new ArrayList<>();
+    private List<Question> questions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<AnswerLike>answerLikes= new ArrayList<>();
+
+    public User(String userName, String email, String password) {
+
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+    }
 }

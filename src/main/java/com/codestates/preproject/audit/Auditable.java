@@ -1,4 +1,4 @@
-package com.codestates.preproject.answer.audit;
+package com.codestates.preproject.audit;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;

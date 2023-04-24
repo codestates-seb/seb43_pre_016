@@ -1,6 +1,7 @@
 package com.codestates.preproject.user.dto;
 
 import com.codestates.preproject.answer.dto.AnswerDto;
+import com.codestates.preproject.like.AnswerLikeDto;
 import com.codestates.preproject.question.dto.QuestionMyPageDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -64,6 +65,7 @@ public class UserDto {
         private String userName;
         private List<QuestionMyPageDto> questions;
         private List<AnswerDto.MyPageDto> answers;
+        private List<AnswerLikeDto> answerLikes;
     }
 
 }

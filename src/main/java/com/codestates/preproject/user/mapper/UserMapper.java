@@ -3,6 +3,8 @@ package com.codestates.preproject.user.mapper;
 
 import com.codestates.preproject.answer.dto.AnswerDto;
 import com.codestates.preproject.answer.entity.Answer;
+import com.codestates.preproject.like.AnswerLike;
+import com.codestates.preproject.like.AnswerLikeDto;
 import com.codestates.preproject.question.dto.QuestionMyPageDto;
 import com.codestates.preproject.question.entity.Question;
 import com.codestates.preproject.user.dto.UserDto;
@@ -58,6 +60,16 @@ public interface UserMapper {
             return questionMyPageDto;
         }).collect(Collectors.toList());
         userMyPageDto.setQuestions(questionMyPageDtoList);
+
+        List<AnswerLike> answerLikesList= user.getAnswerLikes();
+        List<AnswerLikeDto> answerLikeDtos= answerLikesList.stream()
+                .map(answerLike ->
+                {AnswerLikeDto answerLikeDto= new AnswerLikeDto();
+                    answerLikeDto.setAnswerId(answerLike.getAnswer().getAnswerId());
+                    answerLikeDto.setLiked(answerLike.isLiked());
+                    return answerLikeDto;})
+                .collect(Collectors.toList());
+        userMyPageDto.setAnswerLikes(answerLikeDtos);
 
         return userMyPageDto;
     }

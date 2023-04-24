@@ -1,4 +1,4 @@
-package com.codestates.preproject.answer.audit;
+package com.codestates.preproject.audit;
 
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
