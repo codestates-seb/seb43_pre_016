@@ -251,11 +251,20 @@ const Questions = ({ cookies }) => {
   useEffect(() => {
     navigate(
       `/questions${
-        currentpage === 1 ? "" : "?page=" + currentpage + "&size=15"
-      }`
+        "?tab=" +
+        (ActBtn === 1
+          ? "newest"
+          : ActBtn === 2
+          ? "unanswered"
+          : ActBtn === 3
+          ? "viewed"
+          : ActBtn === 4
+          ? "voted"
+          : "")
+      }${currentpage === 1 ? "" : "?page=" + currentpage + "&size=15"}`
     );
     data();
-  }, [currentpage]);
+  }, [currentpage, ActBtn]);
 
   const handleonpage = (e) => {
     setCurrentpage(e);

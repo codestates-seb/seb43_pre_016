@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import onSaveTime from "../../features/onSaveTime";
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
@@ -236,9 +236,15 @@ const Container = styled.div`
 `;
 
 const SearchPage = ({ cookies, search }) => {
+  const location = useLocation();
+  const url = new URL(window.location.href);
+  const searchParams = new URLSearchParams(location.search);
+  const myQueryParam = searchParams.get("q");
   const [listData, setListData] = useState([]);
   const [currentpage, setCurrentpage] = useState(1);
   const [ActBtn, setActBtn] = useState(1);
+  const [currenttab, setCurrenttab] = useState(1);
+
   const navigate = useNavigate();
 
   console.log(search);
@@ -329,10 +335,15 @@ const SearchPage = ({ cookies, search }) => {
         search.searchlist.score !== ""
           ? "%score:" + search.searchlist.score + "%"
           : ""
-      }?page=${e}&tab=newest&pagesize=15`
+      }&page=${e}&tab=newest&pagesize=15`
     );
     setCurrentpage(e);
   };
+  useEffect(() => {
+    data();
+    window.scrollTo(0, 0);
+  }, [currentpage]);
+  console.log(listData);
 
   return (
     <Container>
@@ -421,6 +432,33 @@ const SearchPage = ({ cookies, search }) => {
                       list.answers !== undefined && list.answers.length
                     } answers`}</p>
                     <p>{`${list.view} views`}</p>
+                    <p
+                      className="mainbar_list_left_answer"
+                      style={
+                        Number(list.answers.length) > 0
+                          ? {
+                              color: "white",
+                              backgroundColor: "#2f6f44",
+                              padding: "3px",
+                            }
+                          : { border: "none", marginLeft: "3px" }
+                      }
+                    >{`${list.answers && list.answers.length} answers`}</p>
+                    <p
+                      style={
+                        Number(list.view) < 1000
+                          ? { color: "#6a737c" }
+                          : Number(list.view) < 1000000
+                          ? { color: "#922024", fontWeight: "400" }
+                          : { color: "#922024", fontWeight: "700" }
+                      }
+                    >{`${
+                      Number(list.view) < 1000
+                        ? list.view
+                        : Number(list.view) < 1000000
+                        ? String(parseInt(Number(list.view) / 1000)) + "k"
+                        : String(Number(list.view) / 1000000).slice(0, 3) + "m"
+                    } views`}</p>
                   </div>
                   <div className="mainbar__list__right">
                     <Link to={`/questions/${list.id}`}>
