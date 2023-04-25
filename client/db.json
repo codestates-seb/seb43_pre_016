@@ -8,15 +8,26 @@
         "css"
       ],
       "title": "json-server",
-      "body_detail": "<p>안녕하세요</p>",
-      "body_try": "<p>i'll try itasd222</p>",
-      "user_id": 1,
-      "display_name": "Juni",
+      "body": "<p>안녕하세요</p>",
+      "bodyDetail": "<p>i'll try itasd22211</p>",
+      "userId": 1,
+      "createdBy": "Juni",
       "view": 2,
-      "vote_count": 5,
-      "answer_count": 0,
-      "created_at": "2022-02-21T09:55:36.200Z",
-      "updated_at": "2023-04-24T07:33:14.892Z"
+      "likeCount": 5,
+      "createdAt": "2023-04-25T01:26:38.639Z",
+      "modifiedAt": "2023-04-25T01:26:38.639Z",
+      "answers": [
+        {
+          "id": 1,
+          "body": "NoNo!",
+          "userId": 2,
+          "question_id": 1,
+          "createdBy": "Hoit",
+          "likeCount": 1,
+          "createdAt": "2023-04-19T09:55:36.200Z",
+          "modifiedAt": "2023-04-19T09:55:36.200Z"
+        }
+      ]
     },
     {
       "tags": [
@@ -25,15 +36,15 @@
         "good"
       ],
       "title": "첫 포스트 입니다!",
-      "body_detail": "<p>디테일 작성</p>",
-      "body_try": "<p>트라이 작성</p>",
-      "user_id": 1,
-      "display_name": "Juni",
+      "body": "<p>디테일 작성</p>",
+      "bodyDetail": "<p>트라이 작성</p>",
+      "userId": 1,
+      "createdBy": "Juni",
       "view": 3,
-      "vote_count": 1,
-      "answer_count": 0,
-      "created_at": "2023-04-10T05:03:36.825Z",
-      "updated_at": "2023-04-20T05:03:36.825Z",
+      "likeCount": 1,
+      "createdAt": "2022-06-10T05:03:36.825Z",
+      "modifiedAt": "2022-09-20T05:03:36.825Z",
+      "answers": [],
       "id": 2
     },
     {
@@ -42,15 +53,15 @@
         "nice"
       ],
       "title": "edit하고 delete 권한 설정을 어떻게 해야할지 궁금..",
-      "body_detail": "<p>토큰을 이용해서 하는 것 같긴합니다..</p>",
-      "body_try": "<p>12345</p>",
-      "user_id": 1,
-      "display_name": "Juni",
+      "body": "<p>토큰을 이용해서 하는 것 같긴합니다..</p>",
+      "bodyDetail": "<p>12345</p>",
+      "userId": 1,
+      "createdBy": "Juni",
       "view": 10,
-      "vote_count": 3,
-      "answer_count": 0,
-      "created_at": "2023-02-21T05:18:32.351Z",
-      "updated_at": "2023-04-23T13:39:52.501Z",
+      "likeCount": 3,
+      "createdAt": "2023-01-11T05:18:32.351Z",
+      "modifiedAt": "2023-02-03T13:39:52.501Z",
+      "answers": [],
       "id": 3
     },
     {
@@ -61,15 +72,15 @@
         "patch 요청 성공"
       ],
       "title": "react-quill 본문 작성 테스트입니다.",
-      "body_detail": "<h1>헤더헤더헤더헤더</h1><p><br></p><p><strong>strong strong strong strong</strong></p><p><br></p><p><em>italic italic italic italic</em></p><p><br></p><p><u>밑줄은 안되네요</u></p><p><br></p><blockquote>인용문 인용문 인용문 인용문</blockquote><p><br></p><p>------------------------------------------------------------아래는 try 에서 작성한 것 ----------------------------------------------------------------------</p>",
-      "body_try": "<ol><li>리스트 1</li><li>리스트 2</li><li>리스트 3</li></ol><pre class=\"ql-syntax\" spellcheck=\"false\">// db.json\n\"questions\": [\n    {\n      \"id\": 1,\n      \"tags\": [\n        \"javascript\",\n        \"react\",\n        \"css\"\n      ],\n      \"title\": \"json-server\",\n      \"body_detail\": \"I'm so sad..\",\n      \"body_try\": \"i'll try it\",\n      \"user_id\": 1,\n      \"display_name\": \"Juni\",\n      \"view\": 0,\n      \"vote_count\": 0,\n      \"answer_count\" : 0,\n      \"created_at\": \"2022-02-21T09:55:36.200Z\",\n      \"updated_at\": \"2023-04-21T09:55:36.200Z\"\n    }\n]\n</pre><p><br></p><p><br></p>",
-      "user_id": 1,
-      "display_name": "Juni",
+      "body": "<h1>헤더헤더헤더헤더</h1><p><br></p><p><strong>strong strong strong strong</strong></p><p><br></p><p><em>italic italic italic italic</em></p><p><br></p><p><u>밑줄은 안되네요</u></p><p><br></p><blockquote>인용문 인용문 인용문 인용문</blockquote><p><br></p><p>------------------------------------------------------------아래는 try 에서 작성한 것 ----------------------------------------------------------------------</p>",
+      "bodyDetail": "<ol><li>리스트 1</li><li>리스트 2</li><li>리스트 3</li></ol><pre class=\"ql-syntax\" spellcheck=\"false\">// db.json\n\"questions\": [\n    {\n      \"id\": 1,\n      \"tags\": [\n        \"javascript\",\n        \"react\",\n        \"css\"\n      ],\n      \"title\": \"json-server\",\n      \"body\": \"I'm so sad..\",\n      \"bodyDetail0,\n      \"createdAt\": \"2022-02-21T09:55:36.200Z\",\n      \"modifiedAt\": \"2023-04-21T09:55:36.200Z\"\n    }\n]\n</pre><p><br></p><p><br></p>",
+      "userId": 1,
+      "createdBy": "Juni",
       "view": 3,
-      "vote_count": 0,
-      "answer_count": 0,
-      "created_at": "2023-03-21T09:55:36.200Z",
-      "updated_at": "2023-04-22T18:36:36.216Z",
+      "likeCount": 0,
+      "createdAt": "2023-03-21T09:55:36.200Z",
+      "modifiedAt": "2023-04-22T18:36:36.216Z",
+      "answers": [],
       "id": 4
     },
     {
@@ -78,15 +89,15 @@
         "로그아웃"
       ],
       "title": "로그인, 로그아웃 구현 완료했습니다",
-      "body_detail": "<p>토큰을 이용한 로그인, 로그아웃</p>",
-      "body_try": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
-      "user_id": 1,
-      "display_name": "Juni",
+      "body": "<p>토큰을 이용한 로그인, 로그아웃</p>",
+      "bodyDetail": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
+      "userId": 1,
+      "createdBy": "Juni",
       "view": 0,
-      "vote_count": 0,
-      "answer_count": 0,
-      "created_at": "2023-04-22T13:35:16.890Z",
-      "updated_at": "2023-04-23T16:17:50.432Z",
+      "likeCount": 0,
+      "createdAt": "2023-04-22T13:35:16.890Z",
+      "modifiedAt": "2023-04-23T16:17:50.432Z",
+      "answers": [],
       "id": 5
     },
     {
@@ -95,15 +106,15 @@
         "로그아웃"
       ],
       "title": "로그인, 로그아웃 구현 완료했습니다",
-      "body_detail": "<p>토큰을 이용한 로그인, 로그아웃</p>",
-      "body_try": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
-      "user_id": 1,
-      "display_name": "Juni",
+      "body": "<p>토큰을 이용한 로그인, 로그아웃</p>",
+      "bodyDetail": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
+      "userId": 1,
+      "createdBy": "Juni",
       "view": 0,
-      "vote_count": 0,
-      "answer_count": 0,
-      "created_at": "2023-04-22T13:35:16.890Z",
-      "updated_at": "2023-04-23T16:17:50.432Z",
+      "likeCount": 0,
+      "createdAt": "2022-01-22T13:35:16.890Z",
+      "modifiedAt": "2023-04-23T16:17:50.432Z",
+      "answers": [],
       "id": 6
     },
     {
@@ -112,15 +123,15 @@
         "로그아웃"
       ],
       "title": "로그인, 로그아웃 구현 완료했습니다",
-      "body_detail": "<p>토큰을 이용한 로그인, 로그아웃</p>",
-      "body_try": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
-      "user_id": 1,
-      "display_name": "Juni",
+      "body": "<p>토큰을 이용한 로그인, 로그아웃</p>",
+      "bodyDetail": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
+      "userId": 1,
+      "createdBy": "Juni",
       "view": 0,
-      "vote_count": 0,
-      "answer_count": 0,
-      "created_at": "2023-04-22T13:35:16.890Z",
-      "updated_at": "2023-04-23T16:17:50.432Z",
+      "likeCount": 0,
+      "createdAt": "2019-04-22T13:35:16.890Z",
+      "modifiedAt": "2023-04-23T16:17:50.432Z",
+      "answers": [],
       "id": 7
     },
     {
@@ -129,15 +140,15 @@
         "로그아웃"
       ],
       "title": "로그인, 로그아웃 구현 완료했습니다",
-      "body_detail": "<p>토큰을 이용한 로그인, 로그아웃</p>",
-      "body_try": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
-      "user_id": 1,
-      "display_name": "Juni",
+      "body": "<p>토큰을 이용한 로그인, 로그아웃</p>",
+      "bodyDetail": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
+      "userId": 1,
+      "createdBy": "Juni",
       "view": 0,
-      "vote_count": 0,
-      "answer_count": 0,
-      "created_at": "2023-04-22T13:35:16.890Z",
-      "updated_at": "2023-04-23T16:17:50.432Z",
+      "likeCount": 0,
+      "createdAt": "2023-04-22T13:35:16.890Z",
+      "modifiedAt": "2023-04-23T16:17:50.432Z",
+      "answers": [],
       "id": 8
     },
     {
@@ -146,174 +157,54 @@
         "로그아웃"
       ],
       "title": "로그인, 로그아웃 구현 완료했습니다",
-      "body_detail": "<p>토큰을 이용한 로그인, 로그아웃</p>",
-      "body_try": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
-      "user_id": 1,
-      "display_name": "Juni",
+      "body": "<p>토큰을 이용한 로그인, 로그아웃</p>",
+      "bodyDetail": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
+      "userId": 1,
+      "createdBy": "Juni",
       "view": 0,
-      "vote_count": 0,
-      "answer_count": 0,
-      "created_at": "2023-04-22T13:35:16.890Z",
-      "updated_at": "2023-04-23T16:17:50.432Z",
+      "likeCount": 0,
+      "createdAt": "2023-04-22T13:35:16.890Z",
+      "modifiedAt": "2023-04-23T16:17:50.432Z",
+      "answers": [],
       "id": 9
     },
     {
       "tags": [
-        "로그인",
-        "로그아웃"
+        "2134"
       ],
-      "title": "로그인, 로그아웃 구현 완료했습니다",
-      "body_detail": "<p>토큰을 이용한 로그인, 로그아웃</p>",
-      "body_try": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
-      "user_id": 1,
-      "display_name": "Juni",
+      "title": "1234",
+      "body": "<p>21345</p>",
+      "bodyDetail": "<p>123456</p>",
+      "likeCount": 0,
       "view": 0,
-      "vote_count": 0,
-      "answer_count": 0,
-      "created_at": "2023-04-22T13:35:16.890Z",
-      "updated_at": "2023-04-23T16:17:50.432Z",
+      "createdBy": "Juni",
+      "createdAt": "2023-04-25T00:58:45.515Z",
+      "modifiedAt": "2023-04-25T00:58:45.515Z",
+      "answers": [],
+      "userId": 1,
       "id": 10
-    },
-    {
-      "tags": [
-        "로그인",
-        "로그아웃"
-      ],
-      "title": "로그인, 로그아웃 구현 완료했습니다",
-      "body_detail": "<p>토큰을 이용한 로그인, 로그아웃</p>",
-      "body_try": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
-      "user_id": 1,
-      "display_name": "Juni",
-      "view": 0,
-      "vote_count": 0,
-      "answer_count": 0,
-      "created_at": "2023-04-22T13:35:16.890Z",
-      "updated_at": "2023-04-23T16:17:50.432Z",
-      "id": 11
-    },
-    {
-      "tags": [
-        "로그인",
-        "로그아웃"
-      ],
-      "title": "로그인, 로그아웃 구현 완료했습니다",
-      "body_detail": "<p>토큰을 이용한 로그인, 로그아웃</p>",
-      "body_try": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
-      "user_id": 1,
-      "display_name": "Juni",
-      "view": 0,
-      "vote_count": 0,
-      "answer_count": 0,
-      "created_at": "2023-04-22T13:35:16.890Z",
-      "updated_at": "2023-04-23T16:17:50.432Z",
-      "id": 12
-    },
-    {
-      "tags": [
-        "로그인",
-        "로그아웃"
-      ],
-      "title": "로그인, 로그아웃 구현 완료했습니다",
-      "body_detail": "<p>토큰을 이용한 로그인, 로그아웃</p>",
-      "body_try": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
-      "user_id": 1,
-      "display_name": "Juni",
-      "view": 0,
-      "vote_count": 0,
-      "answer_count": 0,
-      "created_at": "2023-04-22T13:35:16.890Z",
-      "updated_at": "2023-04-23T16:17:50.432Z",
-      "id": 13
-    },
-    {
-      "tags": [
-        "로그인",
-        "로그아웃"
-      ],
-      "title": "로그인, 로그아웃 구현 완료했습니다",
-      "body_detail": "<p>토큰을 이용한 로그인, 로그아웃</p>",
-      "body_try": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
-      "user_id": 1,
-      "display_name": "Juni",
-      "view": 0,
-      "vote_count": 0,
-      "answer_count": 0,
-      "created_at": "2023-04-22T13:35:16.890Z",
-      "updated_at": "2023-04-23T16:17:50.432Z",
-      "id": 14
-    },
-    {
-      "tags": [
-        "로그인",
-        "로그아웃"
-      ],
-      "title": "로그인, 로그아웃 구현 완료했습니다",
-      "body_detail": "<p>토큰을 이용한 로그인, 로그아웃</p>",
-      "body_try": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
-      "user_id": 1,
-      "display_name": "Juni",
-      "view": 0,
-      "vote_count": 0,
-      "answer_count": 0,
-      "created_at": "2023-04-22T13:35:16.890Z",
-      "updated_at": "2023-04-23T16:17:50.432Z",
-      "id": 15
-    },
-    {
-      "tags": [
-        "로그인",
-        "로그아웃"
-      ],
-      "title": "로그인, 로그아웃 구현 완료했습니다",
-      "body_detail": "<p>토큰을 이용한 로그인, 로그아웃</p>",
-      "body_try": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
-      "user_id": 1,
-      "display_name": "Juni",
-      "view": 0,
-      "vote_count": 0,
-      "answer_count": 0,
-      "created_at": "2023-04-22T13:35:16.890Z",
-      "updated_at": "2023-04-23T16:17:50.432Z",
-      "id": 16
-    },
-    {
-      "tags": [
-        "로그인",
-        "로그아웃"
-      ],
-      "title": "로그인, 로그아웃 구현 완료했습니다",
-      "body_detail": "<p>토큰을 이용한 로그인, 로그아웃</p>",
-      "body_try": "<p>로그인을 하지 않으면 질문 작성이 불가능합니다</p>",
-      "user_id": 1,
-      "display_name": "Juni",
-      "view": 0,
-      "vote_count": 0,
-      "answer_count": 0,
-      "created_at": "2023-04-22T13:35:16.890Z",
-      "updated_at": "2023-04-23T16:17:50.432Z",
-      "id": 17
     }
   ],
   "answers": [
     {
       "id": 1,
-      "detail": "NoNo!",
-      "user_id": 2,
-      "question_id": 1,
-      "display_name": "Hoit",
-      "vote_count": 1,
-      "created_at": "2023-04-19T09:55:36.200Z",
-      "updated_at": "2023-04-19T09:55:36.200Z"
+      "body": "NoNo!",
+      "likeCount": 1,
+      "userId": 1,
+      "questionId": 1,
+      "createdBy": "YujunSun0",
+      "createdAt": "2023-04-19T09:55:36.200Z",
+      "modifiedAt": "2023-04-19T09:55:36.200Z"
     },
     {
       "id": 2,
-      "detail": "nice try!",
-      "user_id": 3,
-      "question_id": 1,
-      "display_name": "YujunSun0",
-      "vote_count": 0,
-      "created_at": "2023-04-21T09:55:36.200Z",
-      "updated_at": "2023-04-21T09:55:36.200Z"
+      "body": "nice try!",
+      "likeCount": 0,
+      "userId": 1,
+      "question_id": 3,
+      "createdBy": "YujunSun0",
+      "createdAt": "2023-04-21T09:55:36.200Z",
+      "modifiedAt": "2023-04-21T09:55:36.200Z"
     }
   ],
   "users": [
