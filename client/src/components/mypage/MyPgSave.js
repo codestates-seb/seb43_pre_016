@@ -201,7 +201,7 @@ const Saves = () => {
       </Sidebar>
       <div className="content-container">
         <div className="content-title">All saves</div>
-        <div className="content-title">2 saved items</div>
+        <div className="content-title">{content.length} saved items</div>
         <div className="content-boxs">{content}</div>
       </div>
     </Container>
