@@ -52,11 +52,21 @@ const MainContentForm = styled.div`
       margin-top: 8px;
       border-radius: 5px;
       margin-bottom: 24px;
+      font-size: 15px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #6a737c;
+    }
+    .AboutBox-in-text {
+      font-size: 15px;
+      margin-top: 8px;
     }
     .QnAContainer {
       width: 100%;
       height: 450px;
-      margin-top: 8px;
+      margin-top: 8%;
       display: flex;
       .AtextBox {
         width: 50%;
@@ -68,45 +78,6 @@ const MainContentForm = styled.div`
           height: 265px;
           border-radius: 5px;
           margin-top: 8px;
-          .AnswerForm {
-            border-bottom: 1px solid hsl(210, 8%, 85%);
-            width: 100%;
-            height: 20%;
-            display: flex;
-            flex-direction: column;
-            .Answer {
-              margin: 12px 6px 13px 6px;
-              display: inline-flex;
-              align-items: center;
-              flex-wrap: wrap;
-              .vote-badge {
-                width: 38px;
-                height: 26px;
-                background-color: #5eba7d;
-                border-radius: 3px;
-                margin-right: 10px;
-                color: #ffffff;
-                font-size: 12px;
-                justify-content: center;
-                display: flex;
-                align-items: center;
-              }
-              .answerLink {
-                font-size: 13px;
-                color: #0a95ff;
-                flex-grow: 1;
-                max-width: 50%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-              }
-              .answerDate {
-                font-size: 12px;
-                color: #6a737c;
-                margin-left: auto;
-              }
-            }
-          }
         }
       }
       .QtextBox {
@@ -141,20 +112,6 @@ const MainContentForm = styled.div`
                 display: flex;
                 align-items: center;
               }
-              .answerLink {
-                font-size: 13px;
-                color: #0a95ff;
-                flex-grow: 1;
-                max-width: 50%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-              }
-              .answerDate {
-                font-size: 12px;
-                color: #6a737c;
-                margin-left: auto;
-              }
             }
           }
         }
@@ -162,19 +119,72 @@ const MainContentForm = styled.div`
     }
   }
 `;
-const Profile = () => {
-  // Answer Question
-  let AnswerForm = (
-    <div className="AnswerForm">
-      <div className="Answer">
-        <div className="vote-badge">6</div>
-        <a className="answerLink" href="/users/idNumber/username">
-          Is there a faster way to loop through...
-        </a>
-        <div className="answerDate">Nov 19, 2022</div>
-      </div>
+const AnswerForm = styled.div`
+  border-bottom: 1px solid hsl(210, 8%, 85%);
+  width: 100%;
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+`;
+const Answer = styled.div`
+  margin: 12px 6px 13px 6px;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+`;
+const VoteBadge = styled.div`
+  width: 38px;
+  height: 26px;
+  background-color: #5eba7d;
+  border-radius: 3px;
+  margin-right: 10px;
+  color: #ffffff;
+  font-size: 12px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+`;
+const AnswerLink = styled.a`
+  font-size: 13px;
+  color: #0a95ff;
+  flex-grow: 1;
+  max-width: 50%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+const AnswerDate = styled.span`
+  font-size: 12px;
+  color: #6a737c;
+  margin-left: auto;
+`;
+//AboutBox
+const AboutBox = ({ text }) => {
+  const hasContent = Boolean(text);
+  const className = hasContent ? "AboutBox-in-text" : "AboutBox";
+
+  return (
+    <div className={className}>
+      {text || "Your about me section is currently blank."}
     </div>
   );
+};
+
+const Profile = () => {
+  // Answer Question
+  const AnswerForms = () => {
+    <AnswerForm>
+      <Answer>
+        <VoteBadge>0</VoteBadge>
+        <AnswerLink href="/users/idNumber/username">
+          This is an answer link
+        </AnswerLink>
+        <AnswerDate>Nov 19, 2022</AnswerDate>
+      </Answer>
+    </AnswerForm>;
+  };
+
+  const aboutText = ""; // 이 부분에 AboutBox에 들어갈 텍스트를 입력합니다.
 
   return (
     <MainContentForm>
@@ -206,19 +216,23 @@ const Profile = () => {
         <div className="AboutContainer">
           {/* About */}
           <div className="titlestick">About</div>
-          <div className="AboutBox"></div>
+          <AboutBox text={aboutText} />
         </div>
 
         <div className="QnAContainer">
           <div className="AtextBox">
             {/* Answers */}
             <div className="titlestick">Answers</div>
-            <div className="ABox">{AnswerForm}</div>
+            <div className="ABox">
+              <AnswerForms />
+            </div>
           </div>
           <div className="QtextBox">
             {/* Questions */}
             <div className="titlestick">Questions</div>
-            <div className="QBox">{AnswerForm}</div>
+            <div className="QBox">
+              <AnswerForms />
+            </div>
           </div>
         </div>
       </div>

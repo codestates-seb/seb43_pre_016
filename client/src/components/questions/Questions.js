@@ -265,8 +265,7 @@ const Questions = ({ cookies }) => {
       Voted: ActBtn === 4 ? "ActBtn" : "",
     };
   }, [ActBtn]);
-  // test 3
-  // 생성일(created_at) 순서대로
+  // 생성일(created_at) 순서
   const sortByNewest = () => {
     listData.sort((a, b) => {
       const dateA = new Date(a.created_at);
@@ -275,16 +274,16 @@ const Questions = ({ cookies }) => {
     });
   };
 
-  // 답변(answer) 없는 순서대로
+  // 답변(answer)없는 순서
   const sortByAnswerCount = () => {
     listData.sort((a, b) => a.answer_count - b.answer_count);
   };
-
+  //뷰(view)순서
   const sortByViewCount = () => {
     listData.sort((a, b) => b.view - a.view);
   };
 
-  //추천(vote) 순서 대로
+  //추천(vote)순서
   const sortByVoteCount = () => {
     listData.sort((a, b) => b.vote_count - a.vote_count);
   };
@@ -333,10 +332,10 @@ const Questions = ({ cookies }) => {
               Unanswered
             </button>
             <button
-              className={`nav__btn ${className1.viewed}`}
+              className={`nav__btn ${className1.Viewed}`}
               onClick={(e) => {
                 e.preventDefault();
-                setActBtn(2);
+                setActBtn(3);
                 sortByViewCount();
               }}
             >
@@ -346,7 +345,7 @@ const Questions = ({ cookies }) => {
               className={`nav__btn br-r3 ${className1.Voted}`}
               onClick={(e) => {
                 e.preventDefault();
-                setActBtn(3);
+                setActBtn(4);
                 sortByVoteCount();
               }}
             >

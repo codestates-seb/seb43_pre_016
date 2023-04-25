@@ -35,7 +35,58 @@ const UserBoxLayout = styled.div`
     }
   }
 `;
+const answers = {
+  updated_at: "2023-04-11T16:17:50.432Z",
+};
+const questions = {
+  updated_at: "2023-04-19T09:55:36.200Z",
+};
+
 const UserBox = () => {
+  const lastSeen = () => {
+    const now = new Date();
+    //answers, questions data 입력
+    const answerDate = new Date(answers.updated_at);
+    const questionDate = new Date(questions.updated_at);
+    const diffTimeAnswer = Math.abs(now - answerDate);
+    const diffTimeQuestion = Math.abs(now - questionDate);
+    const diffDaysAnswer = Math.ceil(diffTimeAnswer / (1000 * 60 * 60 * 24));
+    const diffDaysQuestion = Math.ceil(
+      diffTimeQuestion / (1000 * 60 * 60 * 24)
+    );
+    if (diffDaysAnswer <= diffDaysQuestion) {
+      if (diffDaysAnswer === 0) {
+        const diffHours = Math.ceil(diffTimeAnswer / (1000 * 60 * 60));
+        if (diffHours === 0) {
+          const diffMins = Math.ceil(diffTimeAnswer / (1000 * 60));
+          return `last seen ${diffMins} mins ago`;
+        } else {
+          return `last seen ${diffHours} hours ago`;
+        }
+      } else {
+        return `last seen ${diffDaysAnswer} days ago`;
+      }
+    } else {
+      if (diffDaysQuestion === 0) {
+        const diffHours = Math.ceil(diffTimeQuestion / (1000 * 60 * 60));
+        if (diffHours === 0) {
+          const diffMins = Math.ceil(diffTimeQuestion / (1000 * 60));
+          return `last seen ${diffMins} mins ago`;
+        } else {
+          return `last seen ${diffHours} hours ago`;
+        }
+      } else {
+        return `last seen ${diffDaysQuestion} days ago`;
+      }
+    }
+  };
+  //최근 들어온 날짜
+  const creationDate = "2023-04-16T10:30:00.000Z";
+  const millisecondsPerDay = 1000 * 60 * 60 * 24;
+  // 1 day = 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
+  const daysSinceCreation = Math.floor(
+    (Date.now() - new Date(creationDate)) / millisecondsPerDay
+  );
   return (
     <UserBoxLayout>
       <div className="Avatar">image</div>
@@ -43,10 +94,11 @@ const UserBox = () => {
         <div className="userName">userName</div>
         <div className="userInfo">
           <div className="creationDate">
-            <Cake className="icon" /> Member for 6 days
+            <Cake className="icon" /> Member for {daysSinceCreation}{" "}
+            {daysSinceCreation === 1 ? "day" : "days"}
           </div>
           <div className="lastSeen">
-            <AccessTime className="icon" /> Last seen this week
+            <AccessTime className="icon" /> {lastSeen()}
           </div>
           <div className="visitDay">
             <DateRange className="icon" /> Visited 5 days, 4 consecutive
