@@ -209,10 +209,11 @@ const Signup = () => {
 
   const submitData = async () => {
     try {
-      const response = await axios.post("http://localhost:8080/register", {
-        displayName,
-        email,
-        password,
+      const response = await axios.post("/users", {
+        // displayName,
+        userName: displayName,
+        email: email,
+        password: password,
       });
       console.log(response.data);
       setCookie("accessToken", response.data["accessToken"], { path: "/" });

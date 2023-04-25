@@ -54,5 +54,6 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.7"
-  }
+  },
+  "proxy": "https://251a-222-108-133-152.jp.ngrok.io/"
 }
