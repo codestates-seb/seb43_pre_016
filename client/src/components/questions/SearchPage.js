@@ -84,6 +84,7 @@ const Container = styled.div`
       background-color: #e3e6e8 !important;
     }
     .nav__btn:not(:last-child) {
+      cursor: pointer;
       font-size: 12px;
       color: #525960;
       background-color: #ffffff;
@@ -92,6 +93,10 @@ const Container = styled.div`
       border-width: 1px;
       margin: 0px -1px -1px 0px;
       padding: 9.6px;
+    }
+
+    .nav__btn:not(:last-child):hover {
+      background-color: #eeeeee;
     }
   }
 
@@ -104,6 +109,7 @@ const Container = styled.div`
   }
 
   .br3 {
+    cursor: pointer;
     font-size: 12px;
     border-radius: 3px;
     background-color: #e1ecf4;
@@ -247,6 +253,7 @@ const SearchPage = ({ cookies, search }) => {
 
   const navigate = useNavigate();
 
+  console.log(Object.keys(search));
   console.log(search);
   console.log(listData);
 
@@ -254,6 +261,11 @@ const SearchPage = ({ cookies, search }) => {
     axios
       .get("http://localhost:8080/questions")
       .then((res) => {
+        res.data.sort((b, a) => {
+          const A = new Date(a.createdAt);
+          const B = new Date(b.createdAt);
+          return A - B;
+        });
         setListData([...res.data]);
       })
       .catch((err) => {
@@ -301,41 +313,47 @@ const SearchPage = ({ cookies, search }) => {
   }, [listData]);
 
   const onChangeName = () => {
-    if (search.searchlist !== undefined && search.searchlist.answer !== "") {
-      return `answers>=${search.searchlist.answer}`;
-    }
-    if (search.searchlist !== undefined && search.searchlist.score !== "") {
-      return `score>=${search.searchlist.score}`;
-    }
-    if (search.searchlist !== undefined && search.searchlist.title !== "") {
-      return `title = ${search.searchlist.title}`;
+    if (search.searchlist !== undefined) {
+      if (search.searchlist.answer !== "") {
+        return `answers>=${search.searchlist.answer}`;
+      }
+      if (search.searchlist.score !== "") {
+        return `score>=${search.searchlist.score}`;
+      }
+      if (search.searchlist.title !== "") {
+        return `title = ${search.searchlist.title}`;
+      }
+      if (search.searchlist.user !== "") {
+        return `user = ${search.searchlist.user}`;
+      }
     }
     return "none";
   };
 
   const handleonpage = (e) => {
     navigate(
-      `/search?q=${
-        search.searchlist.title !== ""
-          ? "%1T" + search.searchlist.title + "%1T"
-          : ""
-      }${
-        search.searchlist.tag.length !== 0
-          ? "%2T" + search.searchlist.tag.join("+") + "%2T"
-          : ""
-      }${
-        search.searchlist.user.length !== 0
-          ? "%1U" + search.searchlist.user.join("+") + "%1U"
-          : ""
-      }${
-        search.searchlist.answer !== ""
-          ? "%answer:" + search.searchlist.answer + "%"
-          : ""
-      }${
-        search.searchlist.score !== ""
-          ? "%score:" + search.searchlist.score + "%"
-          : ""
-      }&page=${e}&tab=newest&pagesize=15`
+      Object.keys(search).length > 0 &&
+        `/search?q=${
+          search.searchlist.title !== ""
+            ? "%1T" + search.searchlist.title + "%1T"
+            : ""
+        }${
+          search.searchlist.tag.length !== 0
+            ? "%2T" + search.searchlist.tag.join("+") + "%2T"
+            : ""
+        }${
+          search.searchlist.user.length !== 0
+            ? "%1U" + search.searchlist.user.join("+") + "%1U"
+            : ""
+        }${
+          search.searchlist.answer !== ""
+            ? "%answer:" + search.searchlist.answer + "%"
+            : ""
+        }${
+          search.searchlist.score !== ""
+            ? "%score:" + search.searchlist.score + "%"
+            : ""
+        }&page=${e}&tab=newest&pagesize=15`
     );
     setCurrentpage(e);
   };
@@ -343,7 +361,6 @@ const SearchPage = ({ cookies, search }) => {
     data();
     window.scrollTo(0, 0);
   }, [currentpage]);
-  console.log(listData);
 
   return (
     <Container>
@@ -352,12 +369,12 @@ const SearchPage = ({ cookies, search }) => {
           <div className="search__log">
             <h3>Search Results</h3>
             <p>{`Results for ${
-              search.searchtext !== undefined &&
-              search.searchlist.length === 0 &&
-              search.searchtext.replace(
-                /(?:answer:\d|score:\d|title:\w|user:\d|\[\])+/gi,
-                ""
-              )
+              Object.keys(search).length > 0
+                ? search.searchtext.replace(
+                    /(?:answer:\d|score:\d|title:\w|user:\d|\[\])+/gi,
+                    ""
+                  )
+                : "none"
             }`}</p>
             <p>{`Search options ${onChangeName()}`}</p>
           </div>
@@ -428,10 +445,6 @@ const SearchPage = ({ cookies, search }) => {
                 <li className="mainbar__list" key={list.id}>
                   <div className="mainbar__list__left">
                     <p>{`${list.likeCount} votes`}</p>
-                    <p>{`${
-                      list.answers !== undefined && list.answers.length
-                    } answers`}</p>
-                    <p>{`${list.view} views`}</p>
                     <p
                       className="mainbar_list_left_answer"
                       style={
@@ -485,10 +498,10 @@ const SearchPage = ({ cookies, search }) => {
                           width="16px"
                           alt="profile"
                         />
-                        <Link to="/users/id/userName">{list.display_name}</Link>
+                        <Link to="/users/id/userName">{list.createdBy}</Link>
                         <span>
                           <span className="bold">0</span>{" "}
-                          {`asked ${onSaveTime(list.created_at)}`}
+                          {`asked ${onSaveTime(list.createdAt)}`}
                         </span>
                       </div>
                     </div>
