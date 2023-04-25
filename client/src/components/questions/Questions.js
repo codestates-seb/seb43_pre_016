@@ -1,11 +1,12 @@
+import { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { Link, useNavigate } from "react-router-dom";
 import onSaveTime from "../../features/onSaveTime";
-import { useEffect, useMemo, useState } from "react";
-import Pagination from "react-js-pagination";
-import "./Paging.css";
 import axios from "axios";
+import "./Paging.css";
+import Pagination from "react-js-pagination";
+import { padding } from "@mui/system";
 
 const Container = styled.div`
   display: flex;
@@ -60,9 +61,6 @@ const Container = styled.div`
   .mainbar__filter__btn {
     display: flex;
     align-items: center;
-    .ActBtn {
-      background-color: #e3e6e8 !important;
-    }
     .nav__btn:not(:last-child) {
       font-size: 12px;
       color: #525960;
@@ -72,11 +70,6 @@ const Container = styled.div`
       border-width: 1px;
       margin: 0px -1px -1px 0px;
       padding: 9.6px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #f5f5f5;
-      }
     }
   }
 
@@ -131,6 +124,9 @@ const Container = styled.div`
       white-space: nowrap;
       margin: 5px 0px;
     }
+  }
+  .mainbar_list_left_answer {
+    border-radius: 3px;
   }
 
   .mainbar__list__right {
@@ -225,6 +221,7 @@ const Questions = ({ cookies }) => {
   const [listData, setListData] = useState([]);
   const [currentpage, setCurrentpage] = useState(1);
   const [ActBtn, setActBtn] = useState(1);
+
   console.log(listData);
 
   // // 백엔드 서버 관련 코드
@@ -301,7 +298,6 @@ const Questions = ({ cookies }) => {
     sortByNewest();
     console.log(listData);
   }, [listData]);
-
   return (
     <Container>
       <div className="mainbar">
@@ -374,8 +370,33 @@ const Questions = ({ cookies }) => {
                 <li className="mainbar__list" key={list.id}>
                   <div className="mainbar__list__left">
                     <p>{`${list.likeCount} votes`}</p>
-                    <p>{`${list.answers && list.answers.length} answers`}</p>
-                    <p>{`${list.view} views`}</p>
+                    <p
+                      className="mainbar_list_left_answer"
+                      style={
+                        Number(list.answers.length) > 0
+                          ? {
+                              color: "white",
+                              backgroundColor: "#2f6f44",
+                              padding: "3px",
+                            }
+                          : { border: "none", marginLeft: "3px" }
+                      }
+                    >{`${list.answers && list.answers.length} answers`}</p>
+                    <p
+                      style={
+                        Number(list.view) < 1000
+                          ? { color: "#6a737c" }
+                          : Number(list.view) < 1000000
+                          ? { color: "#922024", fontWeight: "400" }
+                          : { color: "#922024", fontWeight: "700" }
+                      }
+                    >{`${
+                      Number(list.view) < 1000
+                        ? list.view
+                        : Number(list.view) < 1000000
+                        ? String(parseInt(Number(list.view) / 1000)) + "k"
+                        : String(Number(list.view) / 1000000).slice(0, 3) + "m"
+                    } views`}</p>
                   </div>
                   <div className="mainbar__list__right">
                     <Link to={`/questions/${list.id}`}>
