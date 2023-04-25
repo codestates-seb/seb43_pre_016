@@ -210,7 +210,6 @@ const Signup = () => {
   const submitData = async () => {
     try {
       const response = await axios.post("/users", {
-        // displayName,
         userName: displayName,
         email: email,
         password: password,
