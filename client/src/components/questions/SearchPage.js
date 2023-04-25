@@ -252,6 +252,12 @@ const SearchPage = ({ cookies, search }) => {
     if (search.searchlist !== undefined && search.searchlist.answer !== "") {
       return `answers>=${search.searchlist.answer}`;
     }
+    if (search.searchlist !== undefined && search.searchlist.score !== "") {
+      return `score>=${search.searchlist.score}`;
+    }
+    if (search.searchlist !== undefined && search.searchlist.title !== "") {
+      return `title = ${search.searchlist.title}`;
+    }
     return "none";
   };
 
@@ -291,7 +297,7 @@ const SearchPage = ({ cookies, search }) => {
             <p>{`Results for ${
               search.searchtext !== undefined &&
               search.searchtext.replace(
-                /(?:answer:\d|score:\d|title:\d|user:\d|\[\])+/gi,
+                /(?:answer:\d|score:\d|title:\w|user:\d|\[\])+/gi,
                 ""
               )
             }`}</p>
