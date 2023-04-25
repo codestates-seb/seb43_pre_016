@@ -65,6 +65,7 @@ const Container = styled.div`
       background-color: #e3e6e8 !important;
     }
     .nav__btn:not(:last-child) {
+      cursor: pointer;
       font-size: 12px;
       color: #525960;
       background-color: #ffffff;
@@ -73,6 +74,9 @@ const Container = styled.div`
       border-width: 1px;
       margin: 0px -1px -1px 0px;
       padding: 9.6px;
+    }
+    .nav__btn:not(:last-child):hover {
+      background-color: #eeeeee;
     }
   }
 
@@ -85,6 +89,7 @@ const Container = styled.div`
   }
 
   .br3 {
+    cursor: pointer;
     font-size: 12px;
     border-radius: 3px;
     background-color: #e1ecf4;
@@ -224,9 +229,7 @@ const Questions = ({ cookies }) => {
   const [listData, setListData] = useState([]);
   const [currentpage, setCurrentpage] = useState(1);
   const [ActBtn, setActBtn] = useState(1);
-
   console.log(listData);
-
   // // 백엔드 서버 관련 코드
   // const data = async () => {
   //   await axios
@@ -244,6 +247,11 @@ const Questions = ({ cookies }) => {
     await axios
       .get(`http://localhost:8080/questions`)
       .then((res) => {
+        res.data.sort((b, a) => {
+          const A = new Date(a.createdAt);
+          const B = new Date(b.createdAt);
+          return A - B;
+        });
         setListData([...res.data]);
       })
       .catch((err) => {
@@ -267,7 +275,7 @@ const Questions = ({ cookies }) => {
       }${currentpage === 1 ? "" : "?page=" + currentpage + "&size=15"}`
     );
     data();
-  }, [currentpage, ActBtn]);
+  }, [currentpage]); //임시 서버에서는 ActBtn을 배열에 넣어두면 정렬이 되지않음.
 
   const handleonpage = (e) => {
     setCurrentpage(e);
@@ -306,10 +314,6 @@ const Questions = ({ cookies }) => {
     listData.sort((a, b) => b.likeCount - a.likeCount);
   };
 
-  useEffect(() => {
-    sortByNewest();
-    console.log(listData);
-  }, [listData]);
   return (
     <Container>
       <div className="mainbar">
@@ -436,7 +440,7 @@ const Questions = ({ cookies }) => {
                           width="16px"
                           alt="profile"
                         />
-                        <Link to="/users/id/userName">{list.display_name}</Link>
+                        <Link to="/users/id/userName">{list.createdBy}</Link>
                         <span>
                           <span className="bold">0</span>{" "}
                           {`asked ${onSaveTime(list.createdAt)}`}

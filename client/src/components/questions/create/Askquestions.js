@@ -136,6 +136,7 @@ const Taglist = styled.div`
     line-height: 12px;
     margin: 0px 4px 2px 0px;
     padding: 0px 5px;
+    white-space: nowrap;
     color: #39739d;
 
     button {

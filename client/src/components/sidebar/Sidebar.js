@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import PublicIcon from "@mui/icons-material/Public";
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
 const LeftSidebarWrap = styled.nav`
   width: 164px;
@@ -20,10 +21,20 @@ const LeftSidebarWrap = styled.nav`
   .left-sidebar__nav {
     margin: 0px 0px 12px;
 
+    li:not(:nth-child(2)):hover {
+      cursor: pointer;
+      a {
+        color: black !important;
+      }
+    }
+
     .selectedTab {
       background-color: #f1f2f3;
       font-weight: bold;
       border-right: 3px solid hsl(27, 90%, 50%);
+      a {
+        color: black !important;
+      }
     }
     .home {
       color: "#0c0d0e";
@@ -74,51 +85,43 @@ const Sidebar = () => {
   return (
     <LeftSidebarWrap selectedTab={selectedTab}>
       <ul className="left-sidebar__nav">
-        <li className={`home ${className.home}`}>
-          <a
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              setSelectedTab(1);
-            }}
-          >
-            Home
-          </a>
+        <li
+          className={`home ${className.home}`}
+          onClick={(e) => {
+            e.preventDefault();
+            setSelectedTab(1);
+          }}
+        >
+          <a href="/">Home</a>
         </li>
         <li className="public">PUBLIC</li>
-        <li className={`public__li p-l-5  ${className.questions}`}>
+        <li
+          className={`public__li p-l-5  ${className.questions}`}
+          onClick={(e) => {
+            e.preventDefault();
+            setSelectedTab(2);
+          }}
+        >
           <PublicIcon />
-          <a
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              setSelectedTab(2);
-            }}
-          >
-            Questions
-          </a>
+          <Link to={`/questions`}>Questions</Link>
         </li>
-        <li className={`public__li ${className.tags}`}>
-          <a
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              setSelectedTab(3);
-            }}
-          >
-            Tags
-          </a>
+        <li
+          className={`public__li ${className.tags}`}
+          onClick={(e) => {
+            e.preventDefault();
+            setSelectedTab(3);
+          }}
+        >
+          <a href="/">Tags</a>
         </li>
-        <li className={`public__li ${className.users}`}>
-          <a
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              setSelectedTab(4);
-            }}
-          >
-            Users
-          </a>
+        <li
+          className={`public__li ${className.users}`}
+          onClick={(e) => {
+            e.preventDefault();
+            setSelectedTab(4);
+          }}
+        >
+          <a href="/">Users</a>
         </li>
       </ul>
     </LeftSidebarWrap>
