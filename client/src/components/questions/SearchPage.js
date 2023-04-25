@@ -295,7 +295,7 @@ const SearchPage = ({ cookies, search }) => {
   useEffect(() => {
     data();
     window.scrollTo(0, 0);
-  }, [currentpage]);
+  }, [search.searchlist, currentpage]);
   console.log(listData);
 
   return (
