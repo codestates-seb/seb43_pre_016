@@ -29,7 +29,7 @@ function App() {
       {cookies.accessToken ? (
         <LoginHeader removeCookie={removeCookie} setSearch={setSearch} />
       ) : (
-        <LogoutHeader />
+        <LogoutHeader setSearch={setSearch} />
       )}
       <Routes>
         <Route

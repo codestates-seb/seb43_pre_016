@@ -1,4 +1,12 @@
-import { Cake, AccessTime, DateRange } from "@mui/icons-material";
+import {
+  Cake,
+  AccessTime,
+  DateRange,
+  CollectionsOutlined,
+  CropLandscapeSharp,
+} from "@mui/icons-material";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const UserBoxLayout = styled.div`
@@ -35,19 +43,41 @@ const UserBoxLayout = styled.div`
     }
   }
 `;
-const answers = {
-  updated_at: "2023-04-11T16:17:50.432Z",
-};
-const questions = {
-  updated_at: "2023-04-19T09:55:36.200Z",
-};
 
 const UserBox = () => {
+  const [userData, setUserData] = useState([]);
+  const data = () => {
+    axios
+      .get(`http://localhost:8080/users`)
+      .then((res) => {
+        setUserData([...res.data]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    data();
+  }, []);
+
+  //유저 이름
+  const UserDisplayName = ({ userId }) => {
+    const user = userData.find((u) => u.id === userId);
+    return <div className="userName">{user ? user.userName : ""}</div>;
+  };
+
+  //유저 생성일
+  const creationDate = userData[0]?.createdAt;
+
+  //유저 최근 활동일
+  const creationAnswer = userData[0]?.answers[0]?.createdAt;
+  const creationQuestions = userData[0]?.questions[0]?.createdAt;
+
   const lastSeen = () => {
     const now = new Date();
     //answers, questions data 입력
-    const answerDate = new Date(answers.updated_at);
-    const questionDate = new Date(questions.updated_at);
+    const answerDate = new Date(creationAnswer);
+    const questionDate = new Date(creationQuestions);
     const diffTimeAnswer = Math.abs(now - answerDate);
     const diffTimeQuestion = Math.abs(now - questionDate);
     const diffDaysAnswer = Math.ceil(diffTimeAnswer / (1000 * 60 * 60 * 24));
@@ -80,8 +110,8 @@ const UserBox = () => {
       }
     }
   };
-  //최근 들어온 날짜
-  const creationDate = "2023-04-16T10:30:00.000Z";
+
+  //유저 최근 활동일
   const millisecondsPerDay = 1000 * 60 * 60 * 24;
   // 1 day = 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
   const daysSinceCreation = Math.floor(
@@ -91,7 +121,7 @@ const UserBox = () => {
     <UserBoxLayout>
       <div className="Avatar">image</div>
       <div className="userContainer">
-        <div className="userName">userName</div>
+        <UserDisplayName userId={1} />
         <div className="userInfo">
           <div className="creationDate">
             <Cake className="icon" /> Member for {daysSinceCreation}{" "}

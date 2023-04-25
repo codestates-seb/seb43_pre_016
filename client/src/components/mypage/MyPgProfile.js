@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const MainContentForm = styled.div`
@@ -170,21 +172,107 @@ const AboutBox = ({ text }) => {
   );
 };
 
-const Profile = () => {
-  // Answer Question
-  const AnswerForms = () => {
-    <AnswerForm>
-      <Answer>
-        <VoteBadge>0</VoteBadge>
-        <AnswerLink href="/users/idNumber/username">
-          This is an answer link
-        </AnswerLink>
-        <AnswerDate>Nov 19, 2022</AnswerDate>
-      </Answer>
-    </AnswerForm>;
-  };
+const AnswerForms = () => {
+  const [userData, setUserData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/users`)
+      .then((res) => {
+        setUserData(res.data.slice(0, 5));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  return (
+    <>
+      {userData.map((userData) => {
+        return userData.answers.map((answerData) => {
+          return (
+            <AnswerForm key={answerData.id}>
+              <Answer>
+                <VoteBadge>{answerData.likeCount}</VoteBadge>
+                <AnswerLink href={`/users/${userData.id}/${userData.userName}`}>
+                  {answerData.body}
+                </AnswerLink>
+                <AnswerDate>
+                  {new Date(answerData.createdAt).toLocaleDateString("en-GB", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </AnswerDate>
+              </Answer>
+            </AnswerForm>
+          );
+        });
+      })}
+    </>
+  );
+};
 
-  const aboutText = ""; // 이 부분에 AboutBox에 들어갈 텍스트를 입력합니다.
+const QuestionForms = () => {
+  const [userData, setUserData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/users`)
+      .then((res) => {
+        setUserData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  return (
+    <>
+      {userData.map((userData) => {
+        return userData.questions.map((questData) => {
+          return (
+            <AnswerForm key={questData.id}>
+              <Answer>
+                <VoteBadge>{questData.likeCount}</VoteBadge>
+                <AnswerLink href={`/users/${userData.id}/${userData.userName}`}>
+                  {questData.title}
+                </AnswerLink>
+                <AnswerDate>
+                  {new Date(questData.createdAt).toLocaleDateString("en-GB", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </AnswerDate>
+              </Answer>
+            </AnswerForm>
+          );
+        });
+      })}
+    </>
+  );
+};
+
+const Profile = () => {
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/users`)
+      .then((res) => {
+        setUserData([...res.data]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // 유저 answer길이
+  const answerLength = userData.length > 0 ? userData[0]?.answers.length : 0;
+  // 유저 question길이
+  const questionLength =
+    userData.length > 0 ? userData[0]?.questions.length : 0;
+  // 유저 answerLikes
+  const answerLikes = userData.length > 0 ? userData[0]?.answerLikes.length : 0;
+  // AboutBox에 들어갈 텍스트를 입력합니다.
+  const aboutText = userData[0]?.about;
 
   return (
     <MainContentForm>
@@ -194,19 +282,19 @@ const Profile = () => {
         <div className="stats-box">
           <div className="inner-box">
             <div className="content-box">
-              <div className="count">1</div>
-              <div className="sideText">reputation</div>
+              <div className="count">{answerLikes}</div>
+              <div className="sideText">AnswerLike</div>
             </div>
             <div className="content-box">
               <div className="count">1</div>
               <div className="sideText">reached</div>
             </div>
             <div className="content-box">
-              <div className="count">1</div>
+              <div className="count">{answerLength}</div>
               <div className="sideText">answers</div>
             </div>
             <div className="content-box">
-              <div className="count">1</div>
+              <div className="count">{questionLength}</div>
               <div className="sideText">qustions</div>
             </div>
           </div>
@@ -231,7 +319,7 @@ const Profile = () => {
             {/* Questions */}
             <div className="titlestick">Questions</div>
             <div className="QBox">
-              <AnswerForms />
+              <QuestionForms />
             </div>
           </div>
         </div>

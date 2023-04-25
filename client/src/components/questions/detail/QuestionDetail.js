@@ -271,6 +271,7 @@ const Answerwrapper = styled.section`
 
     button {
       border: none;
+
       background: none;
       margin: 2px;
       text-align: center;
@@ -416,9 +417,23 @@ const QuestionDetail = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const [answer, setAnswer] = useState("");
-  console.log(id);
   console.log(questionData);
 
+  // // 백엔드 서버 관련 코드
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   axios
+  //     .get(`/questions/${id}`)
+  //     .then((res) => {
+  //       setQuestionData({ ...res.data });
+  //       setIsLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
+
+  // 임시 서버 관련 코드
   useEffect(() => {
     setIsLoading(true);
     axios
@@ -426,15 +441,6 @@ const QuestionDetail = () => {
       .then((res) => {
         setQuestionData({ ...res.data });
         setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    axios
-      .get(`http://localhost:8080/answers/${id}`)
-      .then((res) => {
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -458,11 +464,11 @@ const QuestionDetail = () => {
               <div className="question__info">
                 <div className="info">
                   <span>Asked</span>
-                  <span>{`${onSaveTime(questionData.created_at)}`}</span>
+                  <span>{`${onSaveTime(questionData.createdAt)}`}</span>
                 </div>
                 <div className="info">
                   <span>Modified</span>
-                  <span> {`${onSaveTime(questionData.updated_at)}`}</span>
+                  <span> {`${onSaveTime(questionData.modifiedAt)}`}</span>
                 </div>
                 <div className="info">
                   <span>Viewed</span>
@@ -483,7 +489,7 @@ const QuestionDetail = () => {
                     <path d="M2 25h32L18 9 2 25Z"></path>
                   </svg>
                 </button>
-                <div className="vote">{questionData.vote_count}</div>
+                <div className="vote">{questionData.likeCount}</div>
                 <button className="downvote__btn">
                   <svg
                     aria-hidden="true"
@@ -502,7 +508,7 @@ const QuestionDetail = () => {
                 <ReactQuill
                   theme="snow"
                   style={customStyle}
-                  value={`${questionData.body_detail} ${questionData.body_try}`}
+                  value={`${questionData.body} ${questionData.bodyDetail}`}
                   modules={readOnlyModules}
                   readOnly
                 />
@@ -521,6 +527,7 @@ const QuestionDetail = () => {
                     <Link
                       className="edit"
                       to={`/questions/${questionData.id}/editQuestion`}
+                      // to={`/questions/${questionData.questionId}/editQuestion`}
                     >
                       Edit
                     </Link>
@@ -529,7 +536,9 @@ const QuestionDetail = () => {
                     </a>
                   </div>
                   <div className="answer_profile">
-                    <div className="user-action-time">asked 50 mins ago</div>
+                    <div className="user-action-time">{`asked ${onSaveTime(
+                      questionData.createdAt
+                    )}`}</div>
                     <div className="user-profile">
                       <img
                         src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
@@ -537,7 +546,7 @@ const QuestionDetail = () => {
                         height="32px"
                       />
                       <div className="user-details">
-                        <a href="/">{questionData.display_name}</a>
+                        <a href="/">{questionData.createdBy}</a>
                       </div>
                     </div>
                   </div>
@@ -556,7 +565,7 @@ const QuestionDetail = () => {
             {questionData.answers !== undefined &&
               questionData.answers.map((answer) => {
                 return (
-                  <li key={answer.answer_id}>
+                  <li key={answer.answerId}>
                     <Answerwrapper>
                       <section className="main">
                         <div className="votes">
@@ -571,7 +580,7 @@ const QuestionDetail = () => {
                               <path d="M2 25h32L18 9 2 25Z"></path>
                             </svg>
                           </button>
-                          <div className="vote">{answer.vote_count}</div>
+                          <div className="vote">{answer.likeCount}</div>
                           <button className="downvote__btn">
                             <svg
                               aria-hidden="true"
@@ -590,7 +599,7 @@ const QuestionDetail = () => {
                           <ReactQuill
                             theme="snow"
                             style={customStyle}
-                            value={answer.detail}
+                            value={answer.body}
                             modules={readOnlyModules}
                             readOnly
                           />
@@ -605,7 +614,7 @@ const QuestionDetail = () => {
                             </div>
                             <div className="answer_profile">
                               <div className="user-action-time">
-                                {`answered 50 mins ago`}
+                                {`answered ${onSaveTime(answer.createdAt)}`}
                               </div>
                               <div className="user-profile">
                                 <img
@@ -614,7 +623,7 @@ const QuestionDetail = () => {
                                   height="32px"
                                 />
                                 <div className="user-details">
-                                  <a href="/">{answer.display_name}</a>
+                                  <a href="/">{answer.createdBy}</a>
                                 </div>
                               </div>
                             </div>
