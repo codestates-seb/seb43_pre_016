@@ -119,6 +119,7 @@ const HeaderWrapper = styled.header`
     height: 20px;
     line-height: 10px;
     border: none;
+    outline: none;
     font-size: 13px;
     font-family: -apple-system;
     color: #3b4045;
