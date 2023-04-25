@@ -173,7 +173,7 @@ const QuestionEdit = () => {
 
   useEffect(() => {
     axios
-      .get(`/questions/${id}`)
+      .get(`http://localhost:8080/questions/${id}`)
       .then((res) => {
         setTitle(`${res.data.title}`);
         setDetail(`${res.data.body}`);

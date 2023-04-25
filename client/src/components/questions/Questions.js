@@ -371,14 +371,14 @@ const Questions = ({ cookies }) => {
           {listData &&
             listData.map((list) => {
               return (
-                <li className="mainbar__list" key={list.questionId}>
+                <li className="mainbar__list" key={list.id}>
                   <div className="mainbar__list__left">
                     <p>{`${list.likeCount} votes`}</p>
                     <p>{`${list.answers && list.answers.length} answers`}</p>
                     <p>{`${list.view} views`}</p>
                   </div>
                   <div className="mainbar__list__right">
-                    <Link to={`/questions/${list.questionId}`}>
+                    <Link to={`/questions/${list.id}`}>
                       <h3>{list.title}</h3>
                     </Link>
                     <p>{`${list.body.replace(
@@ -388,9 +388,9 @@ const Questions = ({ cookies }) => {
                     <div className="mainbar__list__bottom">
                       <div className="mainbar__list__tag">
                         {list.tags &&
-                          list.tags.map((el) => {
+                          list.tags.map((el, idx) => {
                             return (
-                              <a href="/" key={list.questionId}>
+                              <a href="/" key={idx}>
                                 {el}
                               </a>
                             );

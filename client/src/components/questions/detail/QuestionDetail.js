@@ -526,7 +526,8 @@ const QuestionDetail = () => {
                   <div className="buttons">
                     <Link
                       className="edit"
-                      to={`/questions/${questionData.questionId}/editQuestion`}
+                      to={`/questions/${questionData.id}/editQuestion`}
+                      // to={`/questions/${questionData.questionId}/editQuestion`}
                     >
                       Edit
                     </Link>
