@@ -28,10 +28,12 @@ public class QuestionResponseDto {
     //private int viewCount;
 
     private String createdBy;//UserName대신 작성한걸로 이해중, 나중에 조율헤서 수정할것
+
+    private String UserName;
     private String UserEmail;
     private List<AnswerDto.Response> answers;
 
-    //private Integer likeCount;
+    private int likeCount;
     //private List<String> tags;
     //private Integer view
 }

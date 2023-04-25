@@ -5,13 +5,17 @@ import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.answer.repository.AnswerRepository;
 import com.codestates.preproject.question.dto.QuestionResponseDto;
 import com.codestates.preproject.question.entity.Question;
+import com.codestates.preproject.question.like.QuestionLike;
+import com.codestates.preproject.question.like.QuestionLikeRepository;
 import com.codestates.preproject.question.repository.QuestionRepository;
+import com.codestates.preproject.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.net.UnknownServiceException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,12 +25,13 @@ import java.util.stream.Collectors;
 public class QuestionService {
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
+    private final QuestionLikeRepository questionLikeRepository;
 
-    public QuestionService(QuestionRepository questionRepository, AnswerRepository answerRepository) {
+    public QuestionService(QuestionRepository questionRepository, AnswerRepository answerRepository, QuestionLikeRepository questionLikeRepository) {
         this.questionRepository = questionRepository;
         this.answerRepository = answerRepository;
+        this.questionLikeRepository = questionLikeRepository;
     }
-
 
     public Question createQuestion(Question question){
         if(question.getUser() == null){
@@ -57,8 +62,9 @@ public class QuestionService {
         questionResponseDto.setUserId(question.getUser().getUserId());
         questionResponseDto.setCreatedAt(question.getCreatedAt());
         questionResponseDto.setModifiedAt(question.getModifiedAt());
-        questionResponseDto.setCreatedBy(question.getCreatedBy());
+        questionResponseDto.setUserName(question.getUser().getUserName());
         questionResponseDto.setUserEmail(question.getUser().getEmail());
+        questionResponseDto.setLikeCount(question.getLikeCount());
 
         List<AnswerDto.Response> answerResponseList = answerRepository.findByQuestionQuestionId(questionId).stream()
                 .map(answer -> {
@@ -67,9 +73,9 @@ public class QuestionService {
                     answerResponseDto.setBody(answer.getBody());
                     answerResponseDto.setUserId(answer.getUser().getUserId());
                     answerResponseDto.setQuestionId(questionId);
+                    answerResponseDto.setLikeCount(answer.getLikeCount());
                     answerResponseDto.setCreatedAt(answer.getCreatedAt());
                     answerResponseDto.setModifiedAt(answer.getModifiedAt());
-                    answerResponseDto.setCreatedBy(answer.getCreatedBy());
                     answerResponseDto.setUserName(answer.getUser().getUserName());
                     return answerResponseDto;
                 })
@@ -78,6 +84,8 @@ public class QuestionService {
 
         return questionResponseDto;
     }
+    //질문 상세
+    //- 태그, 추천수, 방문자수, 좋아요 여부 정보로그인중인 사용자 기준), 북마크 여부 정보(로그인중인 사용자 기준)
 
 
     public Page<Question> findQuestions(int page,int size){
@@ -98,5 +106,43 @@ public class QuestionService {
     private Question findVerifierQuestion(long questionId){
         return questionRepository.findById(questionId)
                 .orElseThrow(() -> new EntityNotFoundException("Question Not Found"));
+    }
+
+    //좋아요서비스
+    public Question likeQuestion(long questionId, long userId){
+        User user = new User();
+        user.setUserId(userId);
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(() -> new RuntimeException());
+        QuestionLike findQuestionLike = questionLikeRepository.findByUserAndQuestion(user,question);
+
+        if (findQuestionLike == null){
+            findQuestionLike = new QuestionLike(user,question,true);
+        }
+        else {
+            findQuestionLike.setLiked(true);
+        }
+        QuestionLike questionLike = questionLikeRepository.save(findQuestionLike);
+        question.addQuestionLike(questionLike);
+        questionRepository.save(question);
+        return question;
+    }
+    public Question dislikeQuestion(long questionId, long userId){
+        User user = new User();
+        user.setUserId(userId);
+
+        Question question = questionRepository.findById(questionId)
+                .orElseThrow(()-> new RuntimeException());
+        QuestionLike questionLike = questionLikeRepository
+                .findByUserAndQuestion(user,question);
+        if (questionLike == null){
+            questionLike = new QuestionLike(user,question,false);
+        } else {
+            questionLike.setLiked(false);
+        }
+        QuestionLike questionLike1 = questionLikeRepository.save(questionLike);
+        question.addQuestionLike(questionLike1);
+        questionRepository.save(question);
+        return question;
     }
 }

@@ -48,7 +48,7 @@ public class AnswerDto {
         private long questionId;
         private LocalDateTime modifiedAt;
         private LocalDateTime createdAt;
-        private String createdBy;
+        //private String createdBy;
 
 
     }

@@ -1,6 +1,7 @@
 package com.codestates.preproject.question.controller;
 
 
+import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.question.dto.QuestionPatchDto;
 import com.codestates.preproject.question.dto.QuestionPostDto;
 import com.codestates.preproject.question.dto.QuestionResponseDto;
@@ -35,7 +36,7 @@ public class QuestionController {
     }
 
     @PatchMapping("/{question-Id}")
-    public ResponseEntity<QuestionResponseDto> patchQuestion(@PathVariable Long questionId,
+    public ResponseEntity<QuestionResponseDto> patchQuestion(@PathVariable("question-Id") Long questionId,
                                                               @Valid @RequestBody QuestionPatchDto requestBody){
         Question question = mapper.questionPatchDtoToQuestion(requestBody);
         question.setQuestionId(questionId);
@@ -43,8 +44,8 @@ public class QuestionController {
         return new ResponseEntity<>(mapper.questionToQuestionResponseDto(updatedQuestion),HttpStatus.OK);
     }
 
-    @GetMapping("/{questionId}")
-    public ResponseEntity<QuestionResponseDto> getQuestion(@PathVariable Long questionId){
+    @GetMapping("/{question-Id}")
+    public ResponseEntity<QuestionResponseDto> getQuestion(@PathVariable("question-Id") Long questionId){
         QuestionResponseDto responseDto = questionService.findQuestion(questionId);
         return ResponseEntity.ok(responseDto);
     }
@@ -60,7 +61,7 @@ public class QuestionController {
     }
 
     @DeleteMapping("/{question-Id}")
-    public ResponseEntity deleteQuestion(@PathVariable("question-id") Long questionId){
+    public ResponseEntity deleteQuestion(@PathVariable("question-Id") Long questionId){
         questionService.deleteQuestion(questionId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -70,6 +71,24 @@ public class QuestionController {
         questionService.deleteAll();
 
         return  new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @PostMapping("/{question-id}/like/{user-id}")
+    public ResponseEntity likeQuestion(@PathVariable("question-id") long questionId,
+                                     @PathVariable("user-id")long userId) {
+
+        Question likedQuestion = questionService.likeQuestion(questionId,userId);
+
+        return new ResponseEntity<>(mapper.questionToQuestionResponseDto(likedQuestion),HttpStatus.OK);
+    }
+
+    @PostMapping("/{question-id}/dislike/{user-id}")
+    public ResponseEntity dislikeQuestion(@PathVariable("question-id") long questionId,
+                                        @PathVariable("question-id") long userId) {
+
+        Question dislikedQuestion= questionService.dislikeQuestion(questionId,userId);
+
+
+        return new ResponseEntity<>(mapper.questionToQuestionResponseDto(dislikedQuestion),HttpStatus.OK);
     }
 
 }

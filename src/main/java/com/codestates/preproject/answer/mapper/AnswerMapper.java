@@ -30,7 +30,7 @@ public interface AnswerMapper {
        response.setBody(answer.getBody());
        response.setUserId(answer.getUser().getUserId());
        response.setModifiedAt(answer.getModifiedAt());
-       response.setCreatedBy(answer.getCreatedBy());
+       //response.setCreatedBy(answer.getCreatedBy());
        response.setQuestionId(answer.getQuestion().getQuestionId());
        response.setUserName(answer.getUser().getUserName());
        response.setCreatedAt(answer.getCreatedAt());

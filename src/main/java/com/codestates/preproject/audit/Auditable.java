@@ -26,9 +26,9 @@ public abstract class Auditable {
     private LocalDateTime modifiedAt;
 
 
-    @CreatedBy
-    @Column(updatable = false)
-    private String createdBy;
+    //@CreatedBy
+    //@Column(updatable = false)
+    //private String createdBy;
 
 
 }

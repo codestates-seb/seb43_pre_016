@@ -1,5 +1,6 @@
 package com.codestates.preproject.question.entity;
 
+import com.codestates.preproject.question.like.QuestionLike;
 import com.codestates.preproject.user.entity.User;
 import com.codestates.preproject.audit.Auditable;
 import com.codestates.preproject.answer.entity.Answer;
@@ -42,5 +43,18 @@ public class Question extends Auditable {
     private List<Answer> answers=new ArrayList<>();
 
     private int likeCount;
+
+    @OneToMany(mappedBy = "question")
+    private List<QuestionLike> questionLikes = new ArrayList<>();
+
+    public void addQuestionLike(QuestionLike questionLike){
+        questionLikes.add(questionLike);
+        if (questionLike.isLiked()){
+            this.likeCount++;
+        } else {
+            this.likeCount--;
+        }
+    }
+
 
 }
