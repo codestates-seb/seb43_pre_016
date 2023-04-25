@@ -61,6 +61,9 @@ const Container = styled.div`
   .mainbar__filter__btn {
     display: flex;
     align-items: center;
+    .ActBtn {
+      background-color: #e3e6e8 !important;
+    }
     .nav__btn:not(:last-child) {
       font-size: 12px;
       color: #525960;
@@ -251,11 +254,20 @@ const Questions = ({ cookies }) => {
   useEffect(() => {
     navigate(
       `/questions${
-        currentpage === 1 ? "" : "?page=" + currentpage + "&size=15"
-      }`
+        "?tab=" +
+        (ActBtn === 1
+          ? "newest"
+          : ActBtn === 2
+          ? "unanswered"
+          : ActBtn === 3
+          ? "viewed"
+          : ActBtn === 4
+          ? "voted"
+          : "")
+      }${currentpage === 1 ? "" : "?page=" + currentpage + "&size=15"}`
     );
     data();
-  }, [currentpage]);
+  }, [currentpage, ActBtn]);
 
   const handleonpage = (e) => {
     setCurrentpage(e);

@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import onSaveTime from "../../features/onSaveTime";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import "./Paging.css";
 import Pagination from "react-js-pagination";
@@ -233,8 +233,13 @@ const Container = styled.div`
 `;
 
 const SearchPage = ({ cookies, search }) => {
+  const location = useLocation();
+  const url = new URL(window.location.href);
+  const searchParams = new URLSearchParams(location.search);
+  const myQueryParam = searchParams.get("q");
   const [listData, setListData] = useState([]);
   const [currentpage, setCurrentpage] = useState(1);
+  const [currenttab, setCurrenttab] = useState(1);
   const navigate = useNavigate();
 
   const data = () => {
@@ -283,10 +288,15 @@ const SearchPage = ({ cookies, search }) => {
         search.searchlist.score !== ""
           ? "%score:" + search.searchlist.score + "%"
           : ""
-      }?page=${e}&tab=newest&pagesize=15`
+      }&page=${e}&tab=newest&pagesize=15`
     );
     setCurrentpage(e);
   };
+  useEffect(() => {
+    data();
+    window.scrollTo(0, 0);
+  }, [currentpage]);
+  console.log(listData);
 
   return (
     <Container>
@@ -326,50 +336,76 @@ const SearchPage = ({ cookies, search }) => {
           </div>
         </div>
         <ul className="mainbar__lists">
-          {listData.map((list) => {
-            return (
-              <li className="mainbar__list" key={list.id}>
-                <div className="mainbar__list__left">
-                  <p>{`${list.vote_count} votes`}</p>
-                  <p>{`${list.answer_count} answers`}</p>
-                  <p>{`${list.view} views`}</p>
-                </div>
-                <div className="mainbar__list__right">
-                  <Link to={`/questions/${list.id}`}>
-                    <h3>{list.title}</h3>
-                  </Link>
-                  <p>{`${list.body_detail.replace(
-                    /(<([^>]+)>)/gi,
-                    ""
-                  )} ${list.body_try.replace(/(<([^>]+)>)/gi, "")}`}</p>
-                  <div className="mainbar__list__bottom">
-                    <div className="mainbar__list__tag">
-                      {list.tags.map((el, idx) => {
-                        return (
-                          <a href="/" key={idx}>
-                            {el}
-                          </a>
-                        );
-                      })}
-                    </div>
-                    <div className="mainbar__list__profile">
-                      <img
-                        referrerPolicy="no-referrer"
-                        src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
-                        width="16px"
-                        alt="profile"
-                      />
-                      <Link to="/users/id/userName">{list.display_name}</Link>
-                      <span>
-                        <span className="bold">0</span>{" "}
-                        {`asked ${onSaveTime(list.created_at)}`}
-                      </span>
+          {listData &&
+            listData.map((list) => {
+              return (
+                <li className="mainbar__list" key={list.id}>
+                  <div className="mainbar__list__left">
+                    <p>{`${list.likeCount} votes`}</p>
+                    <p
+                      className="mainbar_list_left_answer"
+                      style={
+                        Number(list.answers.length) > 0
+                          ? {
+                              color: "white",
+                              backgroundColor: "#2f6f44",
+                              padding: "3px",
+                            }
+                          : { border: "none", marginLeft: "3px" }
+                      }
+                    >{`${list.answers && list.answers.length} answers`}</p>
+                    <p
+                      style={
+                        Number(list.view) < 1000
+                          ? { color: "#6a737c" }
+                          : Number(list.view) < 1000000
+                          ? { color: "#922024", fontWeight: "400" }
+                          : { color: "#922024", fontWeight: "700" }
+                      }
+                    >{`${
+                      Number(list.view) < 1000
+                        ? list.view
+                        : Number(list.view) < 1000000
+                        ? String(parseInt(Number(list.view) / 1000)) + "k"
+                        : String(Number(list.view) / 1000000).slice(0, 3) + "m"
+                    } views`}</p>
+                  </div>
+                  <div className="mainbar__list__right">
+                    <Link to={`/questions/${list.id}`}>
+                      <h3>{list.title}</h3>
+                    </Link>
+                    <p>{`${list.body.replace(
+                      /(<([^>]+)>)/gi,
+                      ""
+                    )} ${list.bodyDetail.replace(/(<([^>]+)>)/gi, "")}`}</p>
+                    <div className="mainbar__list__bottom">
+                      <div className="mainbar__list__tag">
+                        {list.tags.map((el, idx) => {
+                          return (
+                            <a href="/" key={idx}>
+                              {el}
+                            </a>
+                          );
+                        })}
+                      </div>
+                      <div className="mainbar__list__profile">
+                        <img
+                          referrerPolicy="no-referrer"
+                          src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
+                          width="16px"
+                          alt="profile"
+                        />
+                        <Link to="/users/id/userName">{list.display_name}</Link>
+                        <span>
+                          <span className="bold">0</span>{" "}
+                          {`asked ${onSaveTime(list.created_at)}`}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            );
-          })}
+                </li>
+              );
+            })}
         </ul>
         <Pagination
           activePage={currentpage} // 현재 페이지
