@@ -205,6 +205,17 @@
       "createdBy": "YujunSun0",
       "createdAt": "2023-04-21T09:55:36.200Z",
       "modifiedAt": "2023-04-21T09:55:36.200Z"
+    },
+    {
+      "body": "<p>포스트 요청입니다.</p>",
+      "likeCount": 0,
+      "view": 0,
+      "createdBy": "Juni",
+      "createdAt": "2023-04-25T02:13:38.377Z",
+      "modifiedAt": "2023-04-25T02:13:38.377Z",
+      "userId": 1,
+      "questionId": "1",
+      "id": 3
     }
   ],
   "users": [

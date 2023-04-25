@@ -225,7 +225,6 @@ const Questions = ({ cookies }) => {
   const [listData, setListData] = useState([]);
   const [currentpage, setCurrentpage] = useState(1);
   const [ActBtn, setActBtn] = useState(1);
-  console.log(listData);
 
   // // 백엔드 서버 관련 코드
   // const data = async () => {
