@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import onSaveTime from "../../features/onSaveTime";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import "./Paging.css";
 import Pagination from "react-js-pagination";
@@ -80,7 +80,11 @@ const Container = styled.div`
   .mainbar__filter__btn {
     display: flex;
     align-items: center;
+    .ActBtn {
+      background-color: #e3e6e8 !important;
+    }
     .nav__btn:not(:last-child) {
+      cursor: pointer;
       font-size: 12px;
       color: #525960;
       background-color: #ffffff;
@@ -89,6 +93,10 @@ const Container = styled.div`
       border-width: 1px;
       margin: 0px -1px -1px 0px;
       padding: 9.6px;
+    }
+
+    .nav__btn:not(:last-child):hover {
+      background-color: #eeeeee;
     }
   }
 
@@ -101,6 +109,7 @@ const Container = styled.div`
   }
 
   .br3 {
+    cursor: pointer;
     font-size: 12px;
     border-radius: 3px;
     background-color: #e1ecf4;
@@ -233,14 +242,30 @@ const Container = styled.div`
 `;
 
 const SearchPage = ({ cookies, search }) => {
+  const location = useLocation();
+  const url = new URL(window.location.href);
+  const searchParams = new URLSearchParams(location.search);
+  const myQueryParam = searchParams.get("q");
   const [listData, setListData] = useState([]);
   const [currentpage, setCurrentpage] = useState(1);
+  const [ActBtn, setActBtn] = useState(1);
+  const [currenttab, setCurrenttab] = useState(1);
+
   const navigate = useNavigate();
+
+  console.log(Object.keys(search));
+  console.log(search);
+  console.log(listData);
 
   const data = () => {
     axios
       .get("http://localhost:8080/questions")
       .then((res) => {
+        res.data.sort((b, a) => {
+          const A = new Date(a.createdAt);
+          const B = new Date(b.createdAt);
+          return A - B;
+        });
         setListData([...res.data]);
       })
       .catch((err) => {
@@ -248,45 +273,94 @@ const SearchPage = ({ cookies, search }) => {
       });
   };
 
+  useEffect(() => {
+    data();
+  }, []);
+
+  const className1 = useMemo(() => {
+    return {
+      Newest: ActBtn === 1 ? "ActBtn" : "",
+      Unanswered: ActBtn === 2 ? "ActBtn" : "",
+      Viewed: ActBtn === 3 ? "ActBtn" : "",
+      Voted: ActBtn === 4 ? "ActBtn" : "",
+    };
+  }, [ActBtn]);
+
+  const sortByNewest = () => {
+    listData.sort((b, a) => {
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+      return dateA - dateB;
+    });
+  };
+
+  // 답변(answer) 없는 순서대로
+  const sortByAnswerCount = () => {
+    listData.sort((a, b) => a.answers.length - b.answers.length);
+  };
+
+  const sortByViewCount = () => {
+    listData.sort((a, b) => b.view - a.view);
+  };
+
+  //추천(vote) 순서 대로
+  const sortByVoteCount = () => {
+    listData.sort((a, b) => b.likeCount - a.likeCount);
+  };
+
+  useEffect(() => {
+    sortByNewest();
+  }, [listData]);
+
   const onChangeName = () => {
-    if (search.searchlist !== undefined && search.searchlist.answer !== "") {
-      return `answers>=${search.searchlist.answer}`;
-    }
-    if (search.searchlist !== undefined && search.searchlist.score !== "") {
-      return `score>=${search.searchlist.score}`;
-    }
-    if (search.searchlist !== undefined && search.searchlist.title !== "") {
-      return `title = ${search.searchlist.title}`;
+    if (search.searchlist !== undefined) {
+      if (search.searchlist.answer !== "") {
+        return `answers>=${search.searchlist.answer}`;
+      }
+      if (search.searchlist.score !== "") {
+        return `score>=${search.searchlist.score}`;
+      }
+      if (search.searchlist.title !== "") {
+        return `title = ${search.searchlist.title}`;
+      }
+      if (search.searchlist.user !== "") {
+        return `user = ${search.searchlist.user}`;
+      }
     }
     return "none";
   };
 
   const handleonpage = (e) => {
     navigate(
-      `/search?q=${
-        search.searchlist.title !== ""
-          ? "%1T" + search.searchlist.title + "%1T"
-          : ""
-      }${
-        search.searchlist.tag.length !== 0
-          ? "%2T" + search.searchlist.tag.join("+") + "%2T"
-          : ""
-      }${
-        search.searchlist.user.length !== 0
-          ? "%1U" + search.searchlist.user.join("+") + "%1U"
-          : ""
-      }${
-        search.searchlist.answer !== ""
-          ? "%answer:" + search.searchlist.answer + "%"
-          : ""
-      }${
-        search.searchlist.score !== ""
-          ? "%score:" + search.searchlist.score + "%"
-          : ""
-      }?page=${e}&tab=newest&pagesize=15`
+      Object.keys(search).length > 0 &&
+        `/search?q=${
+          search.searchlist.title !== ""
+            ? "%1T" + search.searchlist.title + "%1T"
+            : ""
+        }${
+          search.searchlist.tag.length !== 0
+            ? "%2T" + search.searchlist.tag.join("+") + "%2T"
+            : ""
+        }${
+          search.searchlist.user.length !== 0
+            ? "%1U" + search.searchlist.user.join("+") + "%1U"
+            : ""
+        }${
+          search.searchlist.answer !== ""
+            ? "%answer:" + search.searchlist.answer + "%"
+            : ""
+        }${
+          search.searchlist.score !== ""
+            ? "%score:" + search.searchlist.score + "%"
+            : ""
+        }&page=${e}&tab=newest&pagesize=15`
     );
     setCurrentpage(e);
   };
+  useEffect(() => {
+    data();
+    window.scrollTo(0, 0);
+  }, [currentpage]);
 
   return (
     <Container>
@@ -295,11 +369,12 @@ const SearchPage = ({ cookies, search }) => {
           <div className="search__log">
             <h3>Search Results</h3>
             <p>{`Results for ${
-              search.searchtext !== undefined &&
-              search.searchtext.replace(
-                /(?:answer:\d|score:\d|title:\w|user:\d|\[\])+/gi,
-                ""
-              )
+              Object.keys(search).length > 0
+                ? search.searchtext.replace(
+                    /(?:answer:\d|score:\d|title:\w|user:\d|\[\])+/gi,
+                    ""
+                  )
+                : "none"
             }`}</p>
             <p>{`Search options ${onChangeName()}`}</p>
           </div>
@@ -316,9 +391,47 @@ const SearchPage = ({ cookies, search }) => {
         <div className="mainbar__filter">
           <p>{`${listData.length} questions`}</p>
           <div className="mainbar__filter__btn">
-            <button className="nav__btn br-l3">Newest</button>
-            <button className="nav__btn">Unanswered</button>
-            <button className="nav__btn br-r3">Bountied</button>
+            <button
+              className={`nav__btn br-l3 ${className1.Newest}`}
+              onClick={(e) => {
+                e.preventDefault();
+                // navigate("/questions?tab=newest");
+                setActBtn(1);
+                sortByNewest();
+              }}
+            >
+              Newest
+            </button>
+            <button
+              className={`nav__btn ${className1.Unanswered}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setActBtn(2);
+                sortByAnswerCount();
+              }}
+            >
+              Unanswered
+            </button>
+            <button
+              className={`nav__btn ${className1.Viewed}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setActBtn(3);
+                sortByViewCount();
+              }}
+            >
+              Viewed
+            </button>
+            <button
+              className={`nav__btn br-r3 ${className1.Voted}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setActBtn(4);
+                sortByVoteCount();
+              }}
+            >
+              Voted
+            </button>
             <button className="nav__btn br3">
               <FilterListIcon />
               <span>Filter</span>
@@ -326,50 +439,76 @@ const SearchPage = ({ cookies, search }) => {
           </div>
         </div>
         <ul className="mainbar__lists">
-          {listData.map((list) => {
-            return (
-              <li className="mainbar__list" key={list.id}>
-                <div className="mainbar__list__left">
-                  <p>{`${list.vote_count} votes`}</p>
-                  <p>{`${list.answer_count} answers`}</p>
-                  <p>{`${list.view} views`}</p>
-                </div>
-                <div className="mainbar__list__right">
-                  <Link to={`/questions/${list.id}`}>
-                    <h3>{list.title}</h3>
-                  </Link>
-                  <p>{`${list.body_detail.replace(
-                    /(<([^>]+)>)/gi,
-                    ""
-                  )} ${list.body_try.replace(/(<([^>]+)>)/gi, "")}`}</p>
-                  <div className="mainbar__list__bottom">
-                    <div className="mainbar__list__tag">
-                      {list.tags.map((el, idx) => {
-                        return (
-                          <a href="/" key={idx}>
-                            {el}
-                          </a>
-                        );
-                      })}
-                    </div>
-                    <div className="mainbar__list__profile">
-                      <img
-                        referrerPolicy="no-referrer"
-                        src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
-                        width="16px"
-                        alt="profile"
-                      />
-                      <Link to="/users/id/userName">{list.display_name}</Link>
-                      <span>
-                        <span className="bold">0</span>{" "}
-                        {`asked ${onSaveTime(list.created_at)}`}
-                      </span>
+          {listData &&
+            listData.map((list) => {
+              return (
+                <li className="mainbar__list" key={list.id}>
+                  <div className="mainbar__list__left">
+                    <p>{`${list.likeCount} votes`}</p>
+                    <p
+                      className="mainbar_list_left_answer"
+                      style={
+                        Number(list.answers.length) > 0
+                          ? {
+                              color: "white",
+                              backgroundColor: "#2f6f44",
+                              padding: "3px",
+                            }
+                          : { border: "none", marginLeft: "3px" }
+                      }
+                    >{`${list.answers && list.answers.length} answers`}</p>
+                    <p
+                      style={
+                        Number(list.view) < 1000
+                          ? { color: "#6a737c" }
+                          : Number(list.view) < 1000000
+                          ? { color: "#922024", fontWeight: "400" }
+                          : { color: "#922024", fontWeight: "700" }
+                      }
+                    >{`${
+                      Number(list.view) < 1000
+                        ? list.view
+                        : Number(list.view) < 1000000
+                        ? String(parseInt(Number(list.view) / 1000)) + "k"
+                        : String(Number(list.view) / 1000000).slice(0, 3) + "m"
+                    } views`}</p>
+                  </div>
+                  <div className="mainbar__list__right">
+                    <Link to={`/questions/${list.id}`}>
+                      <h3>{list.title}</h3>
+                    </Link>
+                    <p>{`${list.body.replace(
+                      /(<([^>]+)>)/gi,
+                      ""
+                    )} ${list.bodyDetail.replace(/(<([^>]+)>)/gi, "")}`}</p>
+                    <div className="mainbar__list__bottom">
+                      <div className="mainbar__list__tag">
+                        {list.tags.map((el, idx) => {
+                          return (
+                            <a href="/" key={idx}>
+                              {el}
+                            </a>
+                          );
+                        })}
+                      </div>
+                      <div className="mainbar__list__profile">
+                        <img
+                          referrerPolicy="no-referrer"
+                          src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
+                          width="16px"
+                          alt="profile"
+                        />
+                        <Link to="/users/id/userName">{list.createdBy}</Link>
+                        <span>
+                          <span className="bold">0</span>{" "}
+                          {`asked ${onSaveTime(list.createdAt)}`}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            );
-          })}
+                </li>
+              );
+            })}
         </ul>
         <Pagination
           activePage={currentpage} // 현재 페이지

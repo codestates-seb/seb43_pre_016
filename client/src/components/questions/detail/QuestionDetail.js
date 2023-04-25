@@ -3,7 +3,7 @@ import ReactQuill, { contextType } from "react-quill";
 import "quill/dist/quill.snow.css";
 import { height } from "@mui/system";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Loading from "../../../features/Loading";
 import onSaveTime from "../../../features/onSaveTime";
@@ -417,7 +417,8 @@ const QuestionDetail = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const [answer, setAnswer] = useState("");
-  console.log(questionData);
+  const navigate = useNavigate();
+  console.log(answer);
 
   // // 백엔드 서버 관련 코드
   // useEffect(() => {
@@ -446,6 +447,50 @@ const QuestionDetail = () => {
         console.log(err);
       });
   }, []);
+
+  // const onSubmitAnswer = async () => {
+  //   let data = {
+  //     title: title,
+  //     body: answer,
+  //     userId: ??,
+  //      questionId: id,
+  //   };
+  //   console.log(data);
+  //   const header = {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   };
+  //   await axios.post("/answers", data, header).then(() => {
+  //     navigate("/");
+  //     window.location.reload();
+  //   });
+  // };
+
+  const onSubmitAnswer = async () => {
+    let data = {
+      body: answer,
+      likeCount: 0,
+      view: 0,
+      createdBy: "Juni",
+      createdAt: new Date(),
+      modifiedAt: new Date(),
+      userId: 1,
+      questionId: id,
+    };
+    console.log(data);
+
+    const header = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    await axios.post("http://localhost:8080/answers", data, header).then(() => {
+      navigate("/questions/${id}");
+      window.location.reload();
+    });
+  };
 
   return (
     <DetailWrapper>
@@ -605,9 +650,12 @@ const QuestionDetail = () => {
                           />
                           <div className="right_bottom">
                             <div className="buttons">
-                              <a className="edit" href="/">
+                              <Link
+                                className="edit"
+                                to={`/questions/${answer.id}/editAnswer`}
+                              >
                                 Edit
-                              </a>
+                              </Link>
                               <a className="edit" href="/">
                                 Follow
                               </a>
@@ -647,7 +695,9 @@ const QuestionDetail = () => {
                 onChange={setAnswer}
               />
             </div>
-            <button className="post-btn">Post Your Answer</button>
+            <button className="post-btn" onClick={onSubmitAnswer}>
+              Post Your Answer
+            </button>
             {/* 나중에 답변이 달리면 태그를 분기해줘야함. */}
             <p className="post-bottom">
               Not the answer you are looking for? Browse other questions tagged

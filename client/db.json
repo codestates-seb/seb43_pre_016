@@ -32,7 +32,7 @@
       "bodyDetail": "<p>트라이 작성</p>",
       "userId": 1,
       "createdBy": "Juni",
-      "view": 3,
+      "view": 1000001,
       "likeCount": 1,
       "createdAt": "2022-06-10T05:03:36.825Z",
       "modifiedAt": "2022-09-20T05:03:36.825Z",
@@ -60,7 +60,7 @@
       "bodyDetail": "<ol><li>리스트 1</li><li>리스트 2</li><li>리스트 3</li></ol><pre class=\"ql-syntax\" spellcheck=\"false\">// db.json\n\"questions\": [\n    {\n      \"id\": 1,\n      \"tags\": [\n        \"javascript\",\n        \"react\",\n        \"css\"\n      ],\n      \"title\": \"json-server\",\n      \"body\": \"I'm so sad..\",\n      \"bodyDetail0,\n      \"createdAt\": \"2022-02-21T09:55:36.200Z\",\n      \"modifiedAt\": \"2023-04-21T09:55:36.200Z\"\n    }\n]\n</pre><p><br></p><p><br></p>",
       "userId": 1,
       "createdBy": "Juni",
-      "view": 3,
+      "view": 323213,
       "likeCount": 0,
       "createdAt": "2023-03-21T09:55:36.200Z",
       "modifiedAt": "2023-04-22T18:36:36.216Z",
@@ -150,6 +150,23 @@
       "answers": [],
       "userId": 1,
       "id": 10
+    },
+    {
+      "tags": [
+        "배포",
+        "#오운완"
+      ],
+      "title": "안녕하세요",
+      "body": "<pre class=\"ql-syntax\" spellcheck=\"false\">서버가 열리면 내일 해야할 일 : 답변 CRUD, 질문 Delete, 페이지네이션, Mypage, 권한이 없을 때, 예외 처리 (toastify)\n</pre>",
+      "bodyDetail": "",
+      "likeCount": 0,
+      "view": 0,
+      "createdBy": "Juni",
+      "createdAt": "2023-04-25T12:15:42.589Z",
+      "modifiedAt": "2023-04-25T12:15:42.589Z",
+      "answers": [],
+      "userId": 1,
+      "id": 11
     }
   ],
   "answers": [
@@ -172,6 +189,17 @@
       "createdBy": "YujunSun0",
       "createdAt": "2023-04-21T09:55:36.200Z",
       "modifiedAt": "2023-04-21T09:55:36.200Z"
+    },
+    {
+      "body": "<p>포스트 요청입니다.</p>",
+      "likeCount": 0,
+      "view": 0,
+      "createdBy": "Juni",
+      "createdAt": "2023-04-25T02:13:38.377Z",
+      "modifiedAt": "2023-04-25T02:13:38.377Z",
+      "userId": 1,
+      "questionId": "1",
+      "id": 3
     }
   ],
   "users": [

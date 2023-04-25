@@ -1,11 +1,12 @@
+import { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { Link, useNavigate } from "react-router-dom";
 import onSaveTime from "../../features/onSaveTime";
-import { useEffect, useMemo, useState } from "react";
-import Pagination from "react-js-pagination";
-import "./Paging.css";
 import axios from "axios";
+import "./Paging.css";
+import Pagination from "react-js-pagination";
+import { padding } from "@mui/system";
 
 const Container = styled.div`
   display: flex;
@@ -64,6 +65,7 @@ const Container = styled.div`
       background-color: #e3e6e8 !important;
     }
     .nav__btn:not(:last-child) {
+      cursor: pointer;
       font-size: 12px;
       color: #525960;
       background-color: #ffffff;
@@ -72,11 +74,9 @@ const Container = styled.div`
       border-width: 1px;
       margin: 0px -1px -1px 0px;
       padding: 9.6px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #f5f5f5;
-      }
+    }
+    .nav__btn:not(:last-child):hover {
+      background-color: #eeeeee;
     }
   }
 
@@ -89,6 +89,7 @@ const Container = styled.div`
   }
 
   .br3 {
+    cursor: pointer;
     font-size: 12px;
     border-radius: 3px;
     background-color: #e1ecf4;
@@ -131,6 +132,9 @@ const Container = styled.div`
       white-space: nowrap;
       margin: 5px 0px;
     }
+  }
+  .mainbar_list_left_answer {
+    border-radius: 3px;
   }
 
   .mainbar__list__right {
@@ -243,6 +247,11 @@ const Questions = ({ cookies }) => {
     await axios
       .get(`http://localhost:8080/questions`)
       .then((res) => {
+        res.data.sort((b, a) => {
+          const A = new Date(a.createdAt);
+          const B = new Date(b.createdAt);
+          return A - B;
+        });
         setListData([...res.data]);
       })
       .catch((err) => {
@@ -253,11 +262,20 @@ const Questions = ({ cookies }) => {
   useEffect(() => {
     navigate(
       `/questions${
-        currentpage === 1 ? "" : "?page=" + currentpage + "&size=15"
-      }`
+        "?tab=" +
+        (ActBtn === 1
+          ? "newest"
+          : ActBtn === 2
+          ? "unanswered"
+          : ActBtn === 3
+          ? "viewed"
+          : ActBtn === 4
+          ? "voted"
+          : "")
+      }${currentpage === 1 ? "" : "?page=" + currentpage + "&size=15"}`
     );
     data();
-  }, [currentpage]);
+  }, [currentpage]); //임시 서버에서는 ActBtn을 배열에 넣어두면 정렬이 되지않음.
 
   const handleonpage = (e) => {
     setCurrentpage(e);
@@ -294,11 +312,6 @@ const Questions = ({ cookies }) => {
   const sortByVoteCount = () => {
     listData.sort((a, b) => b.likeCount - a.likeCount);
   };
-
-  useEffect(() => {
-    sortByNewest();
-    console.log(listData);
-  }, [listData]);
 
   return (
     <Container>
@@ -372,8 +385,33 @@ const Questions = ({ cookies }) => {
                 <li className="mainbar__list" key={list.id}>
                   <div className="mainbar__list__left">
                     <p>{`${list.likeCount} votes`}</p>
-                    <p>{`${list.answers && list.answers.length} answers`}</p>
-                    <p>{`${list.view} views`}</p>
+                    <p
+                      className="mainbar_list_left_answer"
+                      style={
+                        Number(list.answers.length) > 0
+                          ? {
+                              color: "white",
+                              backgroundColor: "#2f6f44",
+                              padding: "3px",
+                            }
+                          : { border: "none", marginLeft: "3px" }
+                      }
+                    >{`${list.answers && list.answers.length} answers`}</p>
+                    <p
+                      style={
+                        Number(list.view) < 1000
+                          ? { color: "#6a737c" }
+                          : Number(list.view) < 1000000
+                          ? { color: "#922024", fontWeight: "400" }
+                          : { color: "#922024", fontWeight: "700" }
+                      }
+                    >{`${
+                      Number(list.view) < 1000
+                        ? list.view
+                        : Number(list.view) < 1000000
+                        ? String(parseInt(Number(list.view) / 1000)) + "k"
+                        : String(Number(list.view) / 1000000).slice(0, 3) + "m"
+                    } views`}</p>
                   </div>
                   <div className="mainbar__list__right">
                     <Link to={`/questions/${list.id}`}>
@@ -401,7 +439,7 @@ const Questions = ({ cookies }) => {
                           width="16px"
                           alt="profile"
                         />
-                        <Link to="/users/id/userName">{list.display_name}</Link>
+                        <Link to="/users/id/userName">{list.createdBy}</Link>
                         <span>
                           <span className="bold">0</span>{" "}
                           {`asked ${onSaveTime(list.createdAt)}`}
