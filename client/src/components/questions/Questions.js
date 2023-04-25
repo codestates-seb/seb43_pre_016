@@ -61,6 +61,9 @@ const Container = styled.div`
   .mainbar__filter__btn {
     display: flex;
     align-items: center;
+    .ActBtn {
+      background-color: #e3e6e8 !important;
+    }
     .nav__btn:not(:last-child) {
       font-size: 12px;
       color: #525960;
@@ -221,7 +224,6 @@ const Questions = ({ cookies }) => {
   const [listData, setListData] = useState([]);
   const [currentpage, setCurrentpage] = useState(1);
   const [ActBtn, setActBtn] = useState(1);
-
   // // 백엔드 서버 관련 코드
   // const data = async () => {
   //   await axios
@@ -294,7 +296,6 @@ const Questions = ({ cookies }) => {
 
   useEffect(() => {
     sortByNewest();
-    console.log(listData);
   }, [listData]);
   return (
     <Container>

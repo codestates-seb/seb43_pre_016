@@ -2,7 +2,7 @@ import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { Link, useNavigate } from "react-router-dom";
 import onSaveTime from "../../features/onSaveTime";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import "./Paging.css";
 import Pagination from "react-js-pagination";
@@ -80,6 +80,9 @@ const Container = styled.div`
   .mainbar__filter__btn {
     display: flex;
     align-items: center;
+    .ActBtn {
+      background-color: #e3e6e8 !important;
+    }
     .nav__btn:not(:last-child) {
       font-size: 12px;
       color: #525960;
@@ -235,7 +238,11 @@ const Container = styled.div`
 const SearchPage = ({ cookies, search }) => {
   const [listData, setListData] = useState([]);
   const [currentpage, setCurrentpage] = useState(1);
+  const [ActBtn, setActBtn] = useState(1);
   const navigate = useNavigate();
+
+  console.log(search);
+  console.log(listData);
 
   const data = () => {
     axios
@@ -247,6 +254,45 @@ const SearchPage = ({ cookies, search }) => {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    data();
+  }, []);
+
+  const className1 = useMemo(() => {
+    return {
+      Newest: ActBtn === 1 ? "ActBtn" : "",
+      Unanswered: ActBtn === 2 ? "ActBtn" : "",
+      Viewed: ActBtn === 3 ? "ActBtn" : "",
+      Voted: ActBtn === 4 ? "ActBtn" : "",
+    };
+  }, [ActBtn]);
+
+  const sortByNewest = () => {
+    listData.sort((b, a) => {
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+      return dateA - dateB;
+    });
+  };
+
+  // 답변(answer) 없는 순서대로
+  const sortByAnswerCount = () => {
+    listData.sort((a, b) => a.answers.length - b.answers.length);
+  };
+
+  const sortByViewCount = () => {
+    listData.sort((a, b) => b.view - a.view);
+  };
+
+  //추천(vote) 순서 대로
+  const sortByVoteCount = () => {
+    listData.sort((a, b) => b.likeCount - a.likeCount);
+  };
+
+  useEffect(() => {
+    sortByNewest();
+  }, [listData]);
 
   const onChangeName = () => {
     if (search.searchlist !== undefined && search.searchlist.answer !== "") {
@@ -296,6 +342,7 @@ const SearchPage = ({ cookies, search }) => {
             <h3>Search Results</h3>
             <p>{`Results for ${
               search.searchtext !== undefined &&
+              search.searchlist.length === 0 &&
               search.searchtext.replace(
                 /(?:answer:\d|score:\d|title:\w|user:\d|\[\])+/gi,
                 ""
@@ -316,9 +363,47 @@ const SearchPage = ({ cookies, search }) => {
         <div className="mainbar__filter">
           <p>{`${listData.length} questions`}</p>
           <div className="mainbar__filter__btn">
-            <button className="nav__btn br-l3">Newest</button>
-            <button className="nav__btn">Unanswered</button>
-            <button className="nav__btn br-r3">Bountied</button>
+            <button
+              className={`nav__btn br-l3 ${className1.Newest}`}
+              onClick={(e) => {
+                e.preventDefault();
+                // navigate("/questions?tab=newest");
+                setActBtn(1);
+                sortByNewest();
+              }}
+            >
+              Newest
+            </button>
+            <button
+              className={`nav__btn ${className1.Unanswered}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setActBtn(2);
+                sortByAnswerCount();
+              }}
+            >
+              Unanswered
+            </button>
+            <button
+              className={`nav__btn ${className1.Viewed}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setActBtn(3);
+                sortByViewCount();
+              }}
+            >
+              Viewed
+            </button>
+            <button
+              className={`nav__btn br-r3 ${className1.Voted}`}
+              onClick={(e) => {
+                e.preventDefault();
+                setActBtn(4);
+                sortByVoteCount();
+              }}
+            >
+              Voted
+            </button>
             <button className="nav__btn br3">
               <FilterListIcon />
               <span>Filter</span>
@@ -326,50 +411,53 @@ const SearchPage = ({ cookies, search }) => {
           </div>
         </div>
         <ul className="mainbar__lists">
-          {listData.map((list) => {
-            return (
-              <li className="mainbar__list" key={list.id}>
-                <div className="mainbar__list__left">
-                  <p>{`${list.vote_count} votes`}</p>
-                  <p>{`${list.answer_count} answers`}</p>
-                  <p>{`${list.view} views`}</p>
-                </div>
-                <div className="mainbar__list__right">
-                  <Link to={`/questions/${list.id}`}>
-                    <h3>{list.title}</h3>
-                  </Link>
-                  <p>{`${list.body_detail.replace(
-                    /(<([^>]+)>)/gi,
-                    ""
-                  )} ${list.body_try.replace(/(<([^>]+)>)/gi, "")}`}</p>
-                  <div className="mainbar__list__bottom">
-                    <div className="mainbar__list__tag">
-                      {list.tags.map((el, idx) => {
-                        return (
-                          <a href="/" key={idx}>
-                            {el}
-                          </a>
-                        );
-                      })}
-                    </div>
-                    <div className="mainbar__list__profile">
-                      <img
-                        referrerPolicy="no-referrer"
-                        src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
-                        width="16px"
-                        alt="profile"
-                      />
-                      <Link to="/users/id/userName">{list.display_name}</Link>
-                      <span>
-                        <span className="bold">0</span>{" "}
-                        {`asked ${onSaveTime(list.created_at)}`}
-                      </span>
+          {listData &&
+            listData.map((list) => {
+              return (
+                <li className="mainbar__list" key={list.id}>
+                  <div className="mainbar__list__left">
+                    <p>{`${list.likeCount} votes`}</p>
+                    <p>{`${
+                      list.answers !== undefined && list.answers.length
+                    } answers`}</p>
+                    <p>{`${list.view} views`}</p>
+                  </div>
+                  <div className="mainbar__list__right">
+                    <Link to={`/questions/${list.id}`}>
+                      <h3>{list.title}</h3>
+                    </Link>
+                    <p>{`${list.body.replace(
+                      /(<([^>]+)>)/gi,
+                      ""
+                    )} ${list.bodyDetail.replace(/(<([^>]+)>)/gi, "")}`}</p>
+                    <div className="mainbar__list__bottom">
+                      <div className="mainbar__list__tag">
+                        {list.tags.map((el, idx) => {
+                          return (
+                            <a href="/" key={idx}>
+                              {el}
+                            </a>
+                          );
+                        })}
+                      </div>
+                      <div className="mainbar__list__profile">
+                        <img
+                          referrerPolicy="no-referrer"
+                          src="https://www.gravatar.com/avatar/8bd2f875b6f6e30511b9dd6bfab40f38?s=256&d=identicon&r=PG"
+                          width="16px"
+                          alt="profile"
+                        />
+                        <Link to="/users/id/userName">{list.display_name}</Link>
+                        <span>
+                          <span className="bold">0</span>{" "}
+                          {`asked ${onSaveTime(list.created_at)}`}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            );
-          })}
+                </li>
+              );
+            })}
         </ul>
         <Pagination
           activePage={currentpage} // 현재 페이지
