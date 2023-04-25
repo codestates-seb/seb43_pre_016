@@ -65,7 +65,7 @@ const TitleWriter = styled.section`
     font-size: 12px;
     margin-bottom: 5px;
   }
-  textarea {
+  input {
     line-height: 1.7;
     font-family: -apple-system;
     border: 1px solid #babfc4;
@@ -97,12 +97,12 @@ const DetailWriter = styled.section`
     font-size: 12px;
     margin-bottom: 5px;
   }
-  textarea {
+  input {
     word-wrap: break-word;
     resize: none;
     text-align: left;
     line-height: 22.5px;
-    border: 1px solid #babfc4;
+    border: none;
     border-radius: 3px;
     padding: 2px;
     height: 300px;
@@ -145,7 +145,7 @@ const Taglist = styled.div`
     border: none;
     background: none;
   }
-  textarea {
+  input {
     margin-top: 4px;
     border: none;
     flex: 3;
@@ -173,25 +173,51 @@ const QuestionEdit = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/questions/${id}`)
+      .get(`/questions/${id}`)
       .then((res) => {
         setTitle(`${res.data.title}`);
-        setDetail(`${res.data.body_detail}`);
-        setTry(`${res.data.body_try}`);
-        setTags([...res.data.tags]);
+        setDetail(`${res.data.body}`);
+        setTry(`${res.data.bodyDetail}`);
+        setTags([...res.data.tags]); // 임시서버에서 사용 가능
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
+  // //백엔드 서버 관련 코드
+  // const onClickSubmit = async () => {
+  //   let data = {
+  //     // tags: tags,
+  //     title: title,
+  //     body: body_detail,
+  //     bodyDetail: body_try,
+  //   };
+
+  //   const header = {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   };
+
+  //   await axios
+  //     .patch(`http://localhost:8080/questions/${id}`, data, header)
+  //     .then((res) => {
+  //       console.log(res);
+  //       navigate(`/questions/${id}`);
+  //       window.location.reload();
+  //     });
+  // };
+
+  // 임시 서버 관련 코드
   const onClickSubmit = async () => {
     let data = {
       tags: tags,
       title: title,
-      body_detail: body_detail,
-      body_try: body_try,
-      updated_at: new Date(),
+      body: body_detail,
+      bodyDetail: body_try,
+      createdAt: new Date(),
+      modifiedAt: new Date(),
     };
 
     const header = {
@@ -204,7 +230,6 @@ const QuestionEdit = () => {
     await axios
       .patch(`http://localhost:8080/questions/${id}`, data, header)
       .then((res) => {
-        console.log(res);
         navigate(`/questions/${id}`);
         window.location.reload();
       });
@@ -245,7 +270,7 @@ const QuestionEdit = () => {
         <label>
           Be specific and imagine you’re asking a question to another person.
         </label>
-        <textarea onChange={onChange} value={title} name="title" />
+        <input onChange={onChange} value={title} name="title" />
       </TitleWriter>
       <DetailWriter>
         <span className="detail">what are the details of your problem?</span>
@@ -282,13 +307,13 @@ const QuestionEdit = () => {
               </span>
             );
           })}
-          <textarea
+          <input
             onChange={(e) => {
               setTaginput(e.target.value);
             }}
             onKeyUp={handleaddtag}
             value={taginput}
-          ></textarea>
+          />
         </Taglist>
       </TitleWriter>
       <Postbutton onClick={() => onClickSubmit()}>

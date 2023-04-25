@@ -182,19 +182,45 @@ const Askquestions = () => {
 
   const navigate = useNavigate();
 
+  // // 백엔드 서버 관련 코드
+  // const onClickSubmit = async () => {
+  //   let data = {
+  //     // tags: tags,
+  //     title: title,
+  //     body: body_detail,
+  //     bodyDetail: body_try,
+  //     userId: 1,
+  //   };
+  //   console.log(data);
+
+  //   const header = {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   };
+
+  //   await axios.post("/questions", data, header).then(() => {
+  //     navigate("/");
+  //     window.location.reload();
+  //   });
+  // };
+
+  // 임시 서버 관련 코드
   const onClickSubmit = async () => {
     let data = {
       tags: tags,
       title: title,
-      body_detail: body_detail,
-      body_try: body_try,
-      user_id: 1,
-      display_name: "Juni",
+      body: body_detail,
+      bodyDetail: body_try,
+      likeCount: 0,
       view: 0,
-      vote_count: 0,
-      created_at: new Date(),
-      updated_at: new Date(),
+      createdBy: "Juni",
+      createdAt: new Date(),
+      modifiedAt: new Date(),
+      answers: [],
+      userId: 1,
     };
+    console.log(data);
 
     const header = {
       headers: {
