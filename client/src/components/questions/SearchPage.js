@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import onSaveTime from "../../features/onSaveTime";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import "./Paging.css";
 import Pagination from "react-js-pagination";
@@ -235,10 +235,8 @@ const Container = styled.div`
 const SearchPage = ({ cookies, search }) => {
   const [listData, setListData] = useState([]);
   const [currentpage, setCurrentpage] = useState(1);
-
   const navigate = useNavigate();
 
-  console.log(search);
   const data = () => {
     axios
       .get("http://localhost:8080/questions")
@@ -250,7 +248,6 @@ const SearchPage = ({ cookies, search }) => {
       });
   };
 
-  //미완성 (answers만 표시됨)
   const onChangeName = () => {
     if (search.searchlist !== undefined && search.searchlist.answer !== "") {
       return `answers>=${search.searchlist.answer}`;
@@ -265,6 +262,29 @@ const SearchPage = ({ cookies, search }) => {
   };
 
   const handleonpage = (e) => {
+    navigate(
+      `/search?q=${
+        search.searchlist.title !== ""
+          ? "%1T" + search.searchlist.title + "%1T"
+          : ""
+      }${
+        search.searchlist.tag.length !== 0
+          ? "%2T" + search.searchlist.tag.join("+") + "%2T"
+          : ""
+      }${
+        search.searchlist.user.length !== 0
+          ? "%1U" + search.searchlist.user.join("+") + "%1U"
+          : ""
+      }${
+        search.searchlist.answer !== ""
+          ? "%answer:" + search.searchlist.answer + "%"
+          : ""
+      }${
+        search.searchlist.score !== ""
+          ? "%score:" + search.searchlist.score + "%"
+          : ""
+      }?page=${e}&tab=newest&pagesize=15`
+    );
     setCurrentpage(e);
   };
 
@@ -351,6 +371,15 @@ const SearchPage = ({ cookies, search }) => {
             );
           })}
         </ul>
+        <Pagination
+          activePage={currentpage} // 현재 페이지
+          itemsCountPerPage={15} // 한 페이지랑 보여줄 아이템 갯수
+          totalItemsCount={450} // 총 아이템 갯수
+          pageRangeDisplayed={5} // paginator의 페이지 범위
+          prevPageText={"‹"} // "이전"을 나타낼 텍스트
+          nextPageText={"›"} // "다음"을 나타낼 텍스트
+          onChange={handleonpage} // 페이지 변경을 핸들링하는 함수
+        />
       </div>
     </Container>
   );

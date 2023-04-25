@@ -160,6 +160,7 @@ const Taglist = styled.div`
   }
   input {
     width: 100%;
+    outline: none;
     margin-top: 4px;
     border: none;
   }
