@@ -450,6 +450,8 @@ const QuestionDetail = () => {
     });
   };
 
+  //새로고침은 나중에 리팩토링 예정
+
   // 좋아요를 누를 때 요청을 보내는 함수 (isLiked가 데이터에 들어온다면 true, false일 떄 처리를 다시 해줘야함)
   const onChangeUpVote = () => {
     axios.post(`/questions/${id}/like/1`).then((res) => {
@@ -459,6 +461,25 @@ const QuestionDetail = () => {
   // 싫어요를 누를 때 요청을 보내는 함수
   const onChangeDownVote = () => {
     axios.post(`questions/${id}/dislike/1`).then((res) => {
+      window.location.reload();
+    });
+  };
+
+  const onDeleteAnswer = (answerId) => {
+    axios
+      .delete(`/answers/${answerId}`)
+      .then((res) => {
+        navigate(`/questions/${id}`);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const onDeleteQuestion = () => {
+    axios.delete(`/questions/${id}`).then((res) => {
+      navigate(`/questions`);
       window.location.reload();
     });
   };
@@ -550,7 +571,7 @@ const QuestionDetail = () => {
                     <a className="edit" href="/">
                       Follow
                     </a>
-                    <a className="edit" onClick={onClickDelete}>
+                    <a className="edit" onClick={onDeleteQuestion}>
                       Delete
                     </a>
                   </div>
@@ -632,6 +653,12 @@ const QuestionDetail = () => {
                               </Link>
                               <a className="edit" href="/">
                                 Follow
+                              </a>
+                              <a
+                                className="edit"
+                                onClick={() => onDeleteAnswer(answer.answerId)}
+                              >
+                                Delete
                               </a>
                             </div>
                             <div className="answer_profile">

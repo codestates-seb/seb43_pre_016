@@ -10,7 +10,6 @@ import Signup from "./components/mypage/Signup";
 import Askquestions from "./components/questions/create/Askquestions";
 import QuestionDetail from "./components/questions/detail/QuestionDetail";
 import ScrollToTop from "./features/ScrollTop";
-import axios from "axios";
 import Login from "./components/mypage/Login";
 import Mypage from "./components/mypage/Mypage";
 import QuestionEdit from "./components/questions/edit/QuestionEdit";
@@ -78,7 +77,7 @@ function App() {
           }
         ></Route>
         <Route
-          path="/users/id/userName"
+          path="/users/:id/:userName"
           element={
             <div className="container">
               <Sidebar />
