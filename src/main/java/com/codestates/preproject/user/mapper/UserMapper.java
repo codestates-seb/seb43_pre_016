@@ -38,6 +38,7 @@ public interface UserMapper {
         userMyPageDto.setUserId(user.getUserId());
         userMyPageDto.setEmail(user.getEmail());
         userMyPageDto.setUserName(user.getUserName());
+        userMyPageDto.setCreatedAt(user.getCreatedAt());
 
         List<Answer> answerList = user.getAnswers();
 

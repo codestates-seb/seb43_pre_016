@@ -2,12 +2,12 @@ server:
   address: localhost
   port: 8080
 
-Spring:
+spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/preproject?createDatabaseIfNotExist=true&userUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
     username: root
-    password:
+    password: 1004
 
   jpa:
     database: mysql
@@ -17,4 +17,4 @@ Spring:
     properties:
       hibernate:
         show_sql: true
-        format_sql: ture
+        format_sql: true

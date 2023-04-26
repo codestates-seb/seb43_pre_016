@@ -66,6 +66,7 @@ public class UserDto {
         private List<QuestionMyPageDto> questions;
         private List<AnswerDto.MyPageDto> answers;
         private List<AnswerLikeDto> answerLikes;
+        private LocalDateTime createdAt;
     }
 
 }

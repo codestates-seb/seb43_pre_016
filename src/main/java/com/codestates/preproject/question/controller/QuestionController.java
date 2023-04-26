@@ -83,7 +83,7 @@ public class QuestionController {
 
     @PostMapping("/{question-id}/dislike/{user-id}")
     public ResponseEntity dislikeQuestion(@PathVariable("question-id") long questionId,
-                                        @PathVariable("question-id") long userId) {
+                                        @PathVariable("user-id") long userId) {
 
         Question dislikedQuestion= questionService.dislikeQuestion(questionId,userId);
 
