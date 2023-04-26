@@ -173,67 +173,65 @@ const QuestionEdit = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/questions/${id}`)
+      .get(`/questions/${id}`)
       .then((res) => {
         setTitle(`${res.data.title}`);
         setDetail(`${res.data.body}`);
         setTry(`${res.data.bodyDetail}`);
-        setTags([...res.data.tags]); // 임시서버에서 사용 가능
+        // setTags([...res.data.tags]); // 임시서버에서 사용 가능
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
-  // //백엔드 서버 관련 코드
+  //백엔드 서버 관련 코드
+  const onClickSubmit = async () => {
+    let data = {
+      // tags: tags,
+      title: title,
+      body: body_detail,
+      bodyDetail: body_try,
+    };
+
+    const header = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    await axios.patch(`/questions/${id}`, data, header).then((res) => {
+      console.log(res);
+      navigate(`/questions/${id}`);
+      window.location.reload();
+    });
+  };
+
+  // // 임시 서버 관련 코드
   // const onClickSubmit = async () => {
   //   let data = {
-  //     // tags: tags,
+  //     tags: tags,
   //     title: title,
   //     body: body_detail,
   //     bodyDetail: body_try,
+  //     createdAt: new Date(),
+  //     modifiedAt: new Date(),
   //   };
 
   //   const header = {
   //     headers: {
   //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${cookies.accessToken}`,
   //     },
   //   };
 
   //   await axios
   //     .patch(`http://localhost:8080/questions/${id}`, data, header)
   //     .then((res) => {
-  //       console.log(res);
   //       navigate(`/questions/${id}`);
   //       window.location.reload();
   //     });
   // };
-
-  // 임시 서버 관련 코드
-  const onClickSubmit = async () => {
-    let data = {
-      tags: tags,
-      title: title,
-      body: body_detail,
-      bodyDetail: body_try,
-      createdAt: new Date(),
-      modifiedAt: new Date(),
-    };
-
-    const header = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies.accessToken}`,
-      },
-    };
-
-    await axios
-      .patch(`http://localhost:8080/questions/${id}`, data, header)
-      .then((res) => {
-        navigate(`/questions/${id}`);
-        window.location.reload();
-      });
-  };
 
   const onChange = (e) => {
     setTitle(e.target.value);

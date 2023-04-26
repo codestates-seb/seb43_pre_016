@@ -184,43 +184,14 @@ const Askquestions = () => {
 
   const navigate = useNavigate();
 
-  // // 백엔드 서버 관련 코드
-  // const onClickSubmit = async () => {
-  //   let data = {
-  //     // tags: tags,
-  //     title: title,
-  //     body: body_detail,
-  //     bodyDetail: body_try,
-  //     userId: 1,
-  //   };
-  //   console.log(data);
-
-  //   const header = {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   };
-
-  //   await axios.post("/questions", data, header).then(() => {
-  //     navigate("/");
-  //     window.location.reload();
-  //   });
-  // };
-
-  // 임시 서버 관련 코드
+  // 백엔드 서버 관련 코드
   const onClickSubmit = async () => {
     let data = {
-      tags: tags,
+      // tags: tags,
       title: title,
       body: body_detail,
       bodyDetail: body_try,
-      likeCount: 0,
-      view: 0,
-      createdBy: "Juni",
-      createdAt: new Date(),
-      modifiedAt: new Date(),
-      answers: [],
-      userId: 1,
+      userId: 2,
     };
     console.log(data);
 
@@ -230,12 +201,10 @@ const Askquestions = () => {
       },
     };
 
-    await axios
-      .post("http://localhost:8080/questions", data, header)
-      .then(() => {
-        navigate("/");
-        window.location.reload();
-      });
+    await axios.post("/questions", data, header).then(() => {
+      navigate("/");
+      window.location.reload();
+    });
   };
 
   const onChange = (e) => {
