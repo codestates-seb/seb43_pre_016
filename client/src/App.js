@@ -87,7 +87,7 @@ function App() {
           }
         ></Route>
         <Route
-          path="posts/:id/editanswer"
+          path="/questions/:id/editAnswer"
           element={
             <div className="container">
               <Sidebar />

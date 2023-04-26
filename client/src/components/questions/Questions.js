@@ -230,34 +230,34 @@ const Questions = ({ cookies }) => {
   const [currentpage, setCurrentpage] = useState(1);
   const [ActBtn, setActBtn] = useState(1);
   console.log(listData);
-  // // 백엔드 서버 관련 코드
-  // const data = async () => {
-  //   await axios
-  //     .get(`/questions${"?page=" + currentpage + "&size=5"}`)
-  //     .then((res) => {
-  //       setListData([...res.data.data]);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
-  // 임시 서버 관련 코드
+  // 백엔드 서버 관련 코드
   const data = async () => {
     await axios
-      .get(`http://localhost:8080/questions`)
+      .get(`/questions${"?page=" + currentpage + "&size=15"}`)
       .then((res) => {
-        res.data.sort((b, a) => {
-          const A = new Date(a.createdAt);
-          const B = new Date(b.createdAt);
-          return A - B;
-        });
-        setListData([...res.data]);
+        setListData([...res.data.data]);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  // 임시 서버 관련 코드
+  // const data = async () => {
+  //   await axios
+  //     .get(`http://localhost:8080/questions`)
+  //     .then((res) => {
+  //       res.data.sort((b, a) => {
+  //         const A = new Date(a.createdAt);
+  //         const B = new Date(b.createdAt);
+  //         return A - B;
+  //       });
+  //       setListData([...res.data]);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   useEffect(() => {
     navigate(
@@ -383,7 +383,7 @@ const Questions = ({ cookies }) => {
           {listData &&
             listData.map((list) => {
               return (
-                <li className="mainbar__list" key={list.id}>
+                <li className="mainbar__list" key={list.questionId}>
                   <div className="mainbar__list__left">
                     <p>{`${list.likeCount} votes`}</p>
                     <p
@@ -415,7 +415,7 @@ const Questions = ({ cookies }) => {
                     } views`}</p>
                   </div>
                   <div className="mainbar__list__right">
-                    <Link to={`/questions/${list.id}`}>
+                    <Link to={`/questions/${list.questionId}`}>
                       <h3>{list.title}</h3>
                     </Link>
                     <p>{`${list.body.replace(

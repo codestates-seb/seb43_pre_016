@@ -1,7 +1,9 @@
 import ReactQuill, { contextType } from "react-quill";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import "quill/dist/quill.snow.css";
+import axios from "axios";
 
 const EditWrapper = styled.main`
   display: flex;
@@ -61,9 +63,28 @@ const EditWrapper = styled.main`
 `;
 
 const EditAnswer = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [content, setContent] = useState("");
   const [tags, setTags] = useState([]); //태그
   const [taginput, setTaginput] = useState("");
+
+  console.log(id);
+  useEffect(() => {
+    axios
+      .get(`/answers/${id}`)
+      .then((res) => setContent(res.data.body))
+      .catch((err) => console.log(err));
+  }, []);
+  const handleeditanswer = () => {
+    axios
+      .patch(`/answers/${id}`, { body: content })
+      .then((res) => {
+        navigate(`/questions/${res.data.questionId}`);
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
@@ -115,8 +136,6 @@ const EditAnswer = () => {
 
   return (
     <EditWrapper>
-      <label className="title">Answer</label>
-      <input className="titleinput" />
       <lable className="body">body</lable>
       <div className="bodyinput">
         <ReactQuill
@@ -138,7 +157,9 @@ const EditAnswer = () => {
           readOnly
         />
       </div>
-      <button className="postedit">Edit your Answer</button>
+      <button className="postedit" onClick={handleeditanswer}>
+        Edit your Answer
+      </button>
     </EditWrapper>
   );
 };

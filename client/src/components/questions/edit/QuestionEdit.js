@@ -173,7 +173,7 @@ const QuestionEdit = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/questions/${id}`)
+      .get(`/questions/${id}`)
       .then((res) => {
         setTitle(`${res.data.title}`);
         setDetail(`${res.data.body}`);
@@ -185,54 +185,25 @@ const QuestionEdit = () => {
       });
   }, []);
 
-  // //백엔드 서버 관련 코드
-  // const onClickSubmit = async () => {
-  //   let data = {
-  //     // tags: tags,
-  //     title: title,
-  //     body: body_detail,
-  //     bodyDetail: body_try,
-  //   };
-
-  //   const header = {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   };
-
-  //   await axios
-  //     .patch(`http://localhost:8080/questions/${id}`, data, header)
-  //     .then((res) => {
-  //       console.log(res);
-  //       navigate(`/questions/${id}`);
-  //       window.location.reload();
-  //     });
-  // };
-
-  // 임시 서버 관련 코드
+  //백엔드 서버 관련 코드
   const onClickSubmit = async () => {
     let data = {
-      tags: tags,
       title: title,
       body: body_detail,
       bodyDetail: body_try,
-      createdAt: new Date(),
-      modifiedAt: new Date(),
     };
 
     const header = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies.accessToken}`,
       },
     };
 
-    await axios
-      .patch(`http://localhost:8080/questions/${id}`, data, header)
-      .then((res) => {
-        navigate(`/questions/${id}`);
-        window.location.reload();
-      });
+    await axios.patch(`/questions/${id}`, data, header).then((res) => {
+      console.log(res);
+      navigate(`/questions/${id}`);
+      window.location.reload();
+    });
   };
 
   const onChange = (e) => {

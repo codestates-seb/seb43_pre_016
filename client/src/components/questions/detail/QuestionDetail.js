@@ -420,25 +420,11 @@ const QuestionDetail = () => {
   const navigate = useNavigate();
   console.log(answer);
 
-  // // 백엔드 서버 관련 코드
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   axios
-  //     .get(`/questions/${id}`)
-  //     .then((res) => {
-  //       setQuestionData({ ...res.data });
-  //       setIsLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
-  // 임시 서버 관련 코드
+  // 백엔드 서버 관련 코드
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8080/questions/${id}`)
+      .get(`/questions/${id}`)
       .then((res) => {
         setQuestionData({ ...res.data });
         setIsLoading(false);
@@ -448,46 +434,20 @@ const QuestionDetail = () => {
       });
   }, []);
 
-  // const onSubmitAnswer = async () => {
-  //   let data = {
-  //     title: title,
-  //     body: answer,
-  //     userId: ??,
-  //      questionId: id,
-  //   };
-  //   console.log(data);
-  //   const header = {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   };
-  //   await axios.post("/answers", data, header).then(() => {
-  //     navigate("/");
-  //     window.location.reload();
-  //   });
-  // };
-
   const onSubmitAnswer = async () => {
     let data = {
       body: answer,
-      likeCount: 0,
-      view: 0,
-      createdBy: "Juni",
-      createdAt: new Date(),
-      modifiedAt: new Date(),
-      userId: 1,
+      userId: "1",
       questionId: id,
     };
     console.log(data);
-
     const header = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-
-    await axios.post("http://localhost:8080/answers", data, header).then(() => {
-      navigate("/questions/${id}");
+    await axios.post("/answers", data, header).then(() => {
+      navigate("/");
       window.location.reload();
     });
   };
@@ -571,7 +531,7 @@ const QuestionDetail = () => {
                   <div className="buttons">
                     <Link
                       className="edit"
-                      to={`/questions/${questionData.id}/editQuestion`}
+                      to={`/questions/${questionData.questionId}/editQuestion`}
                       // to={`/questions/${questionData.questionId}/editQuestion`}
                     >
                       Edit
@@ -652,7 +612,7 @@ const QuestionDetail = () => {
                             <div className="buttons">
                               <Link
                                 className="edit"
-                                to={`/questions/${answer.id}/editAnswer`}
+                                to={`/questions/${answer.answerId}/editAnswer`}
                               >
                                 Edit
                               </Link>

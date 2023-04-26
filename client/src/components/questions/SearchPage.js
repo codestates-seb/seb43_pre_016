@@ -258,7 +258,7 @@ const SearchPage = ({ cookies, search }) => {
 
   const data = () => {
     axios
-      .get("http://localhost:8080/questions")
+      .get("/questions")
       .then((res) => {
         res.data.sort((b, a) => {
           const A = new Date(a.createdAt);
