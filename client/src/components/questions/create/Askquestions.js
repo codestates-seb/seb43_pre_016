@@ -5,6 +5,7 @@ import EditorComponent2 from "./EditorComponent2";
 import ClearIcon from "@mui/icons-material/Clear";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const Wrapper = styled.main`
   height: 300vh;
@@ -63,6 +64,10 @@ const TitleWriter = styled.section`
   border-radius: 3px;
   width: 70vw;
   margin-bottom: 10px;
+
+  .validate {
+    color: red;
+  }
   div {
     font-size: 20px;
     font-weight: 600;
@@ -93,6 +98,11 @@ const DetailWriter = styled.section`
   border-radius: 3px;
   width: 70vw;
   margin-bottom: 10px;
+
+  .validate {
+    color: red;
+  }
+
   .detail {
     font-size: 20px;
     font-weight: 600;
@@ -186,23 +196,31 @@ const Askquestions = () => {
 
   // 백엔드 서버 관련 코드
   const onClickSubmit = async () => {
-    let data = {
-      title: title,
-      body: body_detail,
-      bodyDetail: body_try,
-      userId: 1,
-    };
+    if (
+      title.length >= 1 &&
+      body_detail.replace(/(<([^>]+)>)/gi, "").length >= 10 &&
+      body_try.replace(/(<([^>]+)>)/gi, "").length >= 10
+    ) {
+      let data = {
+        title: title,
+        body: body_detail,
+        bodyDetail: body_try,
+        userId: 1,
+      };
 
-    const header = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
+      const header = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
 
-    await axios.post("/questions", data, header).then(() => {
-      navigate("/");
-      window.location.reload();
-    });
+      await axios.post("/questions", data, header).then(() => {
+        navigate("/");
+        window.location.reload();
+      });
+    } else {
+      toast.warning("Make sure you pass all validations");
+    }
   };
 
   const onChange = (e) => {
@@ -246,27 +264,47 @@ const Askquestions = () => {
       </NoticeWrapper>
       <TitleWriter>
         <div>Title</div>
-        <label>
-          Be specific and imagine you’re asking a question to another person.
-        </label>
+        {title.length >= 1 ? (
+          <label>
+            Be specific and imagine you’re asking a question to another person.
+          </label>
+        ) : (
+          <label className="validate">
+            Write at least 1 letter for the title.
+          </label>
+        )}
         <textarea onChange={onChange} value={title} name="title" />
       </TitleWriter>
       <DetailWriter>
         <span className="detail">what are the details of your problem?</span>
-        <label>
-          Introduce the problem and expand on what you put in the title. Minimum
-          20 characters.
-        </label>
+        {body_detail.replace(/(<([^>]+)>)/gi, "").length >= 10 ? (
+          <label>
+            Introduce the problem and expand on what you put in the title.
+            Minimum 10 characters.
+          </label>
+        ) : (
+          <label className="validate">
+            Introduce the problem and expand on what you put in the title.
+            Minimum 10 characters.
+          </label>
+        )}
         <EditorComponent body_detail={body_detail} setDetail={setDetail} />
       </DetailWriter>
       <DetailWriter>
         <span className="try">
           what did you try and what were you expecting?
         </span>
-        <label>
-          Describe what you tried, what you expected to happen, and what
-          actually resulted. Minimum 20 characters.
-        </label>
+        {body_try.replace(/(<([^>]+)>)/gi, "").length >= 10 ? (
+          <label>
+            Describe what you tried, what you expected to happen, and what
+            actually resulted. Minimum 10 characters.
+          </label>
+        ) : (
+          <label className="validate">
+            Describe what you tried, what you expected to happen, and what
+            actually resulted. Minimum 10 characters.
+          </label>
+        )}
         <EditorComponent2 body_try={body_try} setTry={setTry} />
       </DetailWriter>
       <TitleWriter>
@@ -298,6 +336,18 @@ const Askquestions = () => {
       <Postbutton onClick={() => onClickSubmit()}>
         Post your question
       </Postbutton>
+      <ToastContainer
+        position="top-right" // 알람 위치 지정
+        autoClose={4000} // 자동 off 시간
+        hideProgressBar={false} // 진행시간바 숨김
+        closeOnClick // 클릭으로 알람 닫기
+        rtl={false} // 알림 좌우 반전
+        pauseOnFocusLoss // 화면을 벗어나면 알람 정지
+        draggable // 드래그 가능
+        pauseOnHover // 마우스를 올리면 알람 정지
+        theme="colored"
+        // limit={1} // 알람 개수 제한
+      />
     </Wrapper>
   );
 };

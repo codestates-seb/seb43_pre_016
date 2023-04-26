@@ -357,7 +357,6 @@ const SearchPage = ({ cookies, search }) => {
     data();
     window.scrollTo(0, 0);
   }, [search.searchlist, currentpage]);
-  console.log(listData);
 
   return (
     <Container>

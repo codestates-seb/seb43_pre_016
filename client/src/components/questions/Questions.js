@@ -200,6 +200,7 @@ const Container = styled.div`
     img {
       margin-right: 5px;
       border-radius: 3px;
+      cursor: pointer;
     }
 
     a {
@@ -227,6 +228,7 @@ const Container = styled.div`
 const Questions = ({ cookies }) => {
   const navigate = useNavigate();
   const [listData, setListData] = useState([]);
+  const [dataLength, setDataLength] = useState([]); // 데이터의 전체 개수 저장
   const [currentpage, setCurrentpage] = useState(1);
   const [ActBtn, setActBtn] = useState(1);
   console.log(listData);
@@ -259,7 +261,14 @@ const Questions = ({ cookies }) => {
       }${currentpage === 1 ? "" : "?page=" + currentpage + "&size=15"}`
     );
     data();
+    getDataLength();
   }, [currentpage]); //임시 서버에서는 ActBtn을 배열에 넣어두면 정렬이 되지않음.
+
+  const getDataLength = () => {
+    axios.get(`/questions?page=1&size=10000`).then((res) => {
+      setDataLength([...res.data.data]);
+    });
+  };
 
   const handleonpage = (e) => {
     setCurrentpage(e);
@@ -313,7 +322,7 @@ const Questions = ({ cookies }) => {
           )}
         </header>
         <div className="mainbar__filter">
-          <p>{`${listData && listData.length} questions`}</p>
+          <p>{`${dataLength && dataLength.length} questions`}</p>
           <div className="mainbar__filter__btn">
             <button
               className={`nav__btn br-l3 ${className1.Newest}`}
@@ -378,24 +387,33 @@ const Questions = ({ cookies }) => {
                               backgroundColor: "#2f6f44",
                               padding: "3px",
                             }
-                          : { border: "none", marginLeft: "3px" }
+                          : { border: "none" }
                       }
                     >{`${list.answers && list.answers.length} answers`}</p>
                     <p
                       style={
-                        Number(list.view) < 1000
-                          ? { color: "#6a737c" }
-                          : Number(list.view) < 1000000
-                          ? { color: "#922024", fontWeight: "400" }
-                          : { color: "#922024", fontWeight: "700" }
+                        list.view
+                          ? Number(list.view) < 1000
+                            ? { color: "#6a737c" }
+                            : Number(list.view) < 1000000
+                            ? { color: "#922024", fontWeight: "400" }
+                            : { color: "#922024", fontWeight: "700" }
+                          : { color: "#6a737c" }
                       }
-                    >{`${
-                      Number(list.view) < 1000
-                        ? list.view
-                        : Number(list.view) < 1000000
-                        ? String(parseInt(Number(list.view) / 1000)) + "k"
-                        : String(Number(list.view) / 1000000).slice(0, 3) + "m"
-                    } views`}</p>
+                    >
+                      {list.view
+                        ? `${
+                            Number(list.view) < 1000
+                              ? list.view
+                              : Number(list.view) < 1000000
+                              ? String(parseInt(Number(list.view) / 1000)) + "k"
+                              : String(Number(list.view) / 1000000).slice(
+                                  0,
+                                  3
+                                ) + "m"
+                          } views`
+                        : "0 views"}
+                    </p>
                   </div>
                   <div className="mainbar__list__right">
                     <Link to={`/questions/${list.questionId}`}>
@@ -438,7 +456,7 @@ const Questions = ({ cookies }) => {
         <Pagination
           activePage={currentpage} // 현재 페이지
           itemsCountPerPage={15} // 한 페이지랑 보여줄 아이템 갯수
-          totalItemsCount={450} // 총 아이템 갯수
+          totalItemsCount={dataLength.length} // 총 아이템 갯수
           pageRangeDisplayed={5} // paginator의 페이지 범위
           prevPageText={"‹"} // "이전"을 나타낼 텍스트
           nextPageText={"›"} // "다음"을 나타낼 텍스트
