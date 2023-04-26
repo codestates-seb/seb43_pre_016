@@ -8,6 +8,8 @@ import styled from "styled-components";
 import Loading from "../../../features/Loading";
 import onSaveTime from "../../../features/onSaveTime";
 import BookmarkBorderOutlinedIcon from "@mui/icons-material/BookmarkBorderOutlined";
+import { toast, ToastContainer } from "react-toastify";
+import fetchQuestionData from "../../../features/FetchQuestionData";
 
 const modules = {
   toolbar: [
@@ -136,6 +138,7 @@ const QuestionEditor = styled.section`
   }
 
   button {
+    cursor: pointer;
     border: none;
     background: none;
     margin: 2px;
@@ -210,6 +213,7 @@ const QuestionEditor = styled.section`
         color: #838c95;
         font-size: 13px;
         font-weight: 400;
+        cursor: pointer;
       }
       .answer_profile {
         position: absolute;
@@ -271,7 +275,7 @@ const Answerwrapper = styled.section`
 
     button {
       border: none;
-
+      cursor: pointer;
       background: none;
       margin: 2px;
       text-align: center;
@@ -330,6 +334,7 @@ const Answerwrapper = styled.section`
         color: #838c95;
         font-size: 13px;
         font-weight: 400;
+        cursor: pointer;
       }
       .answer_profile {
         position: absolute;
@@ -421,15 +426,18 @@ const QuestionDetail = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios
-      .get(`/questions/${id}`)
-      .then((res) => {
-        setQuestionData({ ...res.data });
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    fetchQuestionData(id, setQuestionData);
+    setIsLoading(false);
+
+    // axios
+    //   .get(`/questions/${id}`)
+    //   .then((res) => {
+    //     setQuestionData({ ...res.data });
+    //     setIsLoading(false);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }, []);
 
   const onSubmitAnswer = async () => {
@@ -445,42 +453,55 @@ const QuestionDetail = () => {
       },
     };
     await axios.post("/answers", data, header).then(() => {
-      navigate(`questions/${id}`);
-      window.location.reload();
-    });
-  };
-
-  //새로고침은 나중에 리팩토링 예정
-
-  // 좋아요를 누를 때 요청을 보내는 함수 (isLiked가 데이터에 들어온다면 true, false일 떄 처리를 다시 해줘야함)
-  const onChangeUpVote = () => {
-    axios.post(`/questions/${id}/like/1`).then((res) => {
-      window.location.reload();
-    });
-  };
-  // 싫어요를 누를 때 요청을 보내는 함수
-  const onChangeDownVote = () => {
-    axios.post(`questions/${id}/dislike/1`).then((res) => {
-      window.location.reload();
+      fetchQuestionData(id, setQuestionData);
+      setAnswer("");
     });
   };
 
   const onDeleteAnswer = (answerId) => {
     axios
       .delete(`/answers/${answerId}`)
-      .then((res) => {
-        navigate(`/questions/${id}`);
-        window.location.reload();
+      .then(() => {
+        fetchQuestionData(id, setQuestionData);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err);
       });
   };
 
   const onDeleteQuestion = () => {
-    axios.delete(`/questions/${id}`).then((res) => {
-      navigate(`/questions`);
-      window.location.reload();
+    axios
+      .delete(`/questions/${id}`)
+      .then(() => {
+        navigate("/");
+      })
+      .catch(() => {
+        toast.warning("Questions with answers cannot be deleted!");
+      });
+  };
+
+  // 질문에 좋아요를 누를 때 요청을 보내는 함수 (isLiked가 데이터에 들어온다면 true, false일 떄 처리를 다시 해줘야함)
+  const onChangeUpVoteQuestion = () => {
+    axios.post(`/questions/${id}/like/1`).then(() => {
+      fetchQuestionData(id, setQuestionData);
+    });
+  };
+  // 질문에 싫어요를 누를 때 요청을 보내는 함수
+  const onChangeDownVoteQuestion = () => {
+    axios.post(`/questions/${id}/dislike/1`).then(() => {
+      fetchQuestionData(id, setQuestionData);
+    });
+  };
+
+  const onChangeUpVoteAnswer = () => {
+    axios.post(`/answers/${id}/like/1`).then(() => {
+      fetchQuestionData(id, setQuestionData);
+    });
+  };
+
+  const onChangeDownVoteAnswer = () => {
+    axios.post(`/answers/${id}/dislike/1`).then(() => {
+      fetchQuestionData(id, setQuestionData);
     });
   };
 
@@ -515,7 +536,10 @@ const QuestionDetail = () => {
             </div>
             <QuestionEditor>
               <div className="votes">
-                <button className="upvote__btn" onClick={onChangeUpVote}>
+                <button
+                  className="upvote__btn"
+                  onClick={onChangeUpVoteQuestion}
+                >
                   <svg
                     aria-hidden="true"
                     className="svg-icon iconArrowUpLg"
@@ -527,7 +551,10 @@ const QuestionDetail = () => {
                   </svg>
                 </button>
                 <div className="vote">{questionData.likeCount}</div>
-                <button className="downvote__btn" onClick={onChangeDownVote}>
+                <button
+                  className="downvote__btn"
+                  onClick={onChangeDownVoteQuestion}
+                >
                   <svg
                     aria-hidden="true"
                     width="36"
@@ -609,7 +636,10 @@ const QuestionDetail = () => {
                     <Answerwrapper>
                       <section className="main">
                         <div className="votes">
-                          <button className="upvote__btn">
+                          <button
+                            className="upvote__btn"
+                            onClick={onChangeUpVoteAnswer}
+                          >
                             <svg
                               aria-hidden="true"
                               className="svg-icon iconArrowUpLg"
@@ -621,7 +651,10 @@ const QuestionDetail = () => {
                             </svg>
                           </button>
                           <div className="vote">{answer.likeCount}</div>
-                          <button className="downvote__btn">
+                          <button
+                            className="downvote__btn"
+                            onClick={onChangeDownVoteAnswer}
+                          >
                             <svg
                               aria-hidden="true"
                               width="36"
@@ -710,6 +743,18 @@ const QuestionDetail = () => {
           </Answereditor>
         </>
       )}
+      <ToastContainer
+        position="top-right" // 알람 위치 지정
+        autoClose={4000} // 자동 off 시간
+        hideProgressBar={false} // 진행시간바 숨김
+        closeOnClick // 클릭으로 알람 닫기
+        rtl={false} // 알림 좌우 반전
+        pauseOnFocusLoss // 화면을 벗어나면 알람 정지
+        draggable // 드래그 가능
+        pauseOnHover // 마우스를 올리면 알람 정지
+        theme="colored"
+        // limit={1} // 알람 개수 제한
+      />
     </DetailWrapper>
   );
 };
