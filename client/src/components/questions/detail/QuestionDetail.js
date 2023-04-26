@@ -445,7 +445,7 @@ const QuestionDetail = () => {
       },
     };
     await axios.post("/answers", data, header).then(() => {
-      navigate(`questions/${id}`);
+      navigate(`/questions/${id}`);
       window.location.reload();
     });
   };
@@ -460,7 +460,7 @@ const QuestionDetail = () => {
   };
   // 싫어요를 누를 때 요청을 보내는 함수
   const onChangeDownVote = () => {
-    axios.post(`questions/${id}/dislike/1`).then((res) => {
+    axios.post(`/questions/${id}/dislike/1`).then((res) => {
       window.location.reload();
     });
   };
