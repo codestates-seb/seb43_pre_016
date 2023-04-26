@@ -56,5 +56,5 @@
     "eslint-plugin-prettier": "^4.2.1",
     "prettier": "^2.8.7"
   },
-  "proxy": "http://ec2-43-200-3-93.ap-northeast-2.compute.amazonaws.com:8080"
+  "proxy": "http://ec2-3-39-233-72.ap-northeast-2.compute.amazonaws.com:8080"
 }
