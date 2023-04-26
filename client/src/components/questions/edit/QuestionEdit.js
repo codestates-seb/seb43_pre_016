@@ -200,7 +200,6 @@ const QuestionEdit = () => {
     };
 
     await axios.patch(`/questions/${id}`, data, header).then((res) => {
-      console.log(res);
       navigate(`/questions/${id}`);
       window.location.reload();
     });
