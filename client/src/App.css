@@ -50,3 +50,7 @@ a:active {
   padding-top: 50px;
   display: flex;
 }
+/* 스크롤바를 없앰 */
+::-webkit-scrollbar {
+  display: none;
+}

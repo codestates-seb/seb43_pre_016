@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -17,7 +18,7 @@ const Container = styled.div`
     .content-boxs {
       display: flex;
       flex-direction: column;
-      width: 100%;
+      width: 70%;
       border: 1px solid hsl(210, 8%, 85%);
       border-radius: 5px;
       /* content가 많아질 때, 자동으로 row를 추가하도록 설정 */
@@ -28,7 +29,7 @@ const Container = styled.div`
       align-content: space-between;
 
       .content {
-        padding: 16px;
+        padding: 10px 15px 5px 15px;
         border-bottom: 1px solid hsl(210, 8%, 85%);
         width: 100%;
         /* content가 많아질 때, 자동으로 column을 추가하도록 설정 */
@@ -92,7 +93,7 @@ const Container = styled.div`
           }
         }
         .user-info {
-          margin-top: 13px;
+          margin-top: 7px;
           display: flex;
           align-items: center;
           justify-content: flex-end;
@@ -107,10 +108,6 @@ const Container = styled.div`
             margin-right: 4px;
             font-size: 12px;
           }
-          .askCount {
-            margin-right: 2px;
-            color: #6a737c;
-          }
           .Date {
             color: #6a737c;
           }
@@ -120,7 +117,7 @@ const Container = styled.div`
   }
 `;
 const Sidebar = styled.div`
-  width: 20%;
+  width: 13%;
   height: 100%;
   margin-right: 3%;
   ul {
@@ -141,61 +138,156 @@ const Sidebar = styled.div`
 
 const Saves = () => {
   const [active, setActive] = useState(1);
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState({});
   useEffect(() => {
     axios
       .get(`/users/1`)
       .then((res) => {
-        setUserData(res.data.slice(0, 5));
+        setUserData(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-  const content = () => {
+  if (!userData.questions) {
+    return null; // or return loading indicator
+  }
+  const Content = () => {
     return (
-      <div className="content">
-        <div className="content-info">
-          <div className="Count-box">
-            <span className="vote">
-              <strong>26958</strong> votes
-            </span>
-            <span className="answers">✔ 26 answers</span>
-            <span className="view">
-              <strong>1.8m</strong> view
-            </span>
-          </div>
-          <div className="save">
-            Saved in <a>for late</a>
-          </div>
-        </div>
-        <div className="content-title">
-          <a>
-            Why is processing a sorted array faster than processing an unsorted
-            array?
-          </a>
-          <div className="tags">
-            <div className="tag">java</div>
-            <div className="tag">c++</div>
-            <div className="tag">performance</div>
-            <div className="tag">branch predivtion</div>
-          </div>
-          <div className="user-info">
-            <div className="userImg"></div>
-            <a className="userName">userName</a>
-            <div className="askCount">
-              <strong>491k</strong> asked
+      <>
+        {userData.questions.map((questData) => {
+          return (
+            <div className="content" key={questData.questionId}>
+              <div className="content-info">
+                <div className="Count-box">
+                  <span className="vote">
+                    <strong>{questData.questionId}</strong> votes
+                  </span>
+                  <span className="answers">✔ 26 answers</span>
+                  <span className="view">
+                    <strong>{questData.questionId}</strong> view
+                  </span>
+                </div>
+                <div className="save">
+                  Saved in <a>for late</a>
+                </div>
+              </div>
+              <div className="content-title">
+                <a href={`/users/${questData.id}/${questData.userName}`}>
+                  {questData.title}
+                </a>
+                <div className="tags">
+                  <div className="tag">java</div>
+                  <div className="tag">c++</div>
+                  <div className="tag">performance</div>
+                  <div className="tag">branch predivtion</div>
+                </div>
+                <div className="user-info">
+                  <div className="userImg"></div>
+                  <a className="userName">{userData.userName}</a>
+                  <div className="Date">
+                    {new Date(questData.createdAt).toLocaleDateString("en-GB", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="Date">Jun 27, 2012 at 13:15</div>
-          </div>
+          );
+        })}
+      </>
+    );
+  };
+  //문장길이 평균값을 절반으로 나눠서 긴 순서대로 정열함.
+  const ContentForLater = () => {
+    const sortedQuestions = [...userData.questions].sort(
+      (a, b) => b.title.length - a.title.length
+    );
+    const halfLength = Math.floor(sortedQuestions.length / 2);
+    return (
+      <>
+        {sortedQuestions
+          .filter((questData, index) => {
+            return index < halfLength;
+          })
+          .map((questData) => {
+            return (
+              <div className="content" key={questData.questionId}>
+                <div className="content-info">
+                  <div className="Count-box">
+                    <span className="vote">
+                      <strong>{questData.questionId}</strong> votes
+                    </span>
+                    <span className="answers">✔ 26 answers</span>
+                    <span className="view">
+                      <strong>{questData.questionId}</strong> view
+                    </span>
+                  </div>
+                  <div className="save">
+                    Saved in <a>for late</a>
+                  </div>
+                </div>
+                <div className="content-title">
+                  <a href={`/users/${questData.id}/${questData.userName}`}>
+                    {questData.title}
+                  </a>
+                  <div className="tags">
+                    <div className="tag">java</div>
+                    <div className="tag">c++</div>
+                    <div className="tag">performance</div>
+                    <div className="tag">branch predivtion</div>
+                  </div>
+                  <div className="user-info">
+                    <div className="userImg"></div>
+                    <a className="userName">{userData.userName}</a>
+                    <div className="Date">
+                      {new Date(questData.createdAt).toLocaleDateString(
+                        "en-GB",
+                        {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        }
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+      </>
+    );
+  };
+  const AllSaveBtn = () => {
+    return (
+      <div className="content-container">
+        <div className="content-title">All saves</div>
+        <div className="content-title">
+          {userData.questions.length} saved items
+        </div>
+        <div className="content-boxs">
+          <Content />
         </div>
       </div>
     );
   };
+  const ForLaterBtn = () => {
+    return (
+      <div className="content-container">
+        <div className="content-title">For Later saves</div>
+        <div className="content-title"> saved items</div>
 
+        <div className="content-boxs">
+          <ContentForLater />
+        </div>
+      </div>
+    );
+  };
   return (
     <Container>
-      <Sidebar active={active}>
+      <Sidebar>
         <ul>
           <li
             onClick={() => setActive(1)}
@@ -211,11 +303,7 @@ const Saves = () => {
           </li>
         </ul>
       </Sidebar>
-      <div className="content-container">
-        <div className="content-title">All saves</div>
-        <div className="content-title">{content.length} saved items</div>
-        <div className="content-boxs">{content}</div>
-      </div>
+      {active === 1 ? <AllSaveBtn /> : <ForLaterBtn />}
     </Container>
   );
 };

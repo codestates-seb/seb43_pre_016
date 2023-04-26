@@ -5,6 +5,13 @@ import Saves from "./MyPgSave";
 import UserBox from "./MyPgUserBox";
 
 /* sidebar Line */
+const PageSize = styled.div`
+  position: relative;
+  /* 스크롤바를 없앰 */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 const MypageLayout = styled.div`
   display: flex;
@@ -12,7 +19,9 @@ const MypageLayout = styled.div`
   height: 100vh;
   width: 100vw;
   padding: 24px;
-  margin-left: 163px;
+  position: absolute;
+  left: 163px;
+  /* 스크롤바를 없앰 */
 `;
 const Nav = styled.div`
   display: flex;
@@ -36,26 +45,28 @@ const Mypage = () => {
   const [active1, setActive1] = useState(1);
 
   return (
-    <MypageLayout>
-      <UserBox />
-      <Nav>
-        <div
-          className="ProfileBtn"
-          onClick={() => setActive1(1)}
-          id={active1 === 1 ? "active" : ""}
-        >
-          Profile
-        </div>
-        <div
-          className="ProfileBtn"
-          onClick={() => setActive1(2)}
-          id={active1 === 2 ? "active" : ""}
-        >
-          Saves
-        </div>
-      </Nav>
-      {active1 === 1 ? <Profile /> : <Saves />}
-    </MypageLayout>
+    <PageSize>
+      <MypageLayout>
+        <UserBox />
+        <Nav>
+          <div
+            className="ProfileBtn"
+            onClick={() => setActive1(1)}
+            id={active1 === 1 ? "active" : ""}
+          >
+            Profile
+          </div>
+          <div
+            className="ProfileBtn"
+            onClick={() => setActive1(2)}
+            id={active1 === 2 ? "active" : ""}
+          >
+            Saves
+          </div>
+        </Nav>
+        {active1 === 1 ? <Profile /> : <Saves />}
+      </MypageLayout>
+    </PageSize>
   );
 };
 export default Mypage;
