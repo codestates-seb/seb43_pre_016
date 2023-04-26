@@ -81,7 +81,6 @@ const EditAnswer = () => {
       .patch(`/answers/${id}`, { body: content })
       .then((res) => {
         navigate(`/questions/${res.data.questionId}`);
-        window.location.reload();
       })
       .catch((err) => console.log(err));
   };
