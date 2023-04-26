@@ -453,8 +453,28 @@ const QuestionDetail = () => {
       },
     };
     await axios.post("/answers", data, header).then(() => {
+<<<<<<< HEAD
       fetchQuestionData(id, setQuestionData);
       setAnswer("");
+=======
+      navigate(`/questions/${id}`);
+      window.location.reload();
+    });
+  };
+
+  //새로고침은 나중에 리팩토링 예정
+
+  // 좋아요를 누를 때 요청을 보내는 함수 (isLiked가 데이터에 들어온다면 true, false일 떄 처리를 다시 해줘야함)
+  const onChangeUpVote = () => {
+    axios.post(`/questions/${id}/like/1`).then((res) => {
+      window.location.reload();
+    });
+  };
+  // 싫어요를 누를 때 요청을 보내는 함수
+  const onChangeDownVote = () => {
+    axios.post(`/questions/${id}/dislike/1`).then((res) => {
+      window.location.reload();
+>>>>>>> 9d7cf272f3da6a9195c995767a077332f9429543
     });
   };
 

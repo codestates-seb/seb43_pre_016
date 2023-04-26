@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import PublicIcon from "@mui/icons-material/Public";
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const LeftSidebarWrap = styled.nav`
   width: 164px;
@@ -71,6 +71,7 @@ const LeftSidebarWrap = styled.nav`
 `;
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(1);
 
   const className = useMemo(() => {
@@ -90,6 +91,7 @@ const Sidebar = () => {
           onClick={(e) => {
             e.preventDefault();
             setSelectedTab(1);
+            navigate("/");
           }}
         >
           <a href="/">Home</a>
@@ -100,28 +102,31 @@ const Sidebar = () => {
           onClick={(e) => {
             e.preventDefault();
             setSelectedTab(2);
+            navigate("/questions");
           }}
         >
           <PublicIcon />
-          <Link to={`/questions`}>Questions</Link>
+          Questions
         </li>
         <li
           className={`public__li ${className.tags}`}
           onClick={(e) => {
             e.preventDefault();
             setSelectedTab(3);
+            navigate("/tagged");
           }}
         >
-          <a href="/">Tags</a>
+          <a>Tags</a>
         </li>
         <li
           className={`public__li ${className.users}`}
           onClick={(e) => {
             e.preventDefault();
             setSelectedTab(4);
+            navigate("/users");
           }}
         >
-          <a href="/">Users</a>
+          <a>Users</a>
         </li>
       </ul>
     </LeftSidebarWrap>
