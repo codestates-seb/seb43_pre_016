@@ -438,8 +438,10 @@ const QuestionDetail = () => {
     let data = {
       title: title,
       body: answer,
+      userId: "1",
       questionId: id,
     };
+    console.log(data);
 
     const header = {
       headers: {

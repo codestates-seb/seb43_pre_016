@@ -231,9 +231,10 @@ const Questions = ({ cookies }) => {
   const [ActBtn, setActBtn] = useState(1);
   console.log(listData);
 
+  // 백엔드 서버 관련 코드
   const data = async () => {
     await axios
-      .get(`/questions${"?page=" + currentpage + "&size=5"}`)
+      .get(`/questions${"?page=" + currentpage + "&size=15"}`)
       .then((res) => {
         setListData([...res.data.data]);
       })
@@ -241,6 +242,23 @@ const Questions = ({ cookies }) => {
         console.log(err);
       });
   };
+
+  // 임시 서버 관련 코드
+  // const data = async () => {
+  //   await axios
+  //     .get(`http://localhost:8080/questions`)
+  //     .then((res) => {
+  //       res.data.sort((b, a) => {
+  //         const A = new Date(a.createdAt);
+  //         const B = new Date(b.createdAt);
+  //         return A - B;
+  //       });
+  //       setListData([...res.data]);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   useEffect(() => {
     navigate(

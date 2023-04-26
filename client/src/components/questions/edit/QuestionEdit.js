@@ -188,7 +188,6 @@ const QuestionEdit = () => {
   //백엔드 서버 관련 코드
   const onClickSubmit = async () => {
     let data = {
-      // tags: tags,
       title: title,
       body: body_detail,
       bodyDetail: body_try,
@@ -206,32 +205,6 @@ const QuestionEdit = () => {
       window.location.reload();
     });
   };
-
-  // // 임시 서버 관련 코드
-  // const onClickSubmit = async () => {
-  //   let data = {
-  //     tags: tags,
-  //     title: title,
-  //     body: body_detail,
-  //     bodyDetail: body_try,
-  //     createdAt: new Date(),
-  //     modifiedAt: new Date(),
-  //   };
-
-  //   const header = {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${cookies.accessToken}`,
-  //     },
-  //   };
-
-  //   await axios
-  //     .patch(`http://localhost:8080/questions/${id}`, data, header)
-  //     .then((res) => {
-  //       navigate(`/questions/${id}`);
-  //       window.location.reload();
-  //     });
-  // };
 
   const onChange = (e) => {
     setTitle(e.target.value);
