@@ -46,89 +46,93 @@ const UserBoxLayout = styled.div`
 
 const UserBox = () => {
   const [userData, setUserData] = useState([]);
-  const data = () => {
+  useEffect(() => {
     axios
-      .get(`http://localhost:8080/users`)
+      .get(`/users/1`)
       .then((res) => {
-        setUserData([...res.data]);
+        setUserData(res.data.slice(0, 5));
       })
       .catch((err) => {
         console.log(err);
       });
-  };
-  useEffect(() => {
-    data();
   }, []);
 
   //유저 이름
-  const UserDisplayName = ({ userId }) => {
-    const user = userData.find((u) => u.id === userId);
-    return <div className="userName">{user ? user.userName : ""}</div>;
-  };
-
+  const UserName = userData.userName;
+  console.log(userName);
   //유저 생성일
-  const creationDate = userData[0]?.createdAt;
+  const creationDate = userData.createdAt;
+  console.log(creationDate);
+  // //유저 QnA Data
+  // const creationAnswer = userData.answers;
+  // const creationQuestions = userData.questions;
 
-  //유저 최근 활동일
-  const creationAnswer = userData[0]?.answers[0]?.createdAt;
-  const creationQuestions = userData[0]?.questions[0]?.createdAt;
+  // // 최근 활동일 가져오기
+  // const getLastCreatedData = (items) => {
+  //   if (items.length === 0) return null;
+  //   const lastItem = items.reduce((a, b) =>
+  //     a.createdAt > b.createdAt ? a : b
+  //   );
+  //   return new Date(lastItem.createdAt);
+  // };
+  // const lastSeen = () => {
+  //   const now = new Date();
+  //   //answers, questions data 입력
+  //   const lastAnswerDate = getLastCreatedData(creationAnswer);
+  //   const lastQuestionDate = getLastCreatedData(creationQuestions);
+  //   if (!lastAnswerDate && !lastQuestionDate) return "No recent activity";
+  //   if (!lastAnswerDate) {
+  //     const diffTime = Math.abs(now - lastQuestionDate);
+  //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  //     return `last seen ${diffDays} days ago`;
+  //   }
+  //   if (!lastQuestionDate) {
+  //     const diffTime = Math.abs(now - lastAnswerDate);
+  //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  //     return `last seen ${diffDays} days ago`;
+  //   }
+  //   const diffTimeAnswer = Math.abs(now - lastAnswerDate);
+  //   const diffTimeQuestion = Math.abs(now - lastQuestionDate);
+  //   const diffDaysAnswer = Math.ceil(diffTimeAnswer / (1000 * 60 * 60 * 24));
+  //   const diffDaysQuestion = Math.ceil(
+  //     diffTimeQuestion / (1000 * 60 * 60 * 24)
+  //   );
+  //   const diffDays = Math.min(diffDaysAnswer, diffDaysQuestion);
+  //   if (diffDays === 0) {
+  //     const diffHoursAnswer = Math.ceil(diffTimeAnswer / (1000 * 60 * 60));
+  //     const diffHoursQuestion = Math.ceil(diffTimeQuestion / (1000 * 60 * 60));
+  //     if (diffHoursAnswer === 0 && diffHoursQuestion === 0) {
+  //       const diffMinsAnswer = Math.ceil(diffTimeAnswer / (1000 * 60));
+  //       const diffMinsQuestion = Math.ceil(diffTimeQuestion / (1000 * 60));
+  //       const diffMins = Math.min(diffMinsAnswer, diffMinsQuestion);
+  //       return `last seen ${diffMins} mins ago`;
+  //     } else {
+  //       const diffHours = Math.min(diffHoursAnswer, diffHoursQuestion);
+  //       return `last seen ${diffHours} hours ago`;
+  //     }
+  //   } else {
+  //     return `last seen ${diffDays} days ago`;
+  //   }
+  // };
 
-  const lastSeen = () => {
-    const now = new Date();
-    //answers, questions data 입력
-    const answerDate = new Date(creationAnswer);
-    const questionDate = new Date(creationQuestions);
-    const diffTimeAnswer = Math.abs(now - answerDate);
-    const diffTimeQuestion = Math.abs(now - questionDate);
-    const diffDaysAnswer = Math.ceil(diffTimeAnswer / (1000 * 60 * 60 * 24));
-    const diffDaysQuestion = Math.ceil(
-      diffTimeQuestion / (1000 * 60 * 60 * 24)
-    );
-    if (diffDaysAnswer <= diffDaysQuestion) {
-      if (diffDaysAnswer === 0) {
-        const diffHours = Math.ceil(diffTimeAnswer / (1000 * 60 * 60));
-        if (diffHours === 0) {
-          const diffMins = Math.ceil(diffTimeAnswer / (1000 * 60));
-          return `last seen ${diffMins} mins ago`;
-        } else {
-          return `last seen ${diffHours} hours ago`;
-        }
-      } else {
-        return `last seen ${diffDaysAnswer} days ago`;
-      }
-    } else {
-      if (diffDaysQuestion === 0) {
-        const diffHours = Math.ceil(diffTimeQuestion / (1000 * 60 * 60));
-        if (diffHours === 0) {
-          const diffMins = Math.ceil(diffTimeQuestion / (1000 * 60));
-          return `last seen ${diffMins} mins ago`;
-        } else {
-          return `last seen ${diffHours} hours ago`;
-        }
-      } else {
-        return `last seen ${diffDaysQuestion} days ago`;
-      }
-    }
-  };
-
-  //유저 최근 활동일
-  const millisecondsPerDay = 1000 * 60 * 60 * 24;
-  // 1 day = 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
-  const daysSinceCreation = Math.floor(
-    (Date.now() - new Date(creationDate)) / millisecondsPerDay
-  );
+  // //유저 생성일
+  // const millisecondsPerDay = 1000 * 60 * 60 * 24;
+  // // 1 day = 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
+  // const daysSinceCreation = Math.floor(
+  //   (Date.now() - new Date(creationDate)) / millisecondsPerDay
+  // );
   return (
     <UserBoxLayout>
       <div className="Avatar">image</div>
       <div className="userContainer">
-        <UserDisplayName userId={1} />
+        <div className="userName"></div>
         <div className="userInfo">
           <div className="creationDate">
-            <Cake className="icon" /> Member for {daysSinceCreation}{" "}
-            {daysSinceCreation === 1 ? "day" : "days"}
+            {/* <Cake className="icon" /> Member for {daysSinceCreation}{" "} */}
+            {/* {daysSinceCreation === 1 ? "day" : "days"} */}
           </div>
           <div className="lastSeen">
-            <AccessTime className="icon" /> {lastSeen()}
+            {/* <AccessTime className="icon" /> {lastSeen()} */}
           </div>
           <div className="visitDay">
             <DateRange className="icon" /> Visited 5 days, 4 consecutive

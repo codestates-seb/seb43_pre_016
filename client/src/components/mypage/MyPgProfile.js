@@ -176,7 +176,7 @@ const AnswerForms = () => {
   const [userData, setUserData] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/users`)
+      .get(`/users/1`)
       .then((res) => {
         setUserData(res.data.slice(0, 5));
       })
@@ -186,7 +186,7 @@ const AnswerForms = () => {
   }, []);
   return (
     <>
-      {userData.map((userData) => {
+      {/* {userData.map((userData) => {
         return userData.answers.map((answerData) => {
           return (
             <AnswerForm key={answerData.id}>
@@ -206,7 +206,7 @@ const AnswerForms = () => {
             </AnswerForm>
           );
         });
-      })}
+      })} */}
     </>
   );
 };
@@ -215,7 +215,7 @@ const QuestionForms = () => {
   const [userData, setUserData] = useState([]);
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/users`)
+      .get(`/users/1`)
       .then((res) => {
         setUserData(res.data);
       })
@@ -223,56 +223,63 @@ const QuestionForms = () => {
         console.log(err);
       });
   }, []);
+  console.log(userData.questions);
   return (
     <>
-      {userData.map((userData) => {
-        return userData.questions.map((questData) => {
-          return (
-            <AnswerForm key={questData.id}>
-              <Answer>
-                <VoteBadge>{questData.likeCount}</VoteBadge>
-                <AnswerLink href={`/users/${userData.id}/${userData.userName}`}>
-                  {questData.title}
-                </AnswerLink>
-                <AnswerDate>
-                  {new Date(questData.createdAt).toLocaleDateString("en-GB", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                </AnswerDate>
-              </Answer>
-            </AnswerForm>
-          );
-        });
-      })}
+      {/* {userData.map((userData) => {
+        0;
+        return (
+          userData.questions &&
+          userData.questions.map((questData) => {
+            return (
+              <AnswerForm key={questData.id}>
+                <Answer>
+                  <VoteBadge>{questData.likeCount}</VoteBadge>
+                  <AnswerLink
+                    href={`/users/${userData.id}/${userData.userName}`}
+                  >
+                    {questData.title}
+                  </AnswerLink>
+                  <AnswerDate>
+                    {new Date(questData.createdAt).toLocaleDateString("en-GB", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </AnswerDate>
+                </Answer>
+              </AnswerForm>
+            );
+          })
+        );
+      })} */}
     </>
   );
 };
 
 const Profile = () => {
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/users`)
+      .get(`/users/1`)
       .then((res) => {
-        setUserData([...res.data]);
+        setUserData(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
-  // 유저 answer길이
-  const answerLength = userData.length > 0 ? userData[0]?.answers.length : 0;
-  // 유저 question길이
-  const questionLength =
-    userData.length > 0 ? userData[0]?.questions.length : 0;
+  // useEffect(() => {
+  //   // 유저 answer길이
+  const answerLength = userData.answers?.length || 0;
+  //   // 유저 question길이
+  const questionLength = userData.questions?.length || 0;
   // 유저 answerLikes
-  const answerLikes = userData.length > 0 ? userData[0]?.answerLikes.length : 0;
+  const answerLikes = userData.answerLikes?.length || 0;
   // AboutBox에 들어갈 텍스트를 입력합니다.
-  const aboutText = userData[0]?.about;
+  const aboutText = userData.about;
+  // }, [userData]);
 
   return (
     <MainContentForm>
@@ -311,16 +318,12 @@ const Profile = () => {
           <div className="AtextBox">
             {/* Answers */}
             <div className="titlestick">Answers</div>
-            <div className="ABox">
-              <AnswerForms />
-            </div>
+            <div className="ABox">{/* <AnswerForms /> */}</div>
           </div>
           <div className="QtextBox">
             {/* Questions */}
             <div className="titlestick">Questions</div>
-            <div className="QBox">
-              <QuestionForms />
-            </div>
+            <div className="QBox">{/* <QuestionForms /> */}</div>
           </div>
         </div>
       </div>
