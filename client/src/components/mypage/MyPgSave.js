@@ -141,45 +141,57 @@ const Sidebar = styled.div`
 
 const Saves = () => {
   const [active, setActive] = useState(1);
-
-  let content = (
-    <div className="content">
-      <div className="content-info">
-        <div className="Count-box">
-          <span className="vote">
-            <strong>26958</strong> votes
-          </span>
-          <span className="answers">✔ 26 answers</span>
-          <span className="view">
-            <strong>1.8m</strong> view
-          </span>
-        </div>
-        <div className="save">
-          Saved in <a>for late</a>
-        </div>
-      </div>
-      <div className="content-title">
-        <a>
-          Why is processing a sorted array faster than processing an unsorted
-          array?
-        </a>
-        <div className="tags">
-          <div className="tag">java</div>
-          <div className="tag">c++</div>
-          <div className="tag">performance</div>
-          <div className="tag">branch predivtion</div>
-        </div>
-        <div className="user-info">
-          <div className="userImg"></div>
-          <a className="userName">userName</a>
-          <div className="askCount">
-            <strong>491k</strong> asked
+  const [userData, setUserData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`/users/1`)
+      .then((res) => {
+        setUserData(res.data.slice(0, 5));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  const content = () => {
+    return (
+      <div className="content">
+        <div className="content-info">
+          <div className="Count-box">
+            <span className="vote">
+              <strong>26958</strong> votes
+            </span>
+            <span className="answers">✔ 26 answers</span>
+            <span className="view">
+              <strong>1.8m</strong> view
+            </span>
           </div>
-          <div className="Date">Jun 27, 2012 at 13:15</div>
+          <div className="save">
+            Saved in <a>for late</a>
+          </div>
+        </div>
+        <div className="content-title">
+          <a>
+            Why is processing a sorted array faster than processing an unsorted
+            array?
+          </a>
+          <div className="tags">
+            <div className="tag">java</div>
+            <div className="tag">c++</div>
+            <div className="tag">performance</div>
+            <div className="tag">branch predivtion</div>
+          </div>
+          <div className="user-info">
+            <div className="userImg"></div>
+            <a className="userName">userName</a>
+            <div className="askCount">
+              <strong>491k</strong> asked
+            </div>
+            <div className="Date">Jun 27, 2012 at 13:15</div>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <Container>
