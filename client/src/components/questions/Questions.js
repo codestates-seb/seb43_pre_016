@@ -236,7 +236,11 @@ const Questions = ({ cookies }) => {
   // 백엔드 서버 관련 코드
   const data = async () => {
     await axios
-      .get(`/questions${"?page=" + currentpage + "&size=15"}`)
+      .get(
+        `${process.env.REACT_APP_API_URL}/questions${
+          "?page=" + currentpage + "&size=15"
+        }`
+      )
       .then((res) => {
         setListData([...res.data.data]);
       })
