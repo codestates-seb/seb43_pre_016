@@ -1,7 +1,6 @@
 package com.codestates.preproject.question.controller;
 
 
-import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.question.dto.QuestionPatchDto;
 import com.codestates.preproject.question.dto.QuestionPostDto;
 import com.codestates.preproject.question.dto.QuestionResponseDto;
@@ -24,6 +23,7 @@ import java.util.List;
 @RequestMapping("/questions")
 @RequiredArgsConstructor
 @Validated
+//@CrossOrigin(origins = "https://e6c9-121-143-130-149.jp.ngrok.io", maxAge = 3600)
 public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper mapper;
@@ -47,6 +47,7 @@ public class QuestionController {
     @GetMapping("/{question-Id}")
     public ResponseEntity<QuestionResponseDto> getQuestion(@PathVariable("question-Id") Long questionId){
         QuestionResponseDto responseDto = questionService.findQuestion(questionId);
+
         return ResponseEntity.ok(responseDto);
     }
 

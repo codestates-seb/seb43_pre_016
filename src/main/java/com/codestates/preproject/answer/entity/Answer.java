@@ -1,6 +1,6 @@
 package com.codestates.preproject.answer.entity;
 
-import com.codestates.preproject.like.AnswerLike;
+import com.codestates.preproject.answer.like.AnswerLike;
 import com.codestates.preproject.user.entity.User;
 import com.codestates.preproject.audit.Auditable;
 import com.codestates.preproject.question.entity.Question;

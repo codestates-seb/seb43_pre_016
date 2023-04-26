@@ -1,11 +1,12 @@
 package com.codestates.preproject.answer.controller;
 
+import com.codestates.preproject.answer.UriCreator;
 import com.codestates.preproject.answer.dto.AnswerDto;
-import com.codestates.preproject.answer.repository.AnswerRepository;
-import com.codestates.preproject.response.MultiResponseDto;
 import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.answer.mapper.AnswerMapper;
+import com.codestates.preproject.answer.repository.AnswerRepository;
 import com.codestates.preproject.answer.service.AnswerService;
+import com.codestates.preproject.response.MultiResponseDto;
 import com.codestates.preproject.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,17 +15,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.net.URI;
 import java.util.List;
 
-@CrossOrigin // (origins= "")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/answers")
 @Validated
 public class AnswerController {
+
+    private final static String ANSWERS_DEFAULT_URL = "/answers";
 
     private final AnswerService answerService;
     private final AnswerMapper mapper;
@@ -38,8 +40,9 @@ public class AnswerController {
 
         Answer answer = mapper.answerPostDtoToAnswer(requestBody);
         Answer createdAnswer=answerService.createAnswer(answer);
+        URI location = UriCreator.createUri(ANSWERS_DEFAULT_URL,createdAnswer.getAnswerId());
 
-        return new ResponseEntity<>(mapper.answerToAnswerResponseDto(createdAnswer), HttpStatus.CREATED);
+        return ResponseEntity.created(location).build();
     }
 
     @PatchMapping("/{answer-id}")

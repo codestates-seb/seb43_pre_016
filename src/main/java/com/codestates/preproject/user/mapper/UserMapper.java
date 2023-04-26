@@ -3,15 +3,14 @@ package com.codestates.preproject.user.mapper;
 
 import com.codestates.preproject.answer.dto.AnswerDto;
 import com.codestates.preproject.answer.entity.Answer;
-import com.codestates.preproject.like.AnswerLike;
-import com.codestates.preproject.like.AnswerLikeDto;
+import com.codestates.preproject.answer.like.AnswerLike;
+import com.codestates.preproject.answer.like.AnswerLikeDto;
 import com.codestates.preproject.question.dto.QuestionMyPageDto;
 import com.codestates.preproject.question.entity.Question;
 import com.codestates.preproject.user.dto.UserDto;
 import com.codestates.preproject.user.entity.User;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

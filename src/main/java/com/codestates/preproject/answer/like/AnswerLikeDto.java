@@ -1,4 +1,4 @@
-package com.codestates.preproject.like;
+package com.codestates.preproject.answer.like;
 
 import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.user.entity.User;

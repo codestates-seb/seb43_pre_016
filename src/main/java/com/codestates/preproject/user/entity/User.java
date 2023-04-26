@@ -3,7 +3,7 @@ package com.codestates.preproject.user.entity;
 
 import com.codestates.preproject.audit.Auditable;
 import com.codestates.preproject.answer.entity.Answer;
-import com.codestates.preproject.like.AnswerLike;
+import com.codestates.preproject.answer.like.AnswerLike;
 import com.codestates.preproject.question.entity.Question;
 import lombok.*;
 
@@ -26,11 +26,15 @@ public class User extends Auditable {
     @Column(length = 100, nullable = false)
     private String userName;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false,updatable = false, unique = true)
     private String email;
 
     @Column(length = 100, nullable = false)
     private String password;
+
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 
 
 

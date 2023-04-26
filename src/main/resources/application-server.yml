@@ -7,7 +7,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/preproject?createDatabaseIfNotExist=true&userUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&useSSL=true
     username: root
-    password: 1004
+    password: Xnwnffpt0702!
 
   jpa:
     database: mysql
@@ -18,3 +18,10 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+mail:
+  address:
+    admin: oneyang@gmail.com
+jwt:
+  key: ${JWT_SECRET_KEY}               # 민감한 정보는 시스템 환경 변수설정
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 420

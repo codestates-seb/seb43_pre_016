@@ -2,8 +2,8 @@ package com.codestates.preproject.answer.service;
 
 import com.codestates.preproject.answer.repository.AnswerRepository;
 import com.codestates.preproject.answer.entity.Answer;
-import com.codestates.preproject.like.AnswerLike;
-import com.codestates.preproject.like.AnswerLikeRepository;
+import com.codestates.preproject.answer.like.AnswerLike;
+import com.codestates.preproject.answer.like.AnswerLikeRepository;
 import com.codestates.preproject.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

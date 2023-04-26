@@ -1,7 +1,7 @@
 package com.codestates.preproject.user.dto;
 
 import com.codestates.preproject.answer.dto.AnswerDto;
-import com.codestates.preproject.like.AnswerLikeDto;
+import com.codestates.preproject.answer.like.AnswerLikeDto;
 import com.codestates.preproject.question.dto.QuestionMyPageDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,11 +22,13 @@ public class UserDto {
         @Email
         private String email;
 
-        @NotBlank
+        @NotBlank(message = "이름은 공백이 아니어야 합니다.")
         private String userName;
 
-        @NotBlank
+        @NotBlank//패스워드 유효성검증
         private String password;
+
+        //패스워드 입려확인필드 추가로존재하는게 좋다 두 패스워드가 일치하는지 검증하는 로직까지/
     }
 
     @Getter
