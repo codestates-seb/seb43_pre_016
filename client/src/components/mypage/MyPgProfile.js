@@ -1,3 +1,5 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const MainContentForm = styled.div`
@@ -52,11 +54,21 @@ const MainContentForm = styled.div`
       margin-top: 8px;
       border-radius: 5px;
       margin-bottom: 24px;
+      font-size: 15px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #6a737c;
+    }
+    .AboutBox-in-text {
+      font-size: 15px;
+      margin-top: 8px;
     }
     .QnAContainer {
       width: 100%;
       height: 450px;
-      margin-top: 8px;
+      margin-top: 8%;
       display: flex;
       .AtextBox {
         width: 50%;
@@ -68,45 +80,6 @@ const MainContentForm = styled.div`
           height: 265px;
           border-radius: 5px;
           margin-top: 8px;
-          .AnswerForm {
-            border-bottom: 1px solid hsl(210, 8%, 85%);
-            width: 100%;
-            height: 20%;
-            display: flex;
-            flex-direction: column;
-            .Answer {
-              margin: 12px 6px 13px 6px;
-              display: inline-flex;
-              align-items: center;
-              flex-wrap: wrap;
-              .vote-badge {
-                width: 38px;
-                height: 26px;
-                background-color: #5eba7d;
-                border-radius: 3px;
-                margin-right: 10px;
-                color: #ffffff;
-                font-size: 12px;
-                justify-content: center;
-                display: flex;
-                align-items: center;
-              }
-              .answerLink {
-                font-size: 13px;
-                color: #0a95ff;
-                flex-grow: 1;
-                max-width: 50%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-              }
-              .answerDate {
-                font-size: 12px;
-                color: #6a737c;
-                margin-left: auto;
-              }
-            }
-          }
         }
       }
       .QtextBox {
@@ -141,20 +114,6 @@ const MainContentForm = styled.div`
                 display: flex;
                 align-items: center;
               }
-              .answerLink {
-                font-size: 13px;
-                color: #0a95ff;
-                flex-grow: 1;
-                max-width: 50%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-              }
-              .answerDate {
-                font-size: 12px;
-                color: #6a737c;
-                margin-left: auto;
-              }
             }
           }
         }
@@ -162,19 +121,158 @@ const MainContentForm = styled.div`
     }
   }
 `;
-const Profile = () => {
-  // Answer Question
-  let AnswerForm = (
-    <div className="AnswerForm">
-      <div className="Answer">
-        <div className="vote-badge">6</div>
-        <a className="answerLink" href="/users/idNumber/username">
-          Is there a faster way to loop through...
-        </a>
-        <div className="answerDate">Nov 19, 2022</div>
-      </div>
+const AnswerForm = styled.div`
+  border-bottom: 1px solid hsl(210, 8%, 85%);
+  width: 100%;
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+`;
+const Answer = styled.div`
+  margin: 12px 6px 13px 6px;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+`;
+const VoteBadge = styled.div`
+  width: 38px;
+  height: 26px;
+  background-color: #5eba7d;
+  border-radius: 3px;
+  margin-right: 10px;
+  color: #ffffff;
+  font-size: 12px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+`;
+const AnswerLink = styled.a`
+  font-size: 13px;
+  color: #0a95ff;
+  flex-grow: 1;
+  max-width: 50%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+const AnswerDate = styled.span`
+  font-size: 12px;
+  color: #6a737c;
+  margin-left: auto;
+`;
+//AboutBox
+const AboutBox = ({ text }) => {
+  const hasContent = Boolean(text);
+  const className = hasContent ? "AboutBox-in-text" : "AboutBox";
+
+  return (
+    <div className={className}>
+      {text || "Your about me section is currently blank."}
     </div>
   );
+};
+
+const AnswerForms = () => {
+  const [userData, setUserData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/users`)
+      .then((res) => {
+        setUserData(res.data.slice(0, 5));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  return (
+    <>
+      {userData.map((userData) => {
+        return userData.answers.map((answerData) => {
+          return (
+            <AnswerForm key={answerData.id}>
+              <Answer>
+                <VoteBadge>{answerData.likeCount}</VoteBadge>
+                <AnswerLink href={`/users/${userData.id}/${userData.userName}`}>
+                  {answerData.body}
+                </AnswerLink>
+                <AnswerDate>
+                  {new Date(answerData.createdAt).toLocaleDateString("en-GB", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </AnswerDate>
+              </Answer>
+            </AnswerForm>
+          );
+        });
+      })}
+    </>
+  );
+};
+
+const QuestionForms = () => {
+  const [userData, setUserData] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/users`)
+      .then((res) => {
+        setUserData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  return (
+    <>
+      {userData.map((userData) => {
+        return userData.questions.map((questData) => {
+          return (
+            <AnswerForm key={questData.id}>
+              <Answer>
+                <VoteBadge>{questData.likeCount}</VoteBadge>
+                <AnswerLink href={`/users/${userData.id}/${userData.userName}`}>
+                  {questData.title}
+                </AnswerLink>
+                <AnswerDate>
+                  {new Date(questData.createdAt).toLocaleDateString("en-GB", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </AnswerDate>
+              </Answer>
+            </AnswerForm>
+          );
+        });
+      })}
+    </>
+  );
+};
+
+const Profile = () => {
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/users`)
+      .then((res) => {
+        setUserData([...res.data]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // 유저 answer길이
+  const answerLength = userData.length > 0 ? userData[0]?.answers.length : 0;
+  // 유저 question길이
+  const questionLength =
+    userData.length > 0 ? userData[0]?.questions.length : 0;
+  // 유저 answerLikes
+  const answerLikes = userData.length > 0 ? userData[0]?.answerLikes.length : 0;
+  // AboutBox에 들어갈 텍스트를 입력합니다.
+  const aboutText = userData[0]?.about;
 
   return (
     <MainContentForm>
@@ -184,19 +282,19 @@ const Profile = () => {
         <div className="stats-box">
           <div className="inner-box">
             <div className="content-box">
-              <div className="count">1</div>
-              <div className="sideText">reputation</div>
+              <div className="count">{answerLikes}</div>
+              <div className="sideText">AnswerLike</div>
             </div>
             <div className="content-box">
               <div className="count">1</div>
               <div className="sideText">reached</div>
             </div>
             <div className="content-box">
-              <div className="count">1</div>
+              <div className="count">{answerLength}</div>
               <div className="sideText">answers</div>
             </div>
             <div className="content-box">
-              <div className="count">1</div>
+              <div className="count">{questionLength}</div>
               <div className="sideText">qustions</div>
             </div>
           </div>
@@ -206,19 +304,23 @@ const Profile = () => {
         <div className="AboutContainer">
           {/* About */}
           <div className="titlestick">About</div>
-          <div className="AboutBox"></div>
+          <AboutBox text={aboutText} />
         </div>
 
         <div className="QnAContainer">
           <div className="AtextBox">
             {/* Answers */}
             <div className="titlestick">Answers</div>
-            <div className="ABox">{AnswerForm}</div>
+            <div className="ABox">
+              <AnswerForms />
+            </div>
           </div>
           <div className="QtextBox">
             {/* Questions */}
             <div className="titlestick">Questions</div>
-            <div className="QBox">{AnswerForm}</div>
+            <div className="QBox">
+              <QuestionForms />
+            </div>
           </div>
         </div>
       </div>

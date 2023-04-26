@@ -436,11 +436,13 @@ const QuestionDetail = () => {
 
   const onSubmitAnswer = async () => {
     let data = {
+      title: title,
       body: answer,
       userId: "1",
       questionId: id,
     };
     console.log(data);
+
     const header = {
       headers: {
         "Content-Type": "application/json",
@@ -450,6 +452,19 @@ const QuestionDetail = () => {
       navigate("/");
       window.location.reload();
     });
+  };
+
+  const onClickDelete = () => {
+    axios.delete(
+      `/questions/${id}`
+        .then((res) => {
+          navigate(`/questions/${id}`);
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    );
   };
 
   return (
@@ -538,6 +553,9 @@ const QuestionDetail = () => {
                     </Link>
                     <a className="edit" href="/">
                       Follow
+                    </a>
+                    <a className="edit" onClick={onClickDelete}>
+                      Delete
                     </a>
                   </div>
                   <div className="answer_profile">

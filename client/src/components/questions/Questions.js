@@ -230,6 +230,7 @@ const Questions = ({ cookies }) => {
   const [currentpage, setCurrentpage] = useState(1);
   const [ActBtn, setActBtn] = useState(1);
   console.log(listData);
+
   // 백엔드 서버 관련 코드
   const data = async () => {
     await axios
@@ -290,8 +291,7 @@ const Questions = ({ cookies }) => {
       Voted: ActBtn === 4 ? "ActBtn" : "",
     };
   }, [ActBtn]);
-  // test 3
-  // 생성일(created_at) 순서대로
+  // 생성일(created_at) 순서
   const sortByNewest = () => {
     listData.sort((b, a) => {
       const dateA = new Date(a.createdAt);
@@ -300,16 +300,16 @@ const Questions = ({ cookies }) => {
     });
   };
 
-  // 답변(answer) 없는 순서대로
+  // 답변(answer)없는 순서
   const sortByAnswerCount = () => {
     listData.sort((a, b) => a.answers.length - b.answers.length);
   };
-
+  //뷰(view)순서
   const sortByViewCount = () => {
     listData.sort((a, b) => b.view - a.view);
   };
 
-  //추천(vote) 순서 대로
+  //추천(vote)순서
   const sortByVoteCount = () => {
     listData.sort((a, b) => b.likeCount - a.likeCount);
   };

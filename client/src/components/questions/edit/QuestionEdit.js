@@ -178,7 +178,7 @@ const QuestionEdit = () => {
         setTitle(`${res.data.title}`);
         setDetail(`${res.data.body}`);
         setTry(`${res.data.bodyDetail}`);
-        setTags([...res.data.tags]); // 임시서버에서 사용 가능
+        // setTags([...res.data.tags]); // 임시서버에서 사용 가능
       })
       .catch((err) => {
         console.log(err);
