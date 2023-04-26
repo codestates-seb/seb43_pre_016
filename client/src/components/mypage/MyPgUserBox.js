@@ -45,75 +45,79 @@ const UserBoxLayout = styled.div`
 `;
 
 const UserBox = () => {
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState({});
   useEffect(() => {
     axios
       .get(`/users/1`)
       .then((res) => {
-        setUserData(res.data.slice(0, 5));
+        setUserData(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
+  // 예외처리,
+  if (!userData.answers || !userData.questions) {
+    return null; // or return loading indicator
+  }
   //유저 이름
   const UserName = userData.userName;
-  console.log(userName);
-  //유저 생성일
-  const creationDate = userData.createdAt;
-  console.log(creationDate);
   // //유저 QnA Data
-  // const creationAnswer = userData.answers;
-  // const creationQuestions = userData.questions;
+  const creationAnswer = userData.answers;
+  const creationQuestions = userData.questions;
+  const getLastCreatedData = (items) => {
+    const lastItem = items.reduce((a, b) =>
+      a.createdAt > b.createdAt ? a : b
+    );
+    return new Date(lastItem.createdAt);
+  };
+  const getLastCreatedDataAnsewr = (items) => {
+    const lastItem = items.reduce((a, b) =>
+      a.crestedAt > b.crestedAt ? a : b
+    );
+    return new Date(lastItem.crestedAt);
+  };
 
-  // // 최근 활동일 가져오기
-  // const getLastCreatedData = (items) => {
-  //   if (items.length === 0) return null;
-  //   const lastItem = items.reduce((a, b) =>
-  //     a.createdAt > b.createdAt ? a : b
-  //   );
-  //   return new Date(lastItem.createdAt);
-  // };
-  // const lastSeen = () => {
-  //   const now = new Date();
-  //   //answers, questions data 입력
-  //   const lastAnswerDate = getLastCreatedData(creationAnswer);
-  //   const lastQuestionDate = getLastCreatedData(creationQuestions);
-  //   if (!lastAnswerDate && !lastQuestionDate) return "No recent activity";
-  //   if (!lastAnswerDate) {
-  //     const diffTime = Math.abs(now - lastQuestionDate);
-  //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  //     return `last seen ${diffDays} days ago`;
-  //   }
-  //   if (!lastQuestionDate) {
-  //     const diffTime = Math.abs(now - lastAnswerDate);
-  //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  //     return `last seen ${diffDays} days ago`;
-  //   }
-  //   const diffTimeAnswer = Math.abs(now - lastAnswerDate);
-  //   const diffTimeQuestion = Math.abs(now - lastQuestionDate);
-  //   const diffDaysAnswer = Math.ceil(diffTimeAnswer / (1000 * 60 * 60 * 24));
-  //   const diffDaysQuestion = Math.ceil(
-  //     diffTimeQuestion / (1000 * 60 * 60 * 24)
-  //   );
-  //   const diffDays = Math.min(diffDaysAnswer, diffDaysQuestion);
-  //   if (diffDays === 0) {
-  //     const diffHoursAnswer = Math.ceil(diffTimeAnswer / (1000 * 60 * 60));
-  //     const diffHoursQuestion = Math.ceil(diffTimeQuestion / (1000 * 60 * 60));
-  //     if (diffHoursAnswer === 0 && diffHoursQuestion === 0) {
-  //       const diffMinsAnswer = Math.ceil(diffTimeAnswer / (1000 * 60));
-  //       const diffMinsQuestion = Math.ceil(diffTimeQuestion / (1000 * 60));
-  //       const diffMins = Math.min(diffMinsAnswer, diffMinsQuestion);
-  //       return `last seen ${diffMins} mins ago`;
-  //     } else {
-  //       const diffHours = Math.min(diffHoursAnswer, diffHoursQuestion);
-  //       return `last seen ${diffHours} hours ago`;
-  //     }
-  //   } else {
-  //     return `last seen ${diffDays} days ago`;
-  //   }
-  // };
+  const lastSeen = () => {
+    const now = new Date();
+    //answers, questions data 입력
+    const lastAnswerDate = getLastCreatedDataAnsewr(creationAnswer);
+    const lastQuestionDate = getLastCreatedData(creationQuestions);
+
+    if (!lastAnswerDate && !lastQuestionDate) return "No recent activity";
+    if (!lastAnswerDate) {
+      const diffTime = Math.abs(now - lastQuestionDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return `last seen ${diffDays} days ago`;
+    }
+    if (!lastQuestionDate) {
+      const diffTime = Math.abs(now - lastAnswerDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      return `last seen ${diffDays} days ago`;
+    }
+    const diffTimeAnswer = Math.abs(now - lastAnswerDate);
+    const diffTimeQuestion = Math.abs(now - lastQuestionDate);
+    const diffDaysAnswer = Math.ceil(diffTimeAnswer / (1000 * 60 * 60 * 24));
+    const diffDaysQuestion = Math.ceil(
+      diffTimeQuestion / (1000 * 60 * 60 * 24)
+    );
+    const diffDays = Math.min(diffDaysAnswer, diffDaysQuestion);
+    if (diffDays === 0) {
+      const diffHoursAnswer = Math.ceil(diffTimeAnswer / (1000 * 60 * 60));
+      const diffHoursQuestion = Math.ceil(diffTimeQuestion / (1000 * 60 * 60));
+      if (diffHoursAnswer === 0 && diffHoursQuestion === 0) {
+        const diffMinsAnswer = Math.ceil(diffTimeAnswer / (1000 * 60));
+        const diffMinsQuestion = Math.ceil(diffTimeQuestion / (1000 * 60));
+        const diffMins = Math.min(diffMinsAnswer, diffMinsQuestion);
+        return `last seen ${diffMins} mins ago`;
+      } else {
+        const diffHours = Math.min(diffHoursAnswer, diffHoursQuestion);
+        return `last seen ${diffHours} hours ago`;
+      }
+    } else {
+      return `last seen ${diffDays} days ago`;
+    }
+  };
 
   // //유저 생성일
   // const millisecondsPerDay = 1000 * 60 * 60 * 24;
@@ -125,14 +129,14 @@ const UserBox = () => {
     <UserBoxLayout>
       <div className="Avatar">image</div>
       <div className="userContainer">
-        <div className="userName"></div>
+        <div className="userName">{UserName}</div>
         <div className="userInfo">
           <div className="creationDate">
-            {/* <Cake className="icon" /> Member for {daysSinceCreation}{" "} */}
-            {/* {daysSinceCreation === 1 ? "day" : "days"} */}
+            {/* <Cake className="icon" /> Member for {daysSinceCreation}{" "}
+            {daysSinceCreation === 1 ? "day" : "days"} */}
           </div>
           <div className="lastSeen">
-            {/* <AccessTime className="icon" /> {lastSeen()} */}
+            <AccessTime className="icon" /> {lastSeen()}
           </div>
           <div className="visitDay">
             <DateRange className="icon" /> Visited 5 days, 4 consecutive
