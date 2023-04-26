@@ -419,7 +419,6 @@ const QuestionDetail = () => {
   const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
 
-  // 백엔드 서버 관련 코드
   useEffect(() => {
     setIsLoading(true);
     axios
@@ -446,7 +445,22 @@ const QuestionDetail = () => {
       },
     };
     await axios.post("/answers", data, header).then(() => {
-      navigate(`/questions/${id}`);
+      navigate(`questions/${id}`);
+      window.location.reload();
+    });
+  };
+
+  //새로고침은 나중에 리팩토링 예정
+
+  // 좋아요를 누를 때 요청을 보내는 함수 (isLiked가 데이터에 들어온다면 true, false일 떄 처리를 다시 해줘야함)
+  const onChangeUpVote = () => {
+    axios.post(`/questions/${id}/like/1`).then((res) => {
+      window.location.reload();
+    });
+  };
+  // 싫어요를 누를 때 요청을 보내는 함수
+  const onChangeDownVote = () => {
+    axios.post(`questions/${id}/dislike/1`).then((res) => {
       window.location.reload();
     });
   };
@@ -462,6 +476,7 @@ const QuestionDetail = () => {
         console.log(err);
       });
   };
+
   const onDeleteQuestion = () => {
     axios.delete(`/questions/${id}`).then((res) => {
       navigate(`/questions`);
@@ -500,7 +515,7 @@ const QuestionDetail = () => {
             </div>
             <QuestionEditor>
               <div className="votes">
-                <button className="upvote__btn">
+                <button className="upvote__btn" onClick={onChangeUpVote}>
                   <svg
                     aria-hidden="true"
                     className="svg-icon iconArrowUpLg"
@@ -512,7 +527,7 @@ const QuestionDetail = () => {
                   </svg>
                 </button>
                 <div className="vote">{questionData.likeCount}</div>
-                <button className="downvote__btn">
+                <button className="downvote__btn" onClick={onChangeDownVote}>
                   <svg
                     aria-hidden="true"
                     width="36"
