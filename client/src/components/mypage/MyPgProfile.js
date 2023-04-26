@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const MainContentForm = styled.div`
   display: flex;
-  width: 100%;
+  width: 70%;
   height: 100vh;
   .titlestick {
     font-size: 21px;
@@ -45,7 +45,8 @@ const MainContentForm = styled.div`
   }
   .AQnAContainer {
     margin: 12px;
-    width: 75%;
+    width: 65%;
+    margin-right: 10%;
     .AboutBox {
       border: 1px solid hsl(210, 8%, 85%);
       background-color: #f8f9f9;
@@ -91,31 +92,6 @@ const MainContentForm = styled.div`
           height: 265px;
           border-radius: 5px;
           margin-top: 8px;
-          .AnswerForm {
-            border-bottom: 1px solid hsl(210, 8%, 85%);
-            width: 100%;
-            height: 20%;
-            display: flex;
-            flex-direction: column;
-            .Answer {
-              margin: 12px 6px 13px 6px;
-              display: inline-flex;
-              align-items: center;
-              flex-wrap: wrap;
-              .vote-badge {
-                width: 38px;
-                height: 26px;
-                background-color: #5eba7d;
-                border-radius: 3px;
-                margin-right: 10px;
-                color: #ffffff;
-                font-size: 12px;
-                justify-content: center;
-                display: flex;
-                align-items: center;
-              }
-            }
-          }
         }
       }
     }
@@ -173,46 +149,7 @@ const AboutBox = ({ text }) => {
 };
 
 const AnswerForms = () => {
-  const [userData, setUserData] = useState([]);
-  useEffect(() => {
-    axios
-      .get(`/users/1`)
-      .then((res) => {
-        setUserData(res.data.slice(0, 5));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-  return (
-    <>
-      {/* {userData.map((userData) => {
-        return userData.answers.map((answerData) => {
-          return (
-            <AnswerForm key={answerData.id}>
-              <Answer>
-                <VoteBadge>{answerData.likeCount}</VoteBadge>
-                <AnswerLink href={`/users/${userData.id}/${userData.userName}`}>
-                  {answerData.body}
-                </AnswerLink>
-                <AnswerDate>
-                  {new Date(answerData.createdAt).toLocaleDateString("en-GB", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                </AnswerDate>
-              </Answer>
-            </AnswerForm>
-          );
-        });
-      })} */}
-    </>
-  );
-};
-
-const QuestionForms = () => {
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState({});
   useEffect(() => {
     axios
       .get(`/users/1`)
@@ -223,43 +160,76 @@ const QuestionForms = () => {
         console.log(err);
       });
   }, []);
-  console.log(userData.questions);
+  if (!userData.answers) {
+    return null; // or return loading indicator
+  }
   return (
     <>
-      {/* {userData.map((userData) => {
-        0;
+      {userData.answers.slice(0, 5).map((answerData) => {
         return (
-          userData.questions &&
-          userData.questions.map((questData) => {
-            return (
-              <AnswerForm key={questData.id}>
-                <Answer>
-                  <VoteBadge>{questData.likeCount}</VoteBadge>
-                  <AnswerLink
-                    href={`/users/${userData.id}/${userData.userName}`}
-                  >
-                    {questData.title}
-                  </AnswerLink>
-                  <AnswerDate>
-                    {new Date(questData.createdAt).toLocaleDateString("en-GB", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                  </AnswerDate>
-                </Answer>
-              </AnswerForm>
-            );
-          })
+          <AnswerForm key={answerData.answerId}>
+            <Answer>
+              <VoteBadge>{answerData.answerId}</VoteBadge>
+              <AnswerLink href={`/answers/${answerData.answerId}`}>
+                {answerData.body}
+              </AnswerLink>
+              <AnswerDate>
+                {new Date(answerData.crestedAt).toLocaleDateString("en-GB", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </AnswerDate>
+            </Answer>
+          </AnswerForm>
         );
-      })} */}
+      })}
+    </>
+  );
+};
+
+const QuestionForms = () => {
+  const [userData, setUserData] = useState({});
+  useEffect(() => {
+    axios
+      .get(`/users/1`)
+      .then((res) => {
+        setUserData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  if (!userData.questions) {
+    return null; // or return loading indicator
+  }
+  return (
+    <>
+      {userData.questions.slice(0, 5).map((questData) => {
+        return (
+          <AnswerForm key={questData.questionId}>
+            <Answer>
+              <VoteBadge>{questData.questionId}</VoteBadge>
+              <AnswerLink href={`/questions/${questData.questionId}`}>
+                {questData.title}
+              </AnswerLink>
+              <AnswerDate>
+                {new Date(questData.createdAt).toLocaleDateString("en-GB", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </AnswerDate>
+            </Answer>
+          </AnswerForm>
+        );
+      })}
     </>
   );
 };
 
 const Profile = () => {
   const [userData, setUserData] = useState({});
-
   useEffect(() => {
     axios
       .get(`/users/1`)
@@ -318,12 +288,16 @@ const Profile = () => {
           <div className="AtextBox">
             {/* Answers */}
             <div className="titlestick">Answers</div>
-            <div className="ABox">{/* <AnswerForms /> */}</div>
+            <div className="ABox">
+              <AnswerForms />
+            </div>
           </div>
           <div className="QtextBox">
             {/* Questions */}
             <div className="titlestick">Questions</div>
-            <div className="QBox">{/* <QuestionForms /> */}</div>
+            <div className="QBox">
+              <QuestionForms />
+            </div>
           </div>
         </div>
       </div>
