@@ -253,13 +253,12 @@ const SearchPage = ({ cookies, search }) => {
 
   const navigate = useNavigate();
 
-  console.log(Object.keys(search));
   console.log(search);
   console.log(listData);
 
   const data = () => {
     axios
-      .get("http://localhost:8080/questions")
+      .get("/questions")
       .then((res) => {
         res.data.sort((b, a) => {
           const A = new Date(a.createdAt);
@@ -360,7 +359,8 @@ const SearchPage = ({ cookies, search }) => {
   useEffect(() => {
     data();
     window.scrollTo(0, 0);
-  }, [currentpage]);
+  }, [search.searchlist, currentpage]);
+  console.log(listData);
 
   return (
     <Container>

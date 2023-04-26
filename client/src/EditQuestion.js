@@ -1,10 +1,57 @@
 import ReactQuill, { contextType } from "react-quill";
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import styled from "styled-components";
+import ClearIcon from "@mui/icons-material/Clear";
 import "quill/dist/quill.snow.css";
-import axios from "axios";
 
+const Taglist = styled.div`
+  display: flex;
+  width: 100%;
+  padding-left: 10px;
+  border-radius: 3px;
+  border: 1px solid #cccccc;
+  padding: 4px;
+  background-color: white;
+  font-family: -apple-system;
+  margin-bottom: 10px;
+  span {
+    display: flex;
+    align-items: center;
+    background-color: #d0e3f1;
+    border: 1px solid #ffffff;
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 12px;
+    margin: 0px 4px 2px 0px;
+    padding: 0px 5px;
+    color: #39739d;
+
+    button {
+      border: none;
+      background: none !important;
+      cursor: pointer;
+      svg {
+        display: flex;
+        align-items: center;
+        width: 15px;
+      }
+    }
+  }
+  span button {
+    margin-left: 1px;
+    align-items: center;
+    :hover {
+      background-color: #f1f2f3;
+    }
+    border: none;
+    background: none;
+  }
+  input {
+    width: 100%;
+    margin-top: 4px;
+    border: none;
+  }
+`;
 const EditWrapper = styled.main`
   display: flex;
   flex-direction: column;
@@ -19,7 +66,12 @@ const EditWrapper = styled.main`
     font-weight: 500;
     margin-bottom: 10px;
   }
-
+  .tags {
+    font-size: 20px;
+    font-family: -apple-system;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
   .titleinput {
     background-color: #ffffff;
     border-color: #59a4de;
@@ -62,29 +114,10 @@ const EditWrapper = styled.main`
   }
 `;
 
-const EditAnswer = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+const EditQuestion = () => {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState([]); //태그
   const [taginput, setTaginput] = useState("");
-
-  console.log(id);
-  useEffect(() => {
-    axios
-      .get(`/answers/${id}`)
-      .then((res) => setContent(res.data.body))
-      .catch((err) => console.log(err));
-  }, []);
-  const handleeditanswer = () => {
-    axios
-      .patch(`/answers/${id}`, { body: content })
-      .then((res) => {
-        navigate(`/questions/${res.data.questionId}`);
-        window.location.reload();
-      })
-      .catch((err) => console.log(err));
-  };
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
@@ -134,8 +167,22 @@ const EditAnswer = () => {
     height: "500px",
   };
 
+  const handleaddtag = (e) => {
+    if (e.key === "," && tags.length < 5) {
+      const tag = e.target.value.slice(0, e.target.value.length - 1);
+      setTags([...tags, tag]);
+      setTaginput("");
+    }
+  };
+  const tagDelete = (x) => {
+    const idx = tags.indexOf(x);
+    setTags([...tags.slice(0, idx), ...tags.slice(idx + 1)]);
+  };
+
   return (
     <EditWrapper>
+      <label className="title">Title</label>
+      <input className="titleinput" />
       <lable className="body">body</lable>
       <div className="bodyinput">
         <ReactQuill
@@ -157,11 +204,29 @@ const EditAnswer = () => {
           readOnly
         />
       </div>
-      <button className="postedit" onClick={handleeditanswer}>
-        Edit your Answer
-      </button>
+      <label className="tags">Tags</label>
+      <Taglist>
+        {tags.map((x, idx) => {
+          return (
+            <span key={idx}>
+              <p>{x}</p>
+              <button onClick={() => tagDelete(x)}>
+                <ClearIcon />
+              </button>
+            </span>
+          );
+        })}
+        <input
+          onChange={(e) => {
+            setTaginput(e.target.value);
+          }}
+          onKeyUp={handleaddtag}
+          value={taginput}
+        />
+      </Taglist>
+      <button className="postedit">Edit your question</button>
     </EditWrapper>
   );
 };
 
-export default EditAnswer;
+export default EditQuestion;
