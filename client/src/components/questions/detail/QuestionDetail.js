@@ -451,9 +451,10 @@ const QuestionDetail = () => {
     });
   };
 
-  const onClickDelete = () => {
+  const onDeleteAnswer = ({ answerId }) => {
+    const answerkey = answerId;
     axios.delete(
-      `/questions/${id}`
+      `/answers/${answerkey}`
         .then((res) => {
           navigate(`/questions/${id}`);
           window.location.reload();
@@ -462,6 +463,12 @@ const QuestionDetail = () => {
           console.log(err);
         })
     );
+  };
+  const onDeleteQuestion = () => {
+    axios.delete(`/questions/${id}`).then((res) => {
+      navigate(`/questions`);
+      window.location.reload();
+    });
   };
 
   return (
@@ -551,7 +558,7 @@ const QuestionDetail = () => {
                     <a className="edit" href="/">
                       Follow
                     </a>
-                    <a className="edit" onClick={onClickDelete}>
+                    <a className="edit" onClick={onDeleteQuestion}>
                       Delete
                     </a>
                   </div>
@@ -633,6 +640,12 @@ const QuestionDetail = () => {
                               </Link>
                               <a className="edit" href="/">
                                 Follow
+                              </a>
+                              <a
+                                className="edit"
+                                onClick={() => onDeleteAnswer(answer.answerId)}
+                              >
+                                Delete
                               </a>
                             </div>
                             <div className="answer_profile">
