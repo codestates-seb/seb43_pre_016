@@ -253,7 +253,6 @@ const SearchPage = ({ cookies, search }) => {
 
   const navigate = useNavigate();
 
-  console.log(Object.keys(search));
   console.log(search);
   console.log(listData);
 
