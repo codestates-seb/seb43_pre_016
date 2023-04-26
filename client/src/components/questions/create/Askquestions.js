@@ -187,11 +187,10 @@ const Askquestions = () => {
   // 백엔드 서버 관련 코드
   const onClickSubmit = async () => {
     let data = {
-      // tags: tags,
       title: title,
       body: body_detail,
       bodyDetail: body_try,
-      userId: 2,
+      userId: 1,
     };
     console.log(data);
 

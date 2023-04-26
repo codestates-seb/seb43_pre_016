@@ -436,7 +436,6 @@ const QuestionDetail = () => {
 
   const onSubmitAnswer = async () => {
     let data = {
-      title: title,
       body: answer,
       userId: "1",
       questionId: id,
