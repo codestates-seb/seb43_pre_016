@@ -192,7 +192,6 @@ const Askquestions = () => {
       bodyDetail: body_try,
       userId: 1,
     };
-    console.log(data);
 
     const header = {
       headers: {

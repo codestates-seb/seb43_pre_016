@@ -418,7 +418,6 @@ const QuestionDetail = () => {
   const { id } = useParams();
   const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
-  console.log(answer);
 
   // 백엔드 서버 관련 코드
   useEffect(() => {
@@ -440,7 +439,6 @@ const QuestionDetail = () => {
       userId: "1",
       questionId: id,
     };
-    console.log(data);
 
     const header = {
       headers: {
