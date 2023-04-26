@@ -253,9 +253,6 @@ const SearchPage = ({ cookies, search }) => {
 
   const navigate = useNavigate();
 
-  console.log(search);
-  console.log(listData);
-
   const data = () => {
     axios
       .get("/questions")
