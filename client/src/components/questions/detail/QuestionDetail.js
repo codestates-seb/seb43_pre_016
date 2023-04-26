@@ -446,23 +446,21 @@ const QuestionDetail = () => {
       },
     };
     await axios.post("/answers", data, header).then(() => {
-      navigate("/");
+      navigate(`/questions/${id}`);
       window.location.reload();
     });
   };
 
-  const onDeleteAnswer = ({ answerId }) => {
-    const answerkey = answerId;
-    axios.delete(
-      `/answers/${answerkey}`
-        .then((res) => {
-          navigate(`/questions/${id}`);
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    );
+  const onDeleteAnswer = (answerId) => {
+    axios
+      .delete(`/answers/${answerId}`)
+      .then((res) => {
+        navigate(`/questions/${id}`);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const onDeleteQuestion = () => {
     axios.delete(`/questions/${id}`).then((res) => {
