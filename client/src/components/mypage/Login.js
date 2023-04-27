@@ -122,7 +122,7 @@ const Login = () => {
     }
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}auth/login`,
+        `${process.env.REACT_APP_API_URL}/auth/login`,
         {
           // 데이터에 따라 수정해야 될 부분
           username,
