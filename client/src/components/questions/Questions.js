@@ -240,7 +240,8 @@ const Questions = ({ cookies }) => {
       .get(
         `${process.env.REACT_APP_API_URL}/questions${
           "?page=" + currentpage + "&size=15"
-        }`
+        }`,
+        header
       )
       .then((res) => {
         setListData([...res.data.data]);

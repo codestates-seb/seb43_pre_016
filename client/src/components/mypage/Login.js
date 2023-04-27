@@ -127,9 +127,6 @@ const Login = () => {
           // 데이터에 따라 수정해야 될 부분
           username,
           password,
-        },
-        {
-          withCredentials: true,
         }
       );
       setCookie("accessToken", response.data["accessToken"], { path: "/" });

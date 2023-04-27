@@ -218,7 +218,8 @@ const Signup = () => {
         },
         {
           withCredentials: true,
-        }
+        },
+        header
       );
       setCookie("accessToken", data["accessToken"], { path: "/" });
       toast.success("회원가입에 성공하였습니다.");
