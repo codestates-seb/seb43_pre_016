@@ -46,9 +46,10 @@ public class QuestionController {
     public ResponseEntity<QuestionResponseDto> patchQuestion(@PathVariable("question-Id") Long questionId,
                                                              @AuthenticationPrincipal String email,
                                                               @Valid @RequestBody QuestionPatchDto requestBody) throws Exception{
-        Question question = mapper.questionPatchDtoToQuestion(requestBody);
-        question.setQuestionId(questionId);
         questionService.verifiedSameUser(questionId,email);
+        requestBody.setQuestionId(questionId);
+
+        Question question = mapper.questionPatchDtoToQuestion(requestBody);
 
         Question updatedQuestion = questionService.updateQuestion(question);
         return new ResponseEntity<>(mapper.questionToQuestionResponseDto(updatedQuestion),HttpStatus.OK);

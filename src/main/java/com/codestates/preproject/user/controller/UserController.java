@@ -25,6 +25,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper mapper;
+
 ;
     public UserController(UserService userService, UserMapper mapper) {
         this.userService = userService;
@@ -52,12 +53,13 @@ public class UserController {
         return new ResponseEntity<>(mapper.userToUserResponseDto(user),HttpStatus.OK);
     }
 
-    //회원검색
-//    @GetMapping("/{user-id}")
-//    public ResponseEntity getUser(@PathVariable("user-id") @Positive Long userId){
-//        User user = userService.findUser(userId);
-//        return new ResponseEntity<>(mapper.userToUserResponseDto(user),HttpStatus.OK);
-//    }
+    @GetMapping("finduser/userid")
+   public ResponseEntity getuserId(@AuthenticationPrincipal String email){
+        //토큰 받아서 응답으로 해당토큰에대한 유저아이디를 반환하는것/
+        User user=userService.findUserId(email);
+
+        return new ResponseEntity<>(mapper.userToUserResponseDto(user),HttpStatus.OK);
+    }
 
     @GetMapping
     public ResponseEntity getUsers(@Positive @RequestParam int page,

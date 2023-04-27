@@ -32,7 +32,7 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .cors().configurationSource(corsConfigurationSource())
-                .and()//프론트와문제시 확인해볼것
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
@@ -58,7 +58,7 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         var configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("http://pre16-s3-bucket.s3-website.ap-northeast-2.amazonaws.com"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("access", "refresh"));

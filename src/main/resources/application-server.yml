@@ -13,7 +13,7 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-        show_sql: true
+        show_sql: truCRET
         format_sql: true
 config:
   domain: http://pre16-s3-bucket.s3-website.ap-northeast-2.amazonaws.com

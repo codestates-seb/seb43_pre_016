@@ -97,4 +97,13 @@ public class UserService {
         if( !findUser.getEmail().equals(email)){
             throw new BusinessLogicException(ExceptionCode.METHOD_NOT_ALLOWED);}
     }
+
+    public User findUserId(String email){
+        Optional<User> user=userRepository.findByEmail(email);
+        User findUser= user.orElseThrow(()->new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        Long userId=findUser.getUserId();
+        Optional<User>responseUser=userRepository.findById(userId);
+        User finalUser=responseUser.orElseThrow(()->new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        return finalUser;
+    }
 }
