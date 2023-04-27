@@ -3,17 +3,17 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://db-preproject-16.ccgspdnar1fd.ap-northeast-2.rds.amazonaws.com:13306/test?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: admin
-    password: 87654321
+    password:
 
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
-        show_sql: truCRET
+        show_sql: true
         format_sql: true
 config:
   domain: http://pre16-s3-bucket.s3-website.ap-northeast-2.amazonaws.com
