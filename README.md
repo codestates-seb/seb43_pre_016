@@ -42,7 +42,7 @@
 <a href="https://documenter.getpostman.com/view/25534583/2s93Y5Rg97#f99ad70a-5581-4357-8744-b1954062346e" target="_blank">API 명세서 링크</a>   
    
    
-   ##  ERD(Entity Relationship Diagram). 
+   ##  ERD(Entity Relationship Diagram) 
    
 
 ## 🗒 커밋 규칙
