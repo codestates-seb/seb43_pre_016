@@ -209,11 +209,14 @@ const Signup = () => {
 
   const submitData = async () => {
     try {
-      const response = await axios.post("/users", {
-        userName: displayName,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/users`,
+        {
+          userName: displayName,
+          email,
+          password,
+        }
+      );
       toast.success("회원가입에 성공하였습니다.");
       navigate("/users/login"); //회원가입이 완료되면 로그인 창으로 이동한다
     } catch (err) {

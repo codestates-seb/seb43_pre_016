@@ -72,13 +72,15 @@ const EditAnswer = () => {
   console.log(id);
   useEffect(() => {
     axios
-      .get(`/answers/${id}`)
+      .get(`${process.env.REACT_APP_API_URL}/answers/${id}`)
       .then((res) => setContent(res.data.body))
       .catch((err) => console.log(err));
   }, []);
   const handleeditanswer = () => {
     axios
-      .patch(`/answers/${id}`, { body: content })
+      .patch(`${process.env.REACT_APP_API_URL}/answers/${id}`, {
+        body: content,
+      })
       .then((res) => {
         navigate(`/questions/${res.data.questionId}`);
       })

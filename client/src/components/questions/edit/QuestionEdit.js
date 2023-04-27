@@ -173,7 +173,7 @@ const QuestionEdit = () => {
 
   useEffect(() => {
     axios
-      .get(`/questions/${id}`)
+      .get(`${process.env.REACT_APP_API_URL}/questions/${id}`)
       .then((res) => {
         setTitle(`${res.data.title}`);
         setDetail(`${res.data.body}`);
@@ -199,10 +199,12 @@ const QuestionEdit = () => {
       },
     };
 
-    await axios.patch(`/questions/${id}`, data, header).then((res) => {
-      navigate(`/questions/${id}`);
-      window.location.reload();
-    });
+    await axios
+      .patch(`${process.env.REACT_APP_API_URL}/questions/${id}`, data, header)
+      .then((res) => {
+        navigate(`/questions/${id}`);
+        window.location.reload();
+      });
   };
 
   const onChange = (e) => {

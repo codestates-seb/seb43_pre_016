@@ -214,10 +214,12 @@ const Askquestions = () => {
         },
       };
 
-      await axios.post("/questions", data, header).then(() => {
-        navigate("/");
-        window.location.reload();
-      });
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/questions`, data, header)
+        .then(() => {
+          navigate("/");
+          window.location.reload();
+        });
     } else {
       toast.warning("Make sure you pass all validations");
     }
