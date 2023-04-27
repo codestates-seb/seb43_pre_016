@@ -471,7 +471,7 @@ const QuestionDetail = () => {
 
   const onDeleteQuestion = () => {
     axios
-      .delete(`/questions/${id}`)
+      .delete(`${process.env.REACT_APP_API_URL}/questions/${id}`)
       .then(() => {
         navigate("/");
       })
@@ -482,27 +482,35 @@ const QuestionDetail = () => {
 
   // 질문에 좋아요를 누를 때 요청을 보내는 함수 (isLiked가 데이터에 들어온다면 true, false일 떄 처리를 다시 해줘야함)
   const onChangeUpVoteQuestion = () => {
-    axios.post(`/questions/${id}/like/1`).then(() => {
-      fetchQuestionData(id, setQuestionData);
-    });
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/questions/${id}/like/1`)
+      .then(() => {
+        fetchQuestionData(id, setQuestionData);
+      });
   };
   // 질문에 싫어요를 누를 때 요청을 보내는 함수
   const onChangeDownVoteQuestion = () => {
-    axios.post(`/questions/${id}/dislike/1`).then(() => {
-      fetchQuestionData(id, setQuestionData);
-    });
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/questions/${id}/dislike/1`)
+      .then(() => {
+        fetchQuestionData(id, setQuestionData);
+      });
   };
 
   const onChangeUpVoteAnswer = () => {
-    axios.post(`/answers/${id}/like/1`).then(() => {
-      fetchQuestionData(id, setQuestionData);
-    });
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/answers/${id}/like/1`)
+      .then(() => {
+        fetchQuestionData(id, setQuestionData);
+      });
   };
 
   const onChangeDownVoteAnswer = () => {
-    axios.post(`/answers/${id}/dislike/1`).then(() => {
-      fetchQuestionData(id, setQuestionData);
-    });
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/answers/${id}/dislike/1`)
+      .then(() => {
+        fetchQuestionData(id, setQuestionData);
+      });
   };
 
   return (

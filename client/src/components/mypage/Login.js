@@ -121,11 +121,14 @@ const Login = () => {
       return;
     }
     try {
-      const response = await axios.post("/login", {
-        // 데이터에 따라 수정해야 될 부분
-        email: username,
-        password: password,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/login`,
+        {
+          // 데이터에 따라 수정해야 될 부분
+          email: username,
+          password: password,
+        }
+      );
       setCookie("accessToken", response.data["accessToken"], { path: "/" });
       //로그인 성공 시
       // setToken(response.data.token); //서버에서 받은 토큰 저장
@@ -140,11 +143,14 @@ const Login = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/login", {
-          headers: {
-            Authorization: `Bearer ${cookies.accessToken}`, //저장된 토큰을 이용해 헤더에 인증 정보를 담아 요청을 보냄
-          },
-        });
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/login`,
+          {
+            headers: {
+              Authorization: `Bearer ${cookies.accessToken}`, //저장된 토큰을 이용해 헤더에 인증 정보를 담아 요청을 보냄
+            },
+          }
+        );
         navigate("/");
       } catch (error) {
         console.error(error);
