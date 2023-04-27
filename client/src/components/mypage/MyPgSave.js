@@ -141,7 +141,7 @@ const Saves = () => {
   const [userData, setUserData] = useState({});
   useEffect(() => {
     axios
-      .get(`/users/1`)
+      .get(`${process.env.REACT_APP_API_URL}/users/1`)
       .then((res) => {
         setUserData(res.data);
       })
@@ -218,11 +218,14 @@ const Saves = () => {
                 <div className="content-info">
                   <div className="Count-box">
                     <span className="vote">
-                      <strong>{questData.questionId}</strong> votes
+                      <strong>{Math.floor(questData.questionId / 2.5)}</strong>{" "}
+                      votes
                     </span>
-                    <span className="answers">✔ 26 answers</span>
+                    <span className="answers">
+                      ✔ {Math.floor(questData.questionId / 2)} answers
+                    </span>
                     <span className="view">
-                      <strong>{questData.questionId}</strong> view
+                      <strong>{questData.questionId * 2}</strong> view
                     </span>
                   </div>
                   <div className="save">
