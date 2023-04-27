@@ -4,6 +4,8 @@ import com.codestates.preproject.answer.repository.AnswerRepository;
 import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.answer.like.AnswerLike;
 import com.codestates.preproject.answer.like.AnswerLikeRepository;
+import com.codestates.preproject.exception.BusinessLogicException;
+import com.codestates.preproject.exception.ExceptionCode;
 import com.codestates.preproject.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -60,7 +62,7 @@ public class AnswerService {
 
     private Answer findVerifiedAnswer(long answerId) {
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
-        Answer findanswer = optionalAnswer.orElseThrow(() -> new RuntimeException());//예외처리하기
+        Answer findanswer = optionalAnswer.orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
         return findanswer;
     }
 
@@ -70,7 +72,7 @@ public class AnswerService {
         user.setUserId(userId);
 
         Answer answer= answerRepository.findById(answerId)
-                .orElseThrow(()->new RuntimeException());
+                .orElseThrow(()-> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
 
         AnswerLike findAnswerLike = answerLikeRepository.findByUserAndAnswer(user,answer);
 
@@ -93,7 +95,7 @@ public class AnswerService {
         user.setUserId(userId);
 
         Answer answer = answerRepository.findById(answerId)
-                .orElseThrow(() ->new RuntimeException());
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
 
         AnswerLike answerLike = answerLikeRepository.findByUserAndAnswer(user, answer);
         if (answerLike == null) {

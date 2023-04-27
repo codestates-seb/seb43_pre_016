@@ -3,6 +3,8 @@ package com.codestates.preproject.question.service;
 import com.codestates.preproject.answer.dto.AnswerDto;
 import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.answer.repository.AnswerRepository;
+import com.codestates.preproject.exception.BusinessLogicException;
+import com.codestates.preproject.exception.ExceptionCode;
 import com.codestates.preproject.question.dto.QuestionResponseDto;
 import com.codestates.preproject.question.entity.Question;
 import com.codestates.preproject.question.like.QuestionLike;
@@ -35,7 +37,7 @@ public class QuestionService {
 
     public Question createQuestion(Question question){
         if(question.getUser() == null){
-            throw new IllegalArgumentException("사용자 정보가 없습니다.");
+            throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND); //
         }
         return questionRepository.save(question);
     }
@@ -94,6 +96,7 @@ public class QuestionService {
 
 
     public void deleteQuestion(Long questionId){
+
         questionRepository.deleteById(questionId);
     }
 
@@ -105,15 +108,16 @@ public class QuestionService {
 
     private Question findVerifierQuestion(long questionId){
         return questionRepository.findById(questionId)
-                .orElseThrow(() -> new EntityNotFoundException("Question Not Found"));
+                .orElseThrow(() ->  new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
     }
 
     //좋아요서비스
     public Question likeQuestion(long questionId, long userId){
         User user = new User();
         user.setUserId(userId);
+
         Question question = questionRepository.findById(questionId)
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));  //다시 살펴보기
         QuestionLike findQuestionLike = questionLikeRepository.findByUserAndQuestion(user,question);
 
         if (findQuestionLike == null){
@@ -132,7 +136,7 @@ public class QuestionService {
         user.setUserId(userId);
 
         Question question = questionRepository.findById(questionId)
-                .orElseThrow(()-> new RuntimeException());
+                .orElseThrow(()->  new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND)); //같이 살펴보자..
         QuestionLike questionLike = questionLikeRepository
                 .findByUserAndQuestion(user,question);
         if (questionLike == null){
