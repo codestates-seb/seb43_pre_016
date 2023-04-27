@@ -460,7 +460,7 @@ const QuestionDetail = () => {
 
   const onDeleteAnswer = (answerId) => {
     axios
-      .delete(`/answers/${answerId}`)
+      .delete(`${process.env.REACT_APP_API_URL}/answers/${answerId}`)
       .then(() => {
         fetchQuestionData(id, setQuestionData);
       })
