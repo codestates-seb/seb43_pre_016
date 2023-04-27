@@ -6,17 +6,22 @@ import com.codestates.preproject.question.dto.QuestionPostDto;
 import com.codestates.preproject.question.dto.QuestionResponseDto;
 import com.codestates.preproject.question.entity.Question;
 import com.codestates.preproject.question.mapper.QuestionMapper;
+import com.codestates.preproject.question.repository.QuestionRepository;
 import com.codestates.preproject.question.service.QuestionService;
 import com.codestates.preproject.response.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
