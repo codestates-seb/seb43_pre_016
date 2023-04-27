@@ -215,6 +215,9 @@ const Signup = () => {
           userName: displayName,
           email,
           password,
+        },
+        {
+          withCredentials: true,
         }
       );
       toast.success("회원가입에 성공하였습니다.");

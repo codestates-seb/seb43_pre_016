@@ -25,7 +25,7 @@ function App() {
     //container가 필요한 곳은 메인 페이지(질문 리스트 페이지), 질문 상세 페이지, tags 페이지, user 페이지, myPage 페이지 이다.
     <div className="App">
       <ScrollToTop />
-      {cookies.accessToken ? (
+      {cookies.accessToken && cookies.accessToken !== undefined ? (
         <LoginHeader removeCookie={removeCookie} setSearch={setSearch} />
       ) : (
         <LogoutHeader setSearch={setSearch} />

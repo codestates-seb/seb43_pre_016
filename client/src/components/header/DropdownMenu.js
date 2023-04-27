@@ -20,7 +20,7 @@ const SidebarWrap = styled.nav`
   font-weight: 400;
   text-align: left;
   position: fixed;
-  top: 50px;
+  top: 52px;
   left: 0;
 
   .left-sidebar__nav {
@@ -151,6 +151,7 @@ const DropdownMenu = () => {
     <>
       {isClicked ? (
         <>
+          <div className="background"></div>
           <CloseIcon className="header__menu__icon" onClick={handleOnClick} />
           <Sidebar handleOnClick={handleOnClick} />
         </>
