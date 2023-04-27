@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,8 @@ public class AnswerController {
     private final UserRepository userRepository;
 
     @PostMapping
-    public ResponseEntity postAnswer(@Valid @RequestBody AnswerDto.Post requestBody) {
+    public ResponseEntity postAnswer(@Valid @RequestBody AnswerDto.Post requestBody,
+                                     @AuthenticationPrincipal String email) {
 
         Answer answer = mapper.answerPostDtoToAnswer(requestBody);
         Answer createdAnswer=answerService.createAnswer(answer);
@@ -47,10 +49,11 @@ public class AnswerController {
 
     @PatchMapping("/{answer-id}")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive Long answerId,
-                                      @Valid @RequestBody AnswerDto.Patch requestBody) {
+                                      @Valid @RequestBody AnswerDto.Patch requestBody,
+                                      @AuthenticationPrincipal String email) {
+        answerService.verifiedSameUser(answerId,email);
         requestBody.setAnswerId(answerId);
         Answer updatedAnswer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(requestBody));
-
 
         return new ResponseEntity<>(mapper.answerToAnswerResponseDto(updatedAnswer), HttpStatus.OK);
     }
@@ -64,6 +67,14 @@ public class AnswerController {
         return new ResponseEntity<>(mapper.answerToAnswerResponseDto(findAnswer), HttpStatus.OK);
     }
 
+    @GetMapping("question/{question-id}")
+    public ResponseEntity getAnswerForQ(@PathVariable("question-id") @Positive Long questionId) {
+        List<Answer> answers= answerRepository.findByQuestionQuestionId(questionId);
+
+        return new ResponseEntity<>(mapper.answersToResponseDtos(answers), HttpStatus.OK);
+    }
+
+
     @GetMapping
     public ResponseEntity getAnswers(@Positive @RequestParam int page,
                                      @Positive @RequestParam int size) {
@@ -76,7 +87,9 @@ public class AnswerController {
     }
 
     @DeleteMapping("/{answer-id}")
-    public ResponseEntity deleteAnswer(@PathVariable("answer-id") @Positive Long answerId) {
+    public ResponseEntity deleteAnswer(@PathVariable("answer-id") @Positive Long answerId,
+                                       @AuthenticationPrincipal String email) {
+        answerService.verifiedSameUser(answerId,email);
         answerService.deleteAnswer(answerId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);

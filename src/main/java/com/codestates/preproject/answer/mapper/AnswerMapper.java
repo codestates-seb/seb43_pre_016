@@ -2,16 +2,11 @@ package com.codestates.preproject.answer.mapper;
 
 import com.codestates.preproject.answer.dto.AnswerDto;
 import com.codestates.preproject.answer.entity.Answer;
-import com.codestates.preproject.answer.repository.AnswerRepository;
-import com.codestates.preproject.user.entity.User;
-import com.codestates.preproject.user.repository.UserRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 @Component//빈 인식 못해서 모든 매퍼에 추가함, 없어도 다른 환경에서 실행되는 경우가 있어서 문제되면 지워도 괜찮습니다.
@@ -30,7 +25,7 @@ public interface AnswerMapper {
        response.setBody(answer.getBody());
        response.setUserId(answer.getUser().getUserId());
        response.setModifiedAt(answer.getModifiedAt());
-       //response.setCreatedBy(answer.getCreatedBy());
+       response.setCreatedBy(answer.getCreatedBy());
        response.setQuestionId(answer.getQuestion().getQuestionId());
        response.setUserName(answer.getUser().getUserName());
        response.setCreatedAt(answer.getCreatedAt());

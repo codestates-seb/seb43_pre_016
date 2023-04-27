@@ -32,11 +32,13 @@ public class UserService {
     }
 
     public User createUser(User user){
+
         verifyExistsEmail(user.getEmail());
 
-        String encryptedPassword =passwordEncoder.encode(user.getEmail());
+        String encryptedPassword =passwordEncoder.encode(user.getPassword());
 
         List<String> roles = authorityUtils.createRoles(user.getEmail());
+
         user.setRoles(roles);
 
         User savedUser = userRepository.save(user);
@@ -60,6 +62,7 @@ public class UserService {
     }
 
     public Page<User> findUsers(int page, int size) {
+
         return userRepository.findAll(PageRequest.of(page,size, Sort.by("userId").descending()));
     }
 
@@ -82,5 +85,13 @@ public class UserService {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent())
             throw new BusinessLogicException(ExceptionCode.USER_EXISTS);
+    }
+
+
+    public void verifiedSameUser(Long userId,String email){
+        Optional<User>user= userRepository.findById(userId);
+        User findUser = user.orElseThrow(()->new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        if( !findUser.getEmail().equals(email)){
+            throw new BusinessLogicException(ExceptionCode.METHOD_NOT_ALLOWED);}
     }
 }

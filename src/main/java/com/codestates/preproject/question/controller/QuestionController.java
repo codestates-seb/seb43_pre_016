@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,11 +38,15 @@ public class QuestionController {
 
     @PatchMapping("/{question-Id}")
     public ResponseEntity<QuestionResponseDto> patchQuestion(@PathVariable("question-Id") Long questionId,
-                                                              @Valid @RequestBody QuestionPatchDto requestBody){
+                                                             @AuthenticationPrincipal String email,
+                                                              @Valid @RequestBody QuestionPatchDto requestBody) throws Exception{
         Question question = mapper.questionPatchDtoToQuestion(requestBody);
         question.setQuestionId(questionId);
+        questionService.verifiedSameUser(questionId,email);
+
         Question updatedQuestion = questionService.updateQuestion(question);
-        return new ResponseEntity<>(mapper.questionToQuestionResponseDto(updatedQuestion),HttpStatus.OK);
+
+        return new ResponseEntity<>(mapper.questionToQuestionResponseDto(updatedQuestion), HttpStatus.OK);
     }
 
     @GetMapping("/{question-Id}")
@@ -62,7 +67,9 @@ public class QuestionController {
     }
 
     @DeleteMapping("/{question-Id}")
-    public ResponseEntity deleteQuestion(@PathVariable("question-Id") Long questionId){
+    public ResponseEntity deleteQuestion(@PathVariable("question-Id") Long questionId,
+                                         @AuthenticationPrincipal String email){
+        questionService.verifiedSameUser(questionId,email);
         questionService.deleteQuestion(questionId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -75,8 +82,7 @@ public class QuestionController {
     }
     @PostMapping("/{question-id}/like/{user-id}")
     public ResponseEntity likeQuestion(@PathVariable("question-id") long questionId,
-                                     @PathVariable("user-id")long userId) {
-
+                                     @PathVariable("user-id")long userId){
         Question likedQuestion = questionService.likeQuestion(questionId,userId);
 
         return new ResponseEntity<>(mapper.questionToQuestionResponseDto(likedQuestion),HttpStatus.OK);

@@ -1,14 +1,17 @@
 package com.codestates.preproject.answer.service;
 
-import com.codestates.preproject.answer.repository.AnswerRepository;
 import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.answer.like.AnswerLike;
 import com.codestates.preproject.answer.like.AnswerLikeRepository;
+import com.codestates.preproject.answer.repository.AnswerRepository;
+import com.codestates.preproject.exception.BusinessLogicException;
+import com.codestates.preproject.exception.ExceptionCode;
 import com.codestates.preproject.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
 @Service
@@ -105,6 +108,14 @@ public class AnswerService {
         answer.addAnswerLike(answerLike1);
         answerRepository.save(answer);
         return answer;
+    }
+
+
+    public void verifiedSameUser(Long answerId,String email){
+        Optional<Answer> answer= answerRepository.findById(answerId);
+        Answer findanswer = answer.orElseThrow(()->new BusinessLogicException(ExceptionCode.ANSWER_NOT_FOUND));
+        if( !findanswer.getUser().getEmail().equals(email)){
+            throw new BusinessLogicException(ExceptionCode.METHOD_NOT_ALLOWED);}
     }
 
 }

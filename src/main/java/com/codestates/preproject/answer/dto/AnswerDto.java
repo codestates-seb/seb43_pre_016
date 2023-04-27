@@ -1,6 +1,8 @@
 package com.codestates.preproject.answer.dto;
-import com.codestates.preproject.user.entity.User;
-import lombok.*;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -48,7 +50,7 @@ public class AnswerDto {
         private long questionId;
         private LocalDateTime modifiedAt;
         private LocalDateTime createdAt;
-        //private String createdBy;
+        private String createdBy;
 
 
     }

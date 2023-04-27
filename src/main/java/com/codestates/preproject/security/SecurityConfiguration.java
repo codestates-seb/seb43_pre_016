@@ -40,12 +40,16 @@ public class SecurityConfiguration {
                 .httpBasic().disable()
                 .apply(new CustomFilterConfigurer())
                 .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(new UserAuthenticationEntryPoint())  //인증필터들 먼저 적용하고 핸들러추가해도 되겟지?
+                .accessDeniedHandler(new UserAccessDeniedHandler())
+                .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST,"/users").permitAll()
-                        .antMatchers(HttpMethod.GET,"/users").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.GET,"/users/{memberId}").hasRole("USER")
                         .antMatchers(HttpMethod.POST,"/*").hasRole("USER")
-                        .antMatchers(HttpMethod.DELETE,"/users").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.DELETE,"/*/*").hasRole("USER")
+                        .antMatchers(HttpMethod.DELETE,"/*").hasRole("ADMIN")
+
                 );
         return http.build();
     }
@@ -77,6 +81,8 @@ public class SecurityConfiguration {
             jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");// requestUrL 설정.
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
+            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler());
+            jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
 
             builder.addFilter(jwtAuthenticationFilter)
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);

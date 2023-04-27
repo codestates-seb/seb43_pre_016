@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
@@ -42,7 +43,9 @@ public class UserController {
     //회원수정
     @PatchMapping("/{user-id}")
     public ResponseEntity patchUser(@PathVariable("user-id") @Positive Long userId,
-                                    @Valid @RequestBody UserDto.Patch requestBody){
+                                    @Valid @RequestBody UserDto.Patch requestBody,
+                                    @AuthenticationPrincipal String email){
+        userService.verifiedSameUser(userId,email);
         requestBody.setUserId(userId);
         User user = userService.updateUser(mapper.userPatchDtoToUser(requestBody));
 
@@ -66,7 +69,9 @@ public class UserController {
     }
 
     @DeleteMapping("/{user-id}")
-    public ResponseEntity deleteUser(@PathVariable("user-id") @Positive Long userId){
+    public ResponseEntity deleteUser(@PathVariable("user-id") @Positive Long userId,
+                                    @AuthenticationPrincipal String email){
+        userService.verifiedSameUser(userId,email);
         userService.deleteUser(userId);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -95,7 +100,9 @@ public class UserController {
 //    }
 
     @GetMapping("/{user-id}")
-    public ResponseEntity getUser(@PathVariable("user-id") long userId){
+    public ResponseEntity getUser(@PathVariable("user-id") long userId,
+                                  @AuthenticationPrincipal String email) {
+        userService.verifiedSameUser(userId,email);
         User dbUser = userService.findUser(userId);
 
         return new ResponseEntity(mapper.userToUserMyPageDto(dbUser),HttpStatus.OK);

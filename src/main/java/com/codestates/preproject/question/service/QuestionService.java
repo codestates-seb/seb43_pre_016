@@ -1,8 +1,9 @@
 package com.codestates.preproject.question.service;
 
 import com.codestates.preproject.answer.dto.AnswerDto;
-import com.codestates.preproject.answer.entity.Answer;
 import com.codestates.preproject.answer.repository.AnswerRepository;
+import com.codestates.preproject.exception.BusinessLogicException;
+import com.codestates.preproject.exception.ExceptionCode;
 import com.codestates.preproject.question.dto.QuestionResponseDto;
 import com.codestates.preproject.question.entity.Question;
 import com.codestates.preproject.question.like.QuestionLike;
@@ -15,8 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.net.UnknownServiceException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -145,4 +144,12 @@ public class QuestionService {
         questionRepository.save(question);
         return question;
     }
-}
+
+    public void verifiedSameUser(Long questionId,String email){
+        Optional<Question>Question= questionRepository.findById(questionId);
+        Question findQuestion = Question.orElseThrow(()->new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
+        if( !findQuestion.getUser().getEmail().equals(email)){
+        throw new BusinessLogicException(ExceptionCode.METHOD_NOT_ALLOWED);}
+       }
+  }
+
