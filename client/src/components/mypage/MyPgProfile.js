@@ -152,7 +152,7 @@ const AnswerForms = () => {
   const [userData, setUserData] = useState({});
   useEffect(() => {
     axios
-      .get(`/users/1`)
+      .get(`${process.env.REACT_APP_API_URL}/users/1`)
       .then((res) => {
         setUserData(res.data);
       })
@@ -171,7 +171,7 @@ const AnswerForms = () => {
             <Answer>
               <VoteBadge>{answerData.answerId}</VoteBadge>
               <AnswerLink href={`/answers/${answerData.answerId}`}>
-                {answerData.body}
+                {answerData.body.replace(/(<([^>]+)>)/gi, "")}
               </AnswerLink>
               <AnswerDate>
                 {new Date(answerData.crestedAt).toLocaleDateString("en-GB", {
@@ -211,7 +211,7 @@ const QuestionForms = () => {
             <Answer>
               <VoteBadge>{questData.questionId}</VoteBadge>
               <AnswerLink href={`/questions/${questData.questionId}`}>
-                {questData.title}
+                {questData.title.replace(/(<([^>]+)>)/gi, "")}
               </AnswerLink>
               <AnswerDate>
                 {new Date(questData.createdAt).toLocaleDateString("en-GB", {
@@ -232,7 +232,7 @@ const Profile = () => {
   const [userData, setUserData] = useState({});
   useEffect(() => {
     axios
-      .get(`/users/1`)
+      .get(`${process.env.REACT_APP_API_URL}/users/1`)
       .then((res) => {
         setUserData(res.data);
       })
