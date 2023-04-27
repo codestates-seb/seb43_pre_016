@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -34,7 +36,7 @@ public class QuestionService {
 
     public Question createQuestion(Question question){
         if(question.getUser() == null){
-            throw new IllegalArgumentException("사용자 정보가 없습니다.");
+            throw new BusinessLogicException(ExceptionCode.USER_NOT_FOUND); //
         }
         return questionRepository.save(question);
     }
@@ -52,6 +54,8 @@ public class QuestionService {
 
     public QuestionResponseDto findQuestion(long questionId){
         Question question = findVerifierQuestion(questionId);
+//        long current = question.getViewCount();
+//        question.setViewCount(current);
 
         QuestionResponseDto questionResponseDto = new QuestionResponseDto();
         questionResponseDto.setQuestionId(question.getQuestionId());
@@ -64,6 +68,7 @@ public class QuestionService {
         questionResponseDto.setUserName(question.getUser().getUserName());
         questionResponseDto.setUserEmail(question.getUser().getEmail());
         questionResponseDto.setLikeCount(question.getLikeCount());
+//        questionResponseDto.setViewCount(question.getViewCount());
 
         List<AnswerDto.Response> answerResponseList = answerRepository.findByQuestionQuestionId(questionId).stream()
                 .map(answer -> {
@@ -93,6 +98,7 @@ public class QuestionService {
 
 
     public void deleteQuestion(Long questionId){
+
         questionRepository.deleteById(questionId);
     }
 
@@ -104,15 +110,16 @@ public class QuestionService {
 
     private Question findVerifierQuestion(long questionId){
         return questionRepository.findById(questionId)
-                .orElseThrow(() -> new EntityNotFoundException("Question Not Found"));
+                .orElseThrow(() ->  new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));
     }
 
     //좋아요서비스
     public Question likeQuestion(long questionId, long userId){
         User user = new User();
         user.setUserId(userId);
+
         Question question = questionRepository.findById(questionId)
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND));  //다시 살펴보기
         QuestionLike findQuestionLike = questionLikeRepository.findByUserAndQuestion(user,question);
 
         if (findQuestionLike == null){
@@ -131,7 +138,7 @@ public class QuestionService {
         user.setUserId(userId);
 
         Question question = questionRepository.findById(questionId)
-                .orElseThrow(()-> new RuntimeException());
+                .orElseThrow(()->  new BusinessLogicException(ExceptionCode.QUESTION_NOT_FOUND)); //같이 살펴보자..
         QuestionLike questionLike = questionLikeRepository
                 .findByUserAndQuestion(user,question);
         if (questionLike == null){

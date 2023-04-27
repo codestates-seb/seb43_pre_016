@@ -68,6 +68,9 @@ public class UserService {
 
     public void deleteUser(Long userId){
         User findUser = findVerifiedUser(userId);
+
+
+
         userRepository.delete(findUser);
     }
 

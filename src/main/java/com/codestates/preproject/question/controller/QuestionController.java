@@ -12,11 +12,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
@@ -28,6 +28,8 @@ import java.util.List;
 public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper mapper;
+    @Autowired
+    private QuestionRepository questionRepository;
 
     @PostMapping
     public ResponseEntity<QuestionResponseDto> postQuestion(@Valid @RequestBody QuestionPostDto requestBody) {
@@ -45,8 +47,7 @@ public class QuestionController {
         questionService.verifiedSameUser(questionId,email);
 
         Question updatedQuestion = questionService.updateQuestion(question);
-
-        return new ResponseEntity<>(mapper.questionToQuestionResponseDto(updatedQuestion), HttpStatus.OK);
+        return new ResponseEntity<>(mapper.questionToQuestionResponseDto(updatedQuestion),HttpStatus.OK);
     }
 
     @GetMapping("/{question-Id}")
@@ -82,7 +83,8 @@ public class QuestionController {
     }
     @PostMapping("/{question-id}/like/{user-id}")
     public ResponseEntity likeQuestion(@PathVariable("question-id") long questionId,
-                                     @PathVariable("user-id")long userId){
+                                     @PathVariable("user-id")long userId) {
+
         Question likedQuestion = questionService.likeQuestion(questionId,userId);
 
         return new ResponseEntity<>(mapper.questionToQuestionResponseDto(likedQuestion),HttpStatus.OK);
@@ -97,5 +99,22 @@ public class QuestionController {
 
         return new ResponseEntity<>(mapper.questionToQuestionResponseDto(dislikedQuestion),HttpStatus.OK);
     }
+
+    //검색기능
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<?> search(@RequestParam(defaultValue = "0") int page,
+                                    @RequestParam(defaultValue = "10") int size,
+                                    @RequestParam(defaultValue = "questionId") String sortBy,
+                                    @RequestParam(defaultValue = "desc") String sortOrder,
+                                    @RequestParam(defaultValue = "") String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Keyword cannot be empty");
+        }
+        Sort sort = sortOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+        Page<Question> questions = questionRepository.search(keyword, pageRequest);
+        return ResponseEntity.ok().body(questions);
+    }
+
 
 }

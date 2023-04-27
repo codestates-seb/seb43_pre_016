@@ -34,6 +34,7 @@ public class QuestionResponseDto {
     private List<AnswerDto.Response> answers;
 
     private int likeCount;
+//    private long viewCount;
     //private List<String> tags;
     //private Integer view
 }
