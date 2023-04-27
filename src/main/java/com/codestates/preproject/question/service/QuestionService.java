@@ -15,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.EntityNotFoundException;
 import java.net.UnknownServiceException;
@@ -55,6 +57,8 @@ public class QuestionService {
 
     public QuestionResponseDto findQuestion(long questionId){
         Question question = findVerifierQuestion(questionId);
+//        long current = question.getViewCount();
+//        question.setViewCount(current);
 
         QuestionResponseDto questionResponseDto = new QuestionResponseDto();
         questionResponseDto.setQuestionId(question.getQuestionId());
@@ -67,6 +71,7 @@ public class QuestionService {
         questionResponseDto.setUserName(question.getUser().getUserName());
         questionResponseDto.setUserEmail(question.getUser().getEmail());
         questionResponseDto.setLikeCount(question.getLikeCount());
+//        questionResponseDto.setViewCount(question.getViewCount());
 
         List<AnswerDto.Response> answerResponseList = answerRepository.findByQuestionQuestionId(questionId).stream()
                 .map(answer -> {
