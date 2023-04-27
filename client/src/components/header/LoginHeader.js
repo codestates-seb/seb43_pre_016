@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import DropdownMenu from "./DropdownMenu";
+import axios from "axios";
 
 const HeaderWrapper = styled.header`
   width: 100%;
@@ -184,7 +185,45 @@ const HeaderWrapper = styled.header`
     border: 1px solid transparent;
     color: #ffffff;
   }
+
+  .header__menu__icon {
+    display: none;
+    font-size: 24px;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .header__menu__a {
+    display: none;
+    cursor: pointer;
+    width: 48px;
+    height: 100%;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+  }
+
+  .header__menu__a:hover {
+    background-color: #e3e6e8;
+  }
+
+  @media (max-width: 1000px) {
+    .header__nav {
+      display: none;
+    }
+  }
+
+  @media (max-width: 670px) {
+    .header__menu__a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .header__menu__icon {
+      display: block;
+    }
+  }
 `;
+
 const Modalwindow = styled.div`
   display: flex;
   position: fixed;
@@ -232,9 +271,14 @@ const Modalwindow = styled.div`
   }
 `;
 
-const LoginHeader = ({ removeCookie, setSearch }) => {
+const LoginHeader = ({ setSearch }) => {
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
+  // const user = axios
+  //   .get(`${process.env.REACT_APP_API_URL}/users/1`)
+  //   .then((res) => {
+  //     console.log(res);
+  //   });
   const [searchtext, setSearchtext] = useState("");
   const [searchlist, setSearchlist] = useState({
     tag: [],
@@ -303,7 +347,7 @@ const LoginHeader = ({ removeCookie, setSearch }) => {
   }
 
   const onChangeLogin = () => {
-    removeCookie("accessToken");
+    localStorage.clear();
     toast.success("로그아웃이 성공적으로 완료되었습니다.");
     navigate("/");
     window.location.reload();
@@ -369,7 +413,7 @@ const LoginHeader = ({ removeCookie, setSearch }) => {
             />
           </div>
           <div className="header__btns">
-            <Link to="/users/id/userName">
+            <Link to={`/users/1`}>
               <img
                 src="https://www.gravatar.com/avatar/3ce25b028e11ef58e77d601e1cd73710?s=48&d=identicon&r=PG&f=y&so-version=2"
                 alt="profile__logo"

@@ -226,7 +226,7 @@ const Container = styled.div`
   }
 `;
 
-const Questions = ({ cookies }) => {
+const Questions = ({ access }) => {
   const navigate = useNavigate();
   const [listData, setListData] = useState([]);
   const [dataLength, setDataLength] = useState([]); // 데이터의 전체 개수 저장
@@ -318,7 +318,7 @@ const Questions = ({ cookies }) => {
       <div className="mainbar">
         <header className="mainbar__header">
           <h3>All Questions</h3>
-          {cookies.accessToken === undefined ? (
+          {access === undefined || !access ? (
             <Link to="/users/login">
               <button>Ask Question</button>
             </Link>

@@ -46,6 +46,7 @@ const UserBoxLayout = styled.div`
 
 const UserBox = () => {
   const [userData, setUserData] = useState({});
+  console.log(userData);
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/users/1`)
@@ -130,7 +131,7 @@ const UserBox = () => {
     <UserBoxLayout>
       <div className="Avatar">image</div>
       <div className="userContainer">
-        <div className="userName">{UserName}</div>
+        <div className="userName">{UserName ? UserName : "anonymous"}</div>
         <div className="userInfo">
           <div className="creationDate">
             {/* <Cake className="icon" /> Member for {daysSinceCreation}{" "}

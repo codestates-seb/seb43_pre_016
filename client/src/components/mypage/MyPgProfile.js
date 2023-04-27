@@ -1,10 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-=======
-import { useParams } from "react-router-dom";
->>>>>>> 9b0d968b479717d460bf88ce0f94f70388a347fb
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const MainContentForm = styled.div`
@@ -159,17 +155,31 @@ const AboutBox = ({ text }) => {
 
 const AnswerForms = () => {
   const [userData, setUserData] = useState({});
+  const access = localStorage.getItem("access");
 
   const navigate = useNavigate();
 
   const onNavigateToQuestion = (id) => {
+    const header = {
+      headers: {
+        "Content-Type": "application/json",
+        access,
+      },
+    };
+
     axios
-      .get(`${process.env.REACT_APP_API_URL}/answers/${id}`)
+      .get(`${process.env.REACT_APP_API_URL}/answers/${id}`, header)
       .then((res) => navigate(`/questions/${res.data.questionId}`));
   };
   useEffect(() => {
+    const header = {
+      headers: {
+        "Content-Type": "application/json",
+        access,
+      },
+    };
     axios
-      .get(`${process.env.REACT_APP_API_URL}/users/1`)
+      .get(`${process.env.REACT_APP_API_URL}/users/1`, header)
       .then((res) => {
         setUserData(res.data);
       })
@@ -269,7 +279,6 @@ const Profile = () => {
   const answerLikes = userData.answerLikes?.length || 0;
   // AboutBox에 들어갈 텍스트를 입력합니다.
   const aboutText = userData.email;
-  console.log(aboutText);
   // }, [userData]);
 
   return (

@@ -68,8 +68,8 @@ const EditAnswer = () => {
   const [content, setContent] = useState("");
   const [tags, setTags] = useState([]); //태그
   const [taginput, setTaginput] = useState("");
+  const access = localStorage.getItem("access");
 
-  console.log(id);
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/answers/${id}`)
@@ -77,10 +77,20 @@ const EditAnswer = () => {
       .catch((err) => console.log(err));
   }, []);
   const handleeditanswer = () => {
+    const header = {
+      headers: {
+        "Content-Type": "application/json",
+        access,
+      },
+    };
     axios
-      .patch(`${process.env.REACT_APP_API_URL}/answers/${id}`, {
-        body: content,
-      })
+      .patch(
+        `${process.env.REACT_APP_API_URL}/answers/${id}`,
+        {
+          body: content,
+        },
+        header
+      )
       .then((res) => {
         navigate(`/questions/${res.data.questionId}`);
       })
