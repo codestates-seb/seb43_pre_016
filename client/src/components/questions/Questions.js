@@ -16,6 +16,7 @@ const Container = styled.div`
 
   .mainbar {
     width: 100%;
+    margin-right: 20px;
   }
 
   .mainbar__header {

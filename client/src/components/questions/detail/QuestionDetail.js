@@ -452,10 +452,12 @@ const QuestionDetail = () => {
         "Content-Type": "application/json",
       },
     };
-    await axios.post("/answers", data, header).then(() => {
-      fetchQuestionData(id, setQuestionData);
-      setAnswer("");
-    });
+    await axios
+      .post(`${process.env.REACT_APP_API_URL}/answers`, data, header)
+      .then(() => {
+        fetchQuestionData(id, setQuestionData);
+        setAnswer("");
+      });
   };
 
   const onDeleteAnswer = (answerId) => {
