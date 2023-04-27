@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const MainContentForm = styled.div`
@@ -123,6 +124,7 @@ const VoteBadge = styled.div`
   align-items: center;
 `;
 const AnswerLink = styled.a`
+  cursor: pointer;
   font-size: 13px;
   color: #0a95ff;
   flex-grow: 1;
@@ -150,6 +152,13 @@ const AboutBox = ({ text }) => {
 
 const AnswerForms = () => {
   const [userData, setUserData] = useState({});
+  const navigate = useNavigate();
+
+  const onNavigateToQuestion = (id) => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/answers/${id}`)
+      .then((res) => navigate(`/questions/${res.data.questionId}`));
+  };
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/users/1`)
@@ -160,6 +169,7 @@ const AnswerForms = () => {
         console.log(err);
       });
   }, []);
+
   if (!userData.answers) {
     return null; // or return loading indicator
   }
@@ -170,7 +180,9 @@ const AnswerForms = () => {
           <AnswerForm key={answerData.answerId}>
             <Answer>
               <VoteBadge>{answerData.answerId}</VoteBadge>
-              <AnswerLink href={`/answers/${answerData.answerId}`}>
+              <AnswerLink
+                onClick={() => onNavigateToQuestion(answerData.answerId)}
+              >
                 {answerData.body.replace(/(<([^>]+)>)/gi, "")}
               </AnswerLink>
               <AnswerDate>
