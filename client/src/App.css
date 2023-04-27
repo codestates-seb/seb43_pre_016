@@ -50,6 +50,16 @@ a:active {
   padding-top: 50px;
   display: flex;
 }
+
+@media(max-width:670px){
+  .container > div {
+    width: 100%;
+    margin-left: 0;
+  }
+  .container > nav {
+    display: none;
+  }
+}
 /* 스크롤바를 없앰 */
 ::-webkit-scrollbar {
   display: none;

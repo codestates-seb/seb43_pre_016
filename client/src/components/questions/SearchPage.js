@@ -255,7 +255,11 @@ const SearchPage = ({ cookies, search }) => {
 
   const data = () => {
     axios
-      .get("/questions")
+      .get(
+        `${process.env.REACT_APP_API_URL}/questions${
+          "?page=" + currentpage + "&size=15"
+        }`
+      )
       .then((res) => {
         res.data.sort((b, a) => {
           const A = new Date(a.createdAt);

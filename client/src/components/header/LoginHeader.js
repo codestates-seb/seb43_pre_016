@@ -4,6 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
+import DropdownMenu from "./DropdownMenu";
 
 const HeaderWrapper = styled.header`
   width: 100%;
@@ -312,6 +313,9 @@ const LoginHeader = ({ removeCookie, setSearch }) => {
     <>
       <HeaderWrapper>
         <div className="header__container">
+          <a className="header__menu__a">
+            <DropdownMenu />
+          </a>
           <a href="/" className="header__logo__a">
             <span className="header__logo__span hide">Stack Overflow</span>
           </a>

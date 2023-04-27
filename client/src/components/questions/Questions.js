@@ -16,6 +16,7 @@ const Container = styled.div`
 
   .mainbar {
     width: 100%;
+    margin-right: 20px;
   }
 
   .mainbar__header {
@@ -236,7 +237,11 @@ const Questions = ({ cookies }) => {
   // 백엔드 서버 관련 코드
   const data = async () => {
     await axios
-      .get(`/questions${"?page=" + currentpage + "&size=15"}`)
+      .get(
+        `${process.env.REACT_APP_API_URL}/questions${
+          "?page=" + currentpage + "&size=15"
+        }`
+      )
       .then((res) => {
         setListData([...res.data.data]);
       })
@@ -265,9 +270,11 @@ const Questions = ({ cookies }) => {
   }, [currentpage]); //임시 서버에서는 ActBtn을 배열에 넣어두면 정렬이 되지않음.
 
   const getDataLength = () => {
-    axios.get(`/questions?page=1&size=10000`).then((res) => {
-      setDataLength([...res.data.data]);
-    });
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/questions?page=1&size=10000`)
+      .then((res) => {
+        setDataLength([...res.data.data]);
+      });
   };
 
   const handleonpage = (e) => {

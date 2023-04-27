@@ -176,7 +176,7 @@ const AnswerForms = () => {
             <Answer>
               <VoteBadge>{answerData.answerId}</VoteBadge>
               <AnswerLink href={`/answers/${answerData.answerId}`}>
-                {answerData.body}
+                {answerData.body.replace(/(<([^>]+)>)/gi, "")}
               </AnswerLink>
               <AnswerDate>
                 {new Date(answerData.crestedAt).toLocaleDateString("en-GB", {
@@ -216,7 +216,7 @@ const QuestionForms = () => {
             <Answer>
               <VoteBadge>{questData.questionId}</VoteBadge>
               <AnswerLink href={`/questions/${questData.questionId}`}>
-                {questData.title}
+                {questData.title.replace(/(<([^>]+)>)/gi, "")}
               </AnswerLink>
               <AnswerDate>
                 {new Date(questData.createdAt).toLocaleDateString("en-GB", {

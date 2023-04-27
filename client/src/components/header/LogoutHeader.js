@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link, useNavigate } from "react-router-dom";
+import DropdownMenu from "./DropdownMenu";
 
 const HeaderWrapper = styled.header`
   width: 100%;
@@ -162,6 +163,45 @@ const HeaderWrapper = styled.header`
     border: 1px solid transparent;
     color: #ffffff;
   }
+
+  /* 반응형 헤더 스타일 */
+
+  .header__menu__icon {
+    display: none;
+    font-size: 24px;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .header__menu__a {
+    display: none;
+    cursor: pointer;
+    width: 48px;
+    height: 100%;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+  }
+
+  .header__menu__a:hover {
+    background-color: #e3e6e8;
+  }
+
+  @media (max-width: 1000px) {
+    .header__nav {
+      display: none;
+    }
+  }
+
+  @media (max-width: 670px) {
+    .header__menu__a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .header__menu__icon {
+      display: block;
+    }
+  }
 `;
 const Modalwindow = styled.div`
   display: flex;
@@ -286,6 +326,9 @@ const LogoutHeader = ({ setSearch }) => {
     <>
       <HeaderWrapper>
         <div className="header__container">
+          <a className="header__menu__a">
+            <DropdownMenu />
+          </a>
           <a href="/" className="header__logo__a">
             <span className="header__logo__span hide">Stack Overflow</span>
           </a>
