@@ -113,48 +113,51 @@ const Login = () => {
     setPassword(e.target.value);
   };
   //로그인 실행
-  const onClickLoginBtn = async (e) => {
+  const onClickLoginBtn = (e) => {
     e.preventDefault();
 
-    if (!isValidEmailFormat) {
-      setErrorMessage("The email is not a valid email address.");
-      return;
-    }
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/auth/login`,
-        {
-          // 데이터에 따라 수정해야 될 부분
-          username,
-          password,
-        }
-      );
-      setCookie("accessToken", response.data["accessToken"], { path: "/" });
-      //로그인 성공 시
-      // setToken(response.data.token); //서버에서 받은 토큰 저장
-      navigate("/"); //홈페이지로 이동
-      //로그인 실패 시
-    } catch (error) {
-      setErrorMessage("The email or password is incorrect."); //error 메세지 출력
-      console.error(error);
-    }
+    // if (!isValidEmailFormat) {
+    //   setErrorMessage("The email is not a valid email address.");
+    //   return;
+    // }
+
+    const header = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const body = {
+      username: username,
+      password: password,
+    };
+
+    axios
+      .post(`${process.env.REACT_APP_API_URL}/auth/login`, body, header)
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("access", `${res.headers.access}`);
+        navigate("/");
+        window.location.reload();
+      })
+      .catch((err) => {
+        setErrorMessage("The email or password is incorrect."); //error 메세지 출력
+        console.error(err);
+      });
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await axios.get(`${process.env.REACT_APP_API_URL}/auth/login`, {
-          headers: {
-            Authorization: `Bearer ${cookies.accessToken}`, //저장된 토큰을 이용해 헤더에 인증 정보를 담아 요청을 보냄
-          },
-        });
+        const res = await axios.get(
+          `${process.env.REACT_APP_API_URL}/auth/login`
+        );
         navigate("/");
       } catch (error) {
         console.error(error);
       }
     };
     fetchData();
-  }, [token]); //token이 변경될 때마다 실행
+  }, []);
 
   return (
     <BackgroundLogin>

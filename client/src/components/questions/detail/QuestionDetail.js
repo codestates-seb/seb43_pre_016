@@ -423,23 +423,13 @@ const QuestionDetail = () => {
   const { id } = useParams();
   const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
-
+  let access = localStorage.getItem("access");
   console.log(questionData);
 
   useEffect(() => {
     setIsLoading(true);
     fetchQuestionData(id, setQuestionData);
     setIsLoading(false);
-
-    // axios
-    //   .get(`/questions/${id}`)
-    //   .then((res) => {
-    //     setQuestionData({ ...res.data });
-    //     setIsLoading(false);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   }, []);
 
   const onSubmitAnswer = async () => {
@@ -452,6 +442,7 @@ const QuestionDetail = () => {
     const header = {
       headers: {
         "Content-Type": "application/json",
+        access,
       },
     };
     await axios
@@ -463,8 +454,14 @@ const QuestionDetail = () => {
   };
 
   const onDeleteAnswer = (answerId) => {
+    const header = {
+      headers: {
+        "Content-Type": "application/json",
+        access,
+      },
+    };
     axios
-      .delete(`${process.env.REACT_APP_API_URL}/answers/${answerId}`)
+      .delete(`${process.env.REACT_APP_API_URL}/answers/${answerId}`, header)
       .then(() => {
         fetchQuestionData(id, setQuestionData);
       })
@@ -474,8 +471,14 @@ const QuestionDetail = () => {
   };
 
   const onDeleteQuestion = () => {
+    const header = {
+      headers: {
+        "Content-Type": "application/json",
+        access,
+      },
+    };
     axios
-      .delete(`${process.env.REACT_APP_API_URL}/questions/${id}`)
+      .delete(`${process.env.REACT_APP_API_URL}/questions/${id}`, header)
       .then(() => {
         navigate("/");
       })

@@ -166,8 +166,8 @@ const QuestionEdit = () => {
   const [body_try, setTry] = useState("");
   const [tags, setTags] = useState([]); //태그
   const [taginput, setTaginput] = useState("");
+  const access = localStorage.getItem("access");
 
-  const [cookies, setCookie, removeCookie] = useCookies();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -190,20 +190,23 @@ const QuestionEdit = () => {
     let data = {
       title: title,
       body: body_detail,
-      bodyDetail: body_try,
     };
 
     const header = {
       headers: {
         "Content-Type": "application/json",
+        access: access,
       },
     };
-
+    console.log(access);
     await axios
-      .patch(`${process.env.REACT_APP_API_URL}/questions/${id}`, data, header)
+      .patch(`${process.env.REACT_APP_API_URL}/questions/${id}`, header, data)
       .then((res) => {
         navigate(`/questions/${id}`);
         window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 

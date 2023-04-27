@@ -185,7 +185,7 @@ const Postbutton = styled.button`
   box-shadow: inset rgb(255, 255, 255) 0px 1px 1px 0px;
   cursor: pointer;
 `;
-const Askquestions = () => {
+const Askquestions = ({ access }) => {
   const [title, setTitle] = useState(""); // 제목
   const [body_detail, setDetail] = useState("");
   const [body_try, setTry] = useState("");
@@ -211,6 +211,7 @@ const Askquestions = () => {
       const header = {
         headers: {
           "Content-Type": "application/json",
+          access,
         },
       };
 
