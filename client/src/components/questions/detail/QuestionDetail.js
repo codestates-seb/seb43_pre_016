@@ -424,6 +424,8 @@ const QuestionDetail = () => {
   const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
 
+  console.log(questionData);
+
   useEffect(() => {
     setIsLoading(true);
     fetchQuestionData(id, setQuestionData);
