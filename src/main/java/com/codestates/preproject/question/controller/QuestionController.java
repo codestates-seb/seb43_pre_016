@@ -10,7 +10,6 @@ import com.codestates.preproject.question.repository.QuestionRepository;
 import com.codestates.preproject.question.service.QuestionService;
 import com.codestates.preproject.response.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -33,7 +32,7 @@ import java.util.List;
 public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper mapper;
-    @Autowired
+
     private QuestionRepository questionRepository;
 
     @PostMapping

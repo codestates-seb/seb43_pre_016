@@ -16,8 +16,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 public class SecurityConfiguration {
 
@@ -33,16 +31,13 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .cors(withDefaults())   //프론트와문제시 확인해볼것
+                .cors().configurationSource(corsConfigurationSource())
+                .and()//프론트와문제시 확인해볼것
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .apply(new CustomFilterConfigurer())
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(new UserAuthenticationEntryPoint())  //인증필터들 먼저 적용하고 핸들러추가해도 되겟지?
-                .accessDeniedHandler(new UserAccessDeniedHandler())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.POST,"/users").permitAll()
@@ -65,6 +60,7 @@ public class SecurityConfiguration {
         var configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -81,8 +77,6 @@ public class SecurityConfiguration {
             jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");// requestUrL 설정.
 
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, authorityUtils);
-            jwtAuthenticationFilter.setAuthenticationSuccessHandler(new UserAuthenticationSuccessHandler());
-            jwtAuthenticationFilter.setAuthenticationFailureHandler(new UserAuthenticationFailureHandler());
 
             builder.addFilter(jwtAuthenticationFilter)
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
