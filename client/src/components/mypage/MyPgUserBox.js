@@ -48,7 +48,7 @@ const UserBox = () => {
   const [userData, setUserData] = useState({});
   useEffect(() => {
     axios
-      .get(`/users/1`)
+      .get(`${process.env.REACT_APP_API_URL}/users/1`)
       .then((res) => {
         setUserData(res.data);
       })
