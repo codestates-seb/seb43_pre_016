@@ -60,6 +60,7 @@ const UserBox = () => {
   if (!userData.answers || !userData.questions) {
     return null; // or return loading indicator
   }
+
   //유저 이름
   const UserName = userData.userName;
   // //유저 QnA Data

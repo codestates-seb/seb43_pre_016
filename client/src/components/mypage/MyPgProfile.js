@@ -1,6 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
+=======
+import { useParams } from "react-router-dom";
+>>>>>>> 9b0d968b479717d460bf88ce0f94f70388a347fb
 import styled from "styled-components";
 
 const MainContentForm = styled.div`
@@ -14,15 +18,18 @@ const MainContentForm = styled.div`
     margin: 12px;
     width: 25%;
     .stats-box {
+      display: flex;
+      flex-direction: column;
       border: 1px solid hsl(210, 8%, 85%);
       margin-top: 8px;
       width: 100%;
-      height: 128px;
-      padding: 5px;
-      padding-bottom: 13px;
+      /* height: 128px; */
+      /* padding: 5px; */
+      /* padding-bottom: 13px; */
       border-radius: 5px;
       .inner-box {
-        height: 100%;
+        /* height: 100%; */
+        flex: 1;
         display: flex;
         flex-wrap: wrap;
         box-sizing: border-box;
@@ -152,6 +159,7 @@ const AboutBox = ({ text }) => {
 
 const AnswerForms = () => {
   const [userData, setUserData] = useState({});
+
   const navigate = useNavigate();
 
   const onNavigateToQuestion = (id) => {
@@ -260,7 +268,8 @@ const Profile = () => {
   // 유저 answerLikes
   const answerLikes = userData.answerLikes?.length || 0;
   // AboutBox에 들어갈 텍스트를 입력합니다.
-  const aboutText = userData.about;
+  const aboutText = userData.email;
+  console.log(aboutText);
   // }, [userData]);
 
   return (
