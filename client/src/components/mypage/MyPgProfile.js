@@ -1,10 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-=======
-import { useParams } from "react-router-dom";
->>>>>>> 9b0d968b479717d460bf88ce0f94f70388a347fb
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const MainContentForm = styled.div`
