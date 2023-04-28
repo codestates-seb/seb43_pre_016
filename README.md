@@ -43,7 +43,7 @@
    
    
    ##  ERD(Entity Relationship Diagram) 
-   
+<img width="1039" alt="스크린샷 2023-04-28 오전 9 45 39" src="https://user-images.githubusercontent.com/120611048/235026907-e11ea691-95e9-4354-9253-73565945d6a6.png">
 
 ## 🗒 커밋 규칙
 
