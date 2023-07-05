@@ -32,7 +32,6 @@ import java.util.List;
 public class QuestionController {
     private final QuestionService questionService;
     private final QuestionMapper mapper;
-
     private QuestionRepository questionRepository;
 
     @PostMapping

@@ -30,6 +30,7 @@ public class AnswerController {
     private final static String ANSWERS_DEFAULT_URL = "/answers";
 
     private final AnswerService answerService;
+
     private final AnswerMapper mapper;
 
     private final AnswerRepository answerRepository;
@@ -37,22 +38,22 @@ public class AnswerController {
     private final UserRepository userRepository;
 
     @PostMapping
-    public ResponseEntity postAnswer(@Valid @RequestBody AnswerDto.Post requestBody,
+    public ResponseEntity postAnswer(@Valid @RequestBody AnswerDto.Post answerDto,
                                      @AuthenticationPrincipal String email) {
 
-        Answer answer = mapper.answerPostDtoToAnswer(requestBody);
-        Answer createdAnswer=answerService.createAnswer(answer);
-        URI location = UriCreator.createUri(ANSWERS_DEFAULT_URL,createdAnswer.getAnswerId());
+        Answer answer = mapper.answerPostDtoToAnswer(answerDto);
+        Answer createdAnswer = answerService.createAnswer(answer);
+        URI location = UriCreator.createUri(ANSWERS_DEFAULT_URL, createdAnswer.getAnswerId());
 
         return ResponseEntity.created(location).build();
     }
 
     @PatchMapping("/{answer-id}")
     public ResponseEntity patchAnswer(@PathVariable("answer-id") @Positive Long answerId,
-                                      @Valid @RequestBody AnswerDto.Patch requestBody,
+                                      @Valid @RequestBody AnswerDto.Patch answerDto,
                                       @AuthenticationPrincipal String email) {
-        answerService.verifiedSameUser(answerId,email);
-        requestBody.setAnswerId(answerId);
+        answerService.verifiedSameUser(answerId, email);
+        answerDto.setAnswerId(answerId);
         Answer updatedAnswer = answerService.updateAnswer(mapper.answerPatchDtoToAnswer(requestBody));
 
         return new ResponseEntity<>(mapper.answerToAnswerResponseDto(updatedAnswer), HttpStatus.OK);
